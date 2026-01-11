@@ -1,0 +1,711 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Site-114514 - 维基百科风格介绍</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', 'Linux Libertine', 'Georgia', 'Times', serif;
+        }
+        
+        body {
+            background-color: #1a1a1a;
+            color: #e6e6e6;
+            line-height: 1.6;
+            min-height: 100vh;
+        }
+        
+        /* 维基百科风格头部 */
+        .wiki-header {
+            background-color: #0d0d0d;
+            border-bottom: 1px solid #333;
+            padding: 12px 0;
+            position: sticky;
+            top: 0;
+            z-index: 1000;
+        }
+        
+        .header-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+        
+        .wiki-logo {
+            font-size: 1.8rem;
+            font-weight: bold;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .wiki-logo i {
+            color: #4a9eff;
+        }
+        
+        .wiki-nav ul {
+            display: flex;
+            list-style: none;
+            gap: 25px;
+        }
+        
+        .wiki-nav a {
+            color: #ccc;
+            text-decoration: none;
+            font-size: 0.95rem;
+            transition: color 0.2s;
+        }
+        
+        .wiki-nav a:hover {
+            color: #4a9eff;
+            text-decoration: underline;
+        }
+        
+        .search-box {
+            display: flex;
+            align-items: center;
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 3px;
+            overflow: hidden;
+        }
+        
+        .search-box input {
+            background: transparent;
+            border: none;
+            padding: 8px 12px;
+            color: #e6e6e6;
+            width: 200px;
+        }
+        
+        .search-box button {
+            background-color: #333;
+            border: none;
+            color: #ccc;
+            padding: 8px 15px;
+            cursor: pointer;
+        }
+        
+        /* 主要内容区域 */
+        .wiki-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            display: flex;
+            gap: 30px;
+        }
+        
+        /* 左侧内容 */
+        .main-content {
+            flex: 1;
+            background-color: #222;
+            border-radius: 3px;
+            padding: 30px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+        }
+        
+        .page-title {
+            border-bottom: 1px solid #4a9eff;
+            padding-bottom: 15px;
+            margin-bottom: 25px;
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        
+        .page-title h1 {
+            font-size: 2.2rem;
+            color: #fff;
+            font-weight: normal;
+        }
+        
+        .server-avatar {
+            width: 80px;
+            height: 80px;
+            border-radius: 50%;
+            border: 3px solid #4a9eff;
+            object-fit: cover;
+        }
+        
+        /* 信息框 - 维基百科风格 */
+        .infobox {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 3px;
+            padding: 20px;
+            margin-bottom: 30px;
+            float: right;
+            width: 320px;
+            margin-left: 25px;
+        }
+        
+        .infobox-title {
+            background-color: #333;
+            padding: 10px;
+            text-align: center;
+            font-weight: bold;
+            margin: -20px -20px 15px -20px;
+            border-bottom: 1px solid #444;
+        }
+        
+        .infobox-row {
+            display: flex;
+            padding: 8px 0;
+            border-bottom: 1px solid #3a3a3a;
+        }
+        
+        .infobox-label {
+            font-weight: bold;
+            width: 120px;
+            color: #ccc;
+        }
+        
+        .infobox-value {
+            flex: 1;
+        }
+        
+        .creator-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            vertical-align: middle;
+            margin-right: 8px;
+            border: 1px solid #555;
+        }
+        
+        /* 内容分区 */
+        .content-section {
+            margin-bottom: 40px;
+        }
+        
+        .section-title {
+            background-color: #2a2a2a;
+            padding: 12px 20px;
+            border-left: 4px solid #4a9eff;
+            margin-bottom: 20px;
+            font-size: 1.5rem;
+            color: #fff;
+        }
+        
+        .section-content {
+            padding: 0 10px;
+        }
+        
+        .placeholder-text {
+            background-color: #2a2a2a;
+            padding: 15px;
+            border-radius: 3px;
+            margin-bottom: 15px;
+            color: #999;
+            font-style: italic;
+            border-left: 3px solid #555;
+        }
+        
+        /* 目录 */
+        .toc {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            padding: 20px;
+            margin-bottom: 30px;
+            border-radius: 3px;
+        }
+        
+        .toc-title {
+            font-weight: bold;
+            margin-bottom: 10px;
+            color: #fff;
+            font-size: 1.1rem;
+        }
+        
+        .toc-list {
+            list-style-type: none;
+        }
+        
+        .toc-list li {
+            margin-bottom: 8px;
+        }
+        
+        .toc-list a {
+            color: #4a9eff;
+            text-decoration: none;
+        }
+        
+        .toc-list a:hover {
+            text-decoration: underline;
+        }
+        
+        /* 右侧边栏 */
+        .sidebar {
+            width: 300px;
+            background-color: #222;
+            border-radius: 3px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            align-self: flex-start;
+            position: sticky;
+            top: 80px;
+        }
+        
+        .sidebar-title {
+            background-color: #333;
+            padding: 12px;
+            text-align: center;
+            margin: -20px -20px 20px -20px;
+            border-bottom: 1px solid #444;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .sidebar-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #3a3a3a;
+        }
+        
+        .sidebar-section h3 {
+            color: #4a9eff;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .sidebar-links {
+            list-style: none;
+        }
+        
+        .sidebar-links li {
+            margin-bottom: 8px;
+        }
+        
+        .sidebar-links a {
+            color: #ccc;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        
+        .sidebar-links a:hover {
+            color: #4a9eff;
+        }
+        
+        /* 页脚 */
+        .wiki-footer {
+            background-color: #0d0d0d;
+            border-top: 1px solid #333;
+            padding: 30px 0;
+            margin-top: 50px;
+        }
+        
+        .footer-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+        }
+        
+        .disclaimer {
+            background-color: #2a2a2a;
+            border: 1px solid #666;
+            padding: 20px;
+            border-radius: 3px;
+            margin-bottom: 20px;
+        }
+        
+        .disclaimer h3 {
+            color: #ff6b6b;
+            margin-bottom: 10px;
+        }
+        
+        .footer-links {
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #333;
+        }
+        
+        .footer-column h4 {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        
+        .footer-column ul {
+            list-style: none;
+        }
+        
+        .footer-column li {
+            margin-bottom: 5px;
+        }
+        
+        .footer-column a {
+            color: #999;
+            text-decoration: none;
+            font-size: 0.9rem;
+        }
+        
+        .footer-column a:hover {
+            color: #4a9eff;
+            text-decoration: underline;
+        }
+        
+        .copyright {
+            text-align: center;
+            padding-top: 20px;
+            color: #777;
+            font-size: 0.9rem;
+            border-top: 1px solid #333;
+            margin-top: 20px;
+        }
+        
+        /* 响应式设计 */
+        @media (max-width: 992px) {
+            .wiki-container {
+                flex-direction: column;
+            }
+            
+            .sidebar {
+                width: 100%;
+                position: static;
+            }
+            
+            .infobox {
+                float: none;
+                width: 100%;
+                margin-left: 0;
+            }
+        }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-direction: column;
+                gap: 15px;
+            }
+            
+            .wiki-nav ul {
+                flex-wrap: wrap;
+                justify-content: center;
+            }
+            
+            .search-box input {
+                width: 150px;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- 维基百科风格头部 -->
+    <header class="wiki-header">
+        <div class="header-container">
+            <div class="wiki-logo">
+                <i class="fas fa-book"></i>
+                <span>Site-114514 Wiki</span>
+            </div>
+            
+            <nav class="wiki-nav">
+                <ul>
+                    <li><a href="#"><i class="fas fa-home"></i> 首页</a></li>
+                    <li><a href="#"><i class="fas fa-history"></i> 最近更改</a></li>
+                    <li><a href="#"><i class="fas fa-random"></i> 随机页面</a></li>
+                    <li><a href="#"><i class="fas fa-question-circle"></i> 帮助</a></li>
+                </ul>
+            </nav>
+            
+            <div class="search-box">
+                <input type="text" placeholder="搜索维基...">
+                <button><i class="fas fa-search"></i></button>
+            </div>
+        </div>
+    </header>
+    
+    <!-- 主要内容区域 -->
+    <div class="wiki-container">
+        <!-- 左侧主要内容 -->
+        <main class="main-content">
+            <!-- 页面标题 -->
+            <div class="page-title">
+                <img src="81DFBC14331A0B21C5B3C20246F25AFA.png" alt="Site-114514服务器头像" class="server-avatar" onerror="this.src='https://via.placeholder.com/80/2a2a2a/4a9eff?text=SITE'">
+                <h1>Site-114514服务器</h1>
+            </div>
+            
+            <!-- 信息框 -->
+            <aside class="infobox">
+                <div class="infobox-title">Site-114514</div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">类型</div>
+                    <div class="infobox-value">游戏服务器</div>
+                </div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">状态</div>
+                    <div class="infobox-value">不知道</div>
+                </div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">创建日期</div>
+                    <div class="infobox-value">2025年1月1日</div>
+                </div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">版本</div>
+                    <div class="infobox-value">1.145.14</div>
+                </div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">制作人</div>
+                    <div class="infobox-value">
+                        <img src="0347627A3CFEAB6962BCDCAAF26A7876.png" alt="制作人头像" class="creator-avatar" onerror="this.src='https://via.placeholder.com/40/2a2a2a/4a9eff?text=CREATOR'">
+                        <span>未知制作人</span>
+                    </div>
+                </div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">关于哈基米</div>
+                    <div class="infobox-value">
+                        <a href="https://b23.tv/lSHNs5S" target="_blank" style="color: #4a9eff;">
+                            <i class="fab fa-bilibili"></i> 访问B站主页
+                        </a>
+                    </div>
+                </div>
+            </aside>
+            
+            <!-- 目录 -->
+            <nav class="toc">
+                <div class="toc-title">目录</div>
+                <ul class="toc-list">
+                    <li><a href="#overview">1 概述</a></li>
+                    <li><a href="#history">2 历史</a></li>
+                    <li><a href="#features">3 服务器特色</a></li>
+                    <li><a href="#rules">4 服务器规则</a></li>
+                    <li><a href="#technical">5 技术细节</a></li>
+                    <li><a href="#gallery">6 梗图区</a></li>
+                    <li><a href="#community">7 不知道写啥</a></li>
+                </ul>
+            </nav>
+            
+            <!-- 内容分区 -->
+            <section class="content-section" id="overview">
+                <h2 class="section-title">概述</h2>
+                <div class="section-content">
+                    <div class="placeholder-text">
+                        俺是农民
+                    </div>
+                    <div class="placeholder-text">
+                        俺不知道
+                    </div>
+                </div>
+            </section>
+            
+            <section class="content-section" id="history">
+                <h2 class="section-title">历史</h2>
+                <div class="section-content">
+                    <div class="placeholder-text">
+                        没写
+                    </div>
+                    <div class="placeholder-text">
+                        没写
+                    </div>
+                </div>
+            </section>
+            
+            <section class="content-section" id="features">
+                <h2 class="section-title">服务器特色</h2>
+                <div class="section-content">
+                    <div class="placeholder-text">
+                        没写
+                    </div>
+                    <div class="placeholder-text">
+                        没写
+                   </div>
+                </div>
+            </section>
+            
+            <section class="content-section" id="rules">
+                <h2 class="section-title">服务器规则</h2>
+                <div class="section-content">
+                    <div class="placeholder-text">
+                        懒得复制
+                    </div>
+                    <div class="placeholder-text">
+                        自己进服务器看
+                    </div>
+                </div>
+            </section>
+            
+            <section class="content-section" id="technical">
+                <h2 class="section-title">技术细节</h2>
+                <div class="section-content">
+                    <div class="placeholder-text">
+                        采用大卫最新一代马铃薯-豆土服务器
+                    </div>
+                    <div class="placeholder-text">
+                        延迟1145141919810 丢包率114514%
+                    </div>
+                </div>
+            </section>
+        </main>
+        
+        <!-- 右侧边栏 -->
+        <aside class="sidebar">
+            <div class="sidebar-title">相关链接</div>
+            
+            <div class="sidebar-section">
+                <h3>服务器链接</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#"><i class="fas fa-globe"></i> 官方网站</a></li>
+                    <li><a href="#"><i class="fas fa-download"></i> 客户端下载</a></li>
+                    <li><a href="#"><i class="fas fa-server"></i> 状态监控</a></li>
+                    <li><a href="https://b23.tv/lSHNs5S" target="_blank"><i class="fab fa-bilibili"></i> 忘了这是哪个分区了</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>社区</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#"><i class="fab fa-discord"></i> 不知道写啥</a></li>
+                    <li><a href="#"><i class="fab fa-qq"></i> QQ群</a></li>
+                    <li><a href="#"><i class="fas fa-envelope"></i> 联系邮箱(没有不用看)</a></li>
+                    <li><a href="#"><i class="fas fa-comments"></i> 论坛</a></li>
+                </ul>
+            </div>
+            
+            <div class="sidebar-section">
+                <h3>相关页面</h3>
+                <ul class="sidebar-links">
+                    <li><a href="#"><i class="fas fa-cube"></i> 服务器插件列表(没写)</a></li>
+                    <li><a href="#"><i class="fas fa-map"></i> 服务器地图(官方地图:Jakieinne-2)</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> 管理团队(哪个带标签自己看去)</a></li>
+                    <li><a href="#"><i class="fas fa-trophy"></i> 活动记录(我还没写)</a></li>
+                </ul>
+            </div>
+        </aside>
+    </div>
+    
+    <!-- 页脚 -->
+    <footer class="wiki-footer">
+        <div class="footer-container">
+            <!-- 免责声明 -->
+            <div class="disclaimer">
+                <h3><i class="fas fa-exclamation-triangle"></i> 免责声明</h3>
+                <p>本维基页面为Site-114514服务器的官方介绍页面，所有信息由哈基米大人提供和维护。服务器管理团队对本页面内容的准确性做保证。玩家在服务器中的行为应遵守服务器规则及相关法律法规。</p>
+                <p>本页面中使用的图片、标志等素材归其原作者所有，仅用于介绍目的。如有任何侵权问题，请联系页面维护者进行删除。(全是我自己的删个鸡毛)</p>
+            </div>
+            
+            <!-- 页脚链接 -->
+            <div class="footer-links">
+                <div class="footer-column">
+                    <h4>Site-114514</h4>
+                    <ul>
+                        <li><a href="#">关于服务器</a></li>
+                        <li><a href="#">规则与条款</a></li>
+                        <li><a href="#">隐私政策(凑数)</a></li>
+                        <li><a href="#">加入我们(凑数)</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>帮助</h4>
+                    <ul>
+                        <li><a href="#">常见问题</a></li>
+                        <li><a href="#">入门指南</a></li>
+                        <li><a href="#">问题反馈</a></li>
+                        <li><a href="#">支持中心</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>社区</h4>
+                    <ul>
+                        <li><a href="https://b23.tv/lSHNs5S" target="_blank">Bilibili</a></li>
+                        <li><a href="#">Discord(凑数)</a></li>
+                        <li><a href="#">玩家梗图</a></li>
+                        <li><a href="#">活动日历</a></li>
+                    </ul>
+                </div>
+                
+                <div class="footer-column">
+                    <h4>维基</h4>
+                    <ul>
+                        <li><a href="#">关于本网站</a></li>
+                        <li><a href="#">编辑指南</a></li>
+                        <li><a href="#">最近更改</a></li>
+                        <li><a href="#">页面索引</a></li>
+                    </ul>
+                </div>
+            </div>
+            
+            <div class="copyright">
+                <p>© 2025 Site-114514服务器社区</p>
+                <p>页面最后更新于：2026年1月11日</p>
+            </div>
+        </div>
+    </footer>
+    
+    <script>
+        // 处理图片加载失败的情况
+        document.addEventListener('DOMContentLoaded', function() {
+            const images = document.querySelectorAll('img');
+            
+            images.forEach(img => {
+                img.onerror = function() {
+                    if(this.classList.contains('server-avatar')) {
+                        this.src = 'https://via.placeholder.com/80/2a2a2a/4a9eff?text=SITE';
+                    } else if(this.classList.contains('creator-avatar')) {
+                        this.src = 'https://via.placeholder.com/40/2a2a2a/4a9eff?text=CREATOR';
+                    }
+                };
+            });
+            
+            // 平滑滚动到锚点
+            const tocLinks = document.querySelectorAll('.toc-list a');
+            
+            tocLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    const targetId = this.getAttribute('href');
+                    const targetElement = document.querySelector(targetId);
+                    
+                    if(targetElement) {
+                        window.scrollTo({
+                            top: targetElement.offsetTop - 80,
+                            behavior: 'smooth'
+                        });
+                    }
+                });
+            });
+            
+            // 搜索功能
+            const searchInput = document.querySelector('.search-box input');
+            const searchButton = document.querySelector('.search-box button');
+            
+            searchButton.addEventListener('click', function() {
+                performSearch();
+            });
+            
+            searchInput.addEventListener('keypress', function(e) {
+                if(e.key === 'Enter') {
+                    performSearch();
+                }
+            });
+            
+            function performSearch() {
+                const query = searchInput.value.trim();
+                if(query) {
+                    alert(`搜索功能演示: 搜索关键词 "${query}"\n实际应用中，这里会跳转到搜索结果页面。`);
+                    searchInput.value = '';
+                }
+            }
+        });
+    </script>
+</body>
+</html>
