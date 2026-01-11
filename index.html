@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Site-114514 官网(均由DeepSeek编写)</title>
+    <title>Site-114514官网(本页面所有内容均有DeepSeek编写)</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
         * {
@@ -151,6 +151,27 @@
             top: 80px;
             height: fit-content;
             transition: all 0.3s ease;
+            overflow-y: auto;
+            max-height: calc(100vh - 100px);
+        }
+        
+        /* 电脑端滚动条样式 */
+        .left-nav::-webkit-scrollbar {
+            width: 8px;
+        }
+        
+        .left-nav::-webkit-scrollbar-track {
+            background: #2a2a2a;
+            border-radius: 4px;
+        }
+        
+        .left-nav::-webkit-scrollbar-thumb {
+            background: #4a9eff;
+            border-radius: 4px;
+        }
+        
+        .left-nav::-webkit-scrollbar-thumb:hover {
+            background: #2980b9;
         }
         
         .nav-title {
@@ -493,6 +514,8 @@
                 width: 100%;
                 position: static;
                 margin-bottom: 20px;
+                max-height: none;
+                overflow-y: visible;
             }
             
             .infobox {
@@ -680,10 +703,10 @@
             <div class="nav-section">
                 <h3>其他页面</h3>
                 <ul class="nav-links">
-                    <li><a href="#plugins" class="nav-link" data-section="plugins"><i class="fas fa-cube"></i> 插件列表</a></li>
-                    <li><a href="#map" class="nav-link" data-section="map"><i class="fas fa-map"></i> 服务器地图</a></li>
-                    <li><a href="#team" class="nav-link" data-section="team"><i class="fas fa-users"></i> 管理团队</a></li>
-                    <li><a href="#events" class="nav-link" data-section="events"><i class="fas fa-trophy"></i> 活动记录</a></li>
+                    <li><a href="#plugins" class="nav-link" data-section="plugins"><i class="fas fa-cube"></i> 服务器插件列表(没写)</a></li>
+                    <li><a href="#map" class="nav-link" data-section="map"><i class="fas fa-map"></i> 服务器地图(官方地图:Jakieinne-2)</a></li>
+                    <li><a href="#team" class="nav-link" data-section="team"><i class="fas fa-users"></i> 管理团队(哪个带标签自己看去)</a></li>
+                    <li><a href="#events" class="nav-link" data-section="events"><i class="fas fa-trophy"></i> 活动记录(我还没写)</a></li>
                 </ul>
             </div>
             
@@ -692,15 +715,17 @@
                 <ul class="nav-links">
                     <li><a href="#"><i class="fas fa-globe"></i> 官方网站</a></li>
                     <li><a href="#"><i class="fas fa-download"></i> 客户端下载</a></li>
-                    <li><a href="https://b23.tv/lSHNs5S" target="_blank"><i class="fab fa-bilibili"></i> B站主页</a></li>
+                    <li><a href="https://b23.tv/lSHNs5S" target="_blank"><i class="fab fa-bilibili"></i> 忘了这是哪个分区了</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <h3>快速跳转</h3>
+                <h3>社区</h3>
                 <ul class="nav-links">
-                    <li><a href="#" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i> 返回顶部</a></li>
-                    <li><a href="#" onclick="scrollToBottom()"><i class="fas fa-arrow-down"></i> 跳到底部</a></li>
+                    <li><a href="#"><i class="fab fa-qq"></i> QQ群</a></li>
+                    <div class="qq-group-box" style="padding: 10px; margin: 5px 0;">
+                        <div class="qq-number" style="font-size: 1.2rem;">1033571893</div>
+                    </div>
                 </ul>
             </div>
         </aside>
@@ -759,42 +784,29 @@
             <section class="content-section active" id="overview">
                 <h2 class="section-title">概述</h2>
                 <div class="section-content">
-                    <div class="info-box">
-                        <h3><i class="fas fa-info-circle"></i> 服务器简介</h3>
-                        <p>Site-114514是一个神秘的游戏服务器，由传奇人物"哈基米不哈气"于2025年创建。服务器以高度自由的玩法和不可预测的事件著称，吸引了大量寻求刺激的玩家。</p>
-                        <p>服务器运行在一种名为"马铃薯-豆土"的先进技术上，虽然延迟和丢包率都高得惊人，但玩家们纷纷表示："能进去就是奇迹，能玩就是缘分。"</p>
+                    <div class="placeholder-text">
+                        俺是农民
                     </div>
-                    
+                    <div class="placeholder-text">
+                        俺不知道
+                    </div>
                     <div class="content-text">
-                        <h3>服务器特色概述</h3>
-                        <ul>
-                            <li><strong>随机事件系统</strong>：服务器内会发生各种意想不到的事件，从突然的资源翻倍到全体玩家变成鸡，只有你想不到，没有服务器做不到。</li>
-                            <li><strong>哈基米大人的意志</strong>：制作人会不定时上线视察，可能会带来福利，也可能带来"惊喜"。</li>
-                            <li><strong>独特的社区文化</strong>：玩家之间形成了独特的交流方式，比如用"114514"打招呼，用"1919810"道别。</li>
-                            <li><strong>玄学连接系统</strong>：服务器的连接成功率完全看缘分，有时候一次就进，有时候尝试114514次也进不去。</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="warning-box">
-                        <h3><i class="fas fa-exclamation-triangle"></i> 重要提醒</h3>
-                        <p>加入本服务器前，请确保您具备以下条件：</p>
-                        <ol>
-                            <li>强大的心理承受能力（服务器内任何事情都可能发生）</li>
-                            <li>足够的时间（连接服务器可能需要耐心）</li>
-                            <li>对哈基米大人的绝对尊重</li>
-                            <li>能接受"俺是农民，俺不知道"的客服态度</li>
-                        </ol>
+                        Site-114514服务器是一个神秘的游戏服务器，由传奇人物"哈基米不哈气"于2025年创建。服务器以高度自由的玩法和不可预测的事件著称，吸引了大量寻求刺激的玩家。
                     </div>
                 </div>
             </section>
             
-            <!-- 其他内容分区（保持原样，为节省空间省略重复内容） -->
             <section class="content-section" id="history">
                 <h2 class="section-title">历史</h2>
                 <div class="section-content">
+                    <div class="placeholder-text">
+                        没写
+                    </div>
+                    <div class="placeholder-text">
+                        没写
+                    </div>
                     <div class="content-text">
-                        <h3>创世之初 (2025年1月1日)</h3>
-                        <p>据传说，在2025年的第一天，哈基米大人突然灵光一现，决定创建一个游戏服务器...</p>
+                        据传说，在2025年的第一天，哈基米大人突然灵光一现，决定创建一个游戏服务器。当时他正在吃烤红薯，于是决定将服务器命名为Site-114514，因为"114514"看起来像红薯的条形码。
                     </div>
                 </div>
             </section>
@@ -802,19 +814,29 @@
             <section class="content-section" id="features">
                 <h2 class="section-title">服务器特色</h2>
                 <div class="section-content">
-                    <div class="content-text">
-                        <h3>核心特色系统</h3>
-                        <p>Site-114514服务器的特色不在于有多少插件，而在于有多少"惊喜"...</p>
+                    <div class="placeholder-text">
+                        没写
                     </div>
+                    <div class="placeholder-text">
+                        没写
+                   </div>
+                   <div class="content-text">
+                        Site-114514服务器的特色不在于有多少插件，而在于有多少"惊喜"：随机事件系统、哈基米赐福系统、玄学经济系统，以及各种不可预测的事件。
+                   </div>
                 </div>
             </section>
             
             <section class="content-section" id="rules">
                 <h2 class="section-title">服务器规则</h2>
                 <div class="section-content">
+                    <div class="placeholder-text">
+                        懒得复制
+                    </div>
+                    <div class="placeholder-text">
+                        自己进服务器看
+                    </div>
                     <div class="content-text">
-                        <h3>第一章：基本原则</h3>
-                        <p>以下规则由哈基米大人亲自制定，违反者后果自负...</p>
+                        基本规则：不要做让哈基米大人生气的事情。具体什么是生气的事情，自己体会。严重违规者可能被永久加入"哈基米的不欢迎名单"。
                     </div>
                 </div>
             </section>
@@ -822,9 +844,14 @@
             <section class="content-section" id="technical">
                 <h2 class="section-title">技术细节</h2>
                 <div class="section-content">
+                    <div class="placeholder-text">
+                        采用大卫最新一代马铃薯-豆土服务器
+                    </div>
+                    <div class="placeholder-text">
+                        延迟1145141919810 丢包率114514%
+                    </div>
                     <div class="content-text">
-                        <h3>硬件配置</h3>
-                        <p>Site-114514运行在一台传奇的服务器上...</p>
+                        硬件配置：英特尔马铃薯i9-114514K，DDR2 114514MB内存，机械硬盘1919810GB，拨号上网带宽1145.14Kbps，土豆电池供电。
                     </div>
                 </div>
             </section>
@@ -832,9 +859,14 @@
             <section class="content-section" id="meme">
                 <h2 class="section-title">梗图区</h2>
                 <div class="section-content">
+                    <div class="placeholder-text">
+                        还没收集梗图
+                    </div>
+                    <div class="placeholder-text">
+                        等有梗图再放
+                    </div>
                     <div class="content-text">
-                        <h3>服务器经典梗图</h3>
-                        <p>由于梗图需要收集，这里先放一些文字描述的经典梗...</p>
+                        欢迎玩家投稿服务器内有趣截图！投稿方式：截图保存，在QQ群@哈基米大人，说："哈基米大人，这里有个114514的梗图"，等待回应（可能需要114514秒）。
                     </div>
                 </div>
             </section>
@@ -846,15 +878,17 @@
                         <img src="0347627A3CFEAB6962BCDCAAF26A7876.png" alt="哈基米不哈气" class="creator-profile-img" onerror="this.src='https://via.placeholder.com/120x180/2a2a2a/4a9eff?text=哈基米'">
                         <div class="creator-info">
                             <h2 class="creator-title">哈基米不哈气</h2>
-                            <p><strong>称号</strong>：Site-114514创造者、玄学服务器之父、农民程序员、不可预测性的化身</p>
+                            <p><strong>称号</strong>：Site-114514创造者、玄学服务器之父、农民程序员</p>
                             <p><strong>名言</strong>："俺是农民，俺不知道。"</p>
                             <p><strong>B站</strong>：<a href="https://b23.tv/lSHNs5S" target="_blank" style="color: #4a9eff;">点击这里访问</a></p>
                         </div>
                     </div>
                     
                     <div class="content-text">
-                        <h3>人物生平</h3>
-                        <p>哈基米不哈气，原名未知，年龄未知，性别未知。据传言，他原本是一个普通的农民...</p>
+                        哈基米不哈气，原名未知，年龄未知，性别未知。据传言，他原本是一个普通的农民，直到有一天在田里挖土豆时，突然获得了"代码启示"，掌握了玄学编程法。
+                    </div>
+                    <div class="content-text">
+                        编程风格独树一帜：玄学调试法（靠感觉和卦象）、农民式代码（变量名都是"土豆1"、"土豆2"）、随机算法（所有功能都加入随机因子）。
                     </div>
                 </div>
             </section>
@@ -871,7 +905,11 @@
                     
                     <div class="content-text">
                         <h3>QQ群规则</h3>
-                        <p>1. <strong>尊重哈基米大人</strong>：在群内也必须保持对哈基米大人的敬意...</p>
+                        <ol>
+                            <li><strong>尊重哈基米大人</strong>：在群内也必须保持对哈基米大人的敬意</li>
+                            <li><strong>禁止广告</strong>：发广告者会被禁言114514秒</li>
+                            <li><strong>聊天主题</strong>：可以讨论服务器问题、分享游戏经历、发梗图</li>
+                        </ol>
                     </div>
                 </div>
             </section>
@@ -879,9 +917,14 @@
             <section class="content-section" id="other">
                 <h2 class="section-title">不知道写啥</h2>
                 <div class="section-content">
+                    <div class="placeholder-text">
+                        真的不知道写啥
+                    </div>
+                    <div class="placeholder-text">
+                        这个分区就是凑数的
+                    </div>
                     <div class="content-text">
-                        <h3>这个分区的来历</h3>
-                        <p>创建这个分区时，哈基米大人说："不知道写啥，就写不知道写啥吧。" 于是就有了这个分区...</p>
+                        创建这个分区时，哈基米大人说："不知道写啥，就写不知道写啥吧。" 于是就有了这个分区。这个分区体现了Site-114514的核心哲学：不需要理由，不需要逻辑，存在本身就是意义。
                     </div>
                 </div>
             </section>
@@ -889,35 +932,64 @@
             <!-- 其他页面内容（显示页面未完成） -->
             <section class="content-section" id="plugins">
                 <div class="warning-box">
-                    <h3><i class="fas fa-tools"></i> 页面未完成</h3>
-                    <p>插件列表页面正在开发中，哈基米大人还没想好要放哪些插件...</p>
+                    <h3><i class="fas fa-cube"></i> 服务器插件列表(没写)</h3>
+                    <p>插件列表页面正在开发中，哈基米大人还没想好要放哪些插件。</p>
+                    <p>当前已知插件：</p>
+                    <ul>
+                        <li>哈基米的赐福 (核心插件)</li>
+                        <li>玄学经济系统</li>
+                        <li>随机事件生成器</li>
+                        <li>土豆反作弊系统 (效果：随缘检测)</li>
+                    </ul>
                 </div>
             </section>
             
             <section class="content-section" id="map">
                 <div class="warning-box">
-                    <h3><i class="fas fa-map-marked-alt"></i> 页面未完成</h3>
-                    <p>服务器地图页面正在制作中，地图可能会随机变化，所以制作地图比较困难...</p>
+                    <h3><i class="fas fa-map"></i> 服务器地图(官方地图:Jakieinne-2)</h3>
+                    <p>服务器地图页面正在制作中，地图可能会随机变化，所以制作地图比较困难。</p>
+                    <p>已知地图信息：</p>
+                    <ul>
+                        <li>主世界：大小随机，地形随机</li>
+                        <li>下界：存在但不一定可进入</li>
+                        <li>末地：有末影龙，但龙的行为不可预测</li>
+                        <li>特殊区域：哈基米神殿（坐标随机变化）</li>
+                    </ul>
                 </div>
             </section>
             
             <section class="content-section" id="team">
                 <div class="warning-box">
-                    <h3><i class="fas fa-users-cog"></i> 页面未完成</h3>
-                    <p>管理团队页面正在整理中，因为管理团队名单经常变化...</p>
+                    <h3><i class="fas fa-users"></i> 管理团队(哪个带标签自己看去)</h3>
+                    <p>管理团队页面正在整理中，因为管理团队名单经常变化。</p>
+                    <p>已知管理成员：</p>
+                    <ul>
+                        <li>哈基米不哈气 (服务器所有者)</li>
+                        <li>土豆一号 (管理员，身份未知)</li>
+                        <li>红薯二号 (管理员，身份未知)</li>
+                        <li>??? (神秘管理员，只知道代号是"114514")</li>
+                    </ul>
+                    <p>要识别管理员，请找游戏内带标签的玩家。但标签可能随机出现或消失。</p>
                 </div>
             </section>
             
             <section class="content-section" id="events">
                 <div class="warning-box">
-                    <h3><i class="fas fa-calendar-alt"></i> 页面未完成</h3>
-                    <p>活动记录页面正在编写中，因为活动太多，记录不过来...</p>
+                    <h3><i class="fas fa-trophy"></i> 活动记录(我还没写)</h3>
+                    <p>活动记录页面正在编写中，因为活动太多，记录不过来。</p>
+                    <p>近期活动预告：</p>
+                    <ul>
+                        <li>土豆丰收节 (时间：当哈基米大人收获土豆时)</li>
+                        <li>114514纪念日 (时间：每月14日，但可能提前或推迟)</li>
+                        <li>随机福利日 (时间：完全随机)</li>
+                        <li>服务器重启派对 (时间：每次服务器重启后)</li>
+                    </ul>
                 </div>
             </section>
             
             <section class="content-section" id="help">
                 <div class="info-box">
-                    <h3><i class="fas fa-question-circle"></i> 帮助页面</h3>
+                    <h3><i class="fas fa-question-circle"></i> 帮助</h3>
                     <p>如果你需要帮助，可以参考以下方法：</p>
                     <ol>
                         <li>查看左侧导航栏的相关页面</li>
@@ -936,13 +1008,13 @@
             <!-- 免责声明 -->
             <div class="disclaimer">
                 <h3><i class="fas fa-exclamation-triangle"></i> 免责声明</h3>
-                <p>本维基页面为Site-114514服务器的官方介绍页面，所有信息由哈基米大人提供和维护...</p>
+                <p>本维基页面为Site-114514服务器的官方介绍页面，所有信息由哈基米大人提供和维护。哈基米大人对本页面内容的准确性你猜做不做保证。玩家在服务器中的行为应遵守服务器规则及相关法律法规。</p>
+                <p>本页面中使用的图片、标志等素材归其原作者所有，仅用于介绍目的。如有任何侵权问题，请联系页面维护者进行删除。(全是我自己的删个鸡毛)</p>
             </div>
             
             <div class="copyright">
                 <p>© 2025 Site-114514服务器社区</p>
                 <p>页面最后更新于：2026年1月11日</p>
-                <p>本页面由哈基米大人的神秘力量驱动</p>
                 <p style="margin-top: 10px;">
                     <a href="#" onclick="scrollToTop()" style="color: #4a9eff; text-decoration: none; margin-right: 15px;">
                         <i class="fas fa-arrow-up"></i> 返回顶部
@@ -1124,20 +1196,75 @@
             
             // 页面加载时滚动到顶部
             window.scrollTo(0, 0);
+            
+            // 电脑端左侧导航栏划动功能
+            const leftNav = document.getElementById('left-nav');
+            let isDragging = false;
+            let startY, scrollTop;
+            
+            // 鼠标事件
+            leftNav.addEventListener('mousedown', function(e) {
+                isDragging = true;
+                startY = e.pageY - leftNav.offsetTop;
+                scrollTop = leftNav.scrollTop;
+                leftNav.style.cursor = 'grabbing';
+            });
+            
+            document.addEventListener('mousemove', function(e) {
+                if (!isDragging) return;
+                e.preventDefault();
+                const y = e.pageY - leftNav.offsetTop;
+                const walk = (y - startY) * 2; // 滚动速度因子
+                leftNav.scrollTop = scrollTop - walk;
+            });
+            
+            document.addEventListener('mouseup', function() {
+                isDragging = false;
+                leftNav.style.cursor = 'default';
+            });
+            
+            // 鼠标滚轮事件
+            leftNav.addEventListener('wheel', function(e) {
+                // 防止页面整体滚动
+                if (leftNav.scrollHeight > leftNav.clientHeight) {
+                    e.preventDefault();
+                    leftNav.scrollTop += e.deltaY;
+                }
+            });
+            
+            // 触摸事件（移动端）
+            leftNav.addEventListener('touchstart', function(e) {
+                if (window.innerWidth <= 992) return; // 移动端使用原生滚动
+                startY = e.touches[0].pageY;
+                scrollTop = leftNav.scrollTop;
+            }, { passive: true });
+            
+            leftNav.addEventListener('touchmove', function(e) {
+                if (window.innerWidth <= 992) return; // 移动端使用原生滚动
+                e.preventDefault();
+                const y = e.touches[0].pageY;
+                const walk = (y - startY) * 2;
+                leftNav.scrollTop = scrollTop - walk;
+                startY = y;
+                scrollTop = leftNav.scrollTop;
+            }, { passive: false });
+            
+            // 悬停时显示滚动条
+            leftNav.addEventListener('mouseenter', function() {
+                this.style.overflowY = 'auto';
+            });
+            
+            leftNav.addEventListener('mouseleave', function() {
+                if (!isDragging) {
+                    this.style.overflowY = 'auto';
+                }
+            });
         });
         
         // 辅助函数
         function scrollToTop() {
             window.scrollTo({
                 top: 0,
-                behavior: 'smooth'
-            });
-            return false;
-        }
-        
-        function scrollToBottom() {
-            window.scrollTo({
-                top: document.body.scrollHeight,
                 behavior: 'smooth'
             });
             return false;
