@@ -95,7 +95,7 @@
             cursor: pointer;
         }
         
-        /* 主要内容区域 */
+        /* 主要内容区域 - 修改为左右布局 */
         .wiki-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -104,7 +104,84 @@
             gap: 30px;
         }
         
-        /* 左侧内容 */
+        /* 左侧导航栏 */
+        .left-nav {
+            width: 250px;
+            background-color: #222;
+            border-radius: 3px;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            align-self: flex-start;
+            position: sticky;
+            top: 80px;
+            height: fit-content;
+        }
+        
+        .nav-title {
+            background-color: #333;
+            padding: 12px;
+            text-align: center;
+            margin: -20px -20px 20px -20px;
+            border-bottom: 1px solid #444;
+            font-weight: bold;
+            color: #fff;
+        }
+        
+        .nav-section {
+            margin-bottom: 25px;
+            padding-bottom: 20px;
+            border-bottom: 1px solid #3a3a3a;
+        }
+        
+        .nav-section h3 {
+            color: #4a9eff;
+            margin-bottom: 10px;
+            font-size: 1.1rem;
+        }
+        
+        .nav-links {
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-bottom: 8px;
+        }
+        
+        .nav-links a {
+            color: #ccc;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 10px;
+            border-radius: 3px;
+            transition: all 0.2s;
+        }
+        
+        .nav-links a:hover {
+            color: #4a9eff;
+            background-color: #2a2a2a;
+        }
+        
+        .nav-links a.active {
+            color: #4a9eff;
+            background-color: #2a2a2a;
+            border-left: 3px solid #4a9eff;
+        }
+        
+        .qq-group {
+            background-color: #2a2a2a;
+            padding: 10px;
+            border-radius: 5px;
+            margin-top: 5px;
+            font-family: monospace;
+            font-size: 1.1rem;
+            color: #4a9eff;
+            text-align: center;
+            border: 1px solid #444;
+        }
+        
+        /* 右侧主要内容 */
         .main-content {
             flex: 1;
             background-color: #222;
@@ -175,8 +252,9 @@
         
         .creator-avatar {
             width: 40px;
-            height: 40px;
-            border-radius: 50%;
+            height: 60px; /* 调整比例适应1080x2017图片 */
+            object-fit: cover;
+            border-radius: 5px;
             vertical-align: middle;
             margin-right: 8px;
             border: 1px solid #555;
@@ -185,6 +263,11 @@
         /* 内容分区 */
         .content-section {
             margin-bottom: 40px;
+            display: none; /* 默认隐藏所有分区 */
+        }
+        
+        .content-section.active {
+            display: block; /* 显示当前激活的分区 */
         }
         
         .section-title {
@@ -208,93 +291,6 @@
             color: #999;
             font-style: italic;
             border-left: 3px solid #555;
-        }
-        
-        /* 目录 */
-        .toc {
-            background-color: #2a2a2a;
-            border: 1px solid #444;
-            padding: 20px;
-            margin-bottom: 30px;
-            border-radius: 3px;
-        }
-        
-        .toc-title {
-            font-weight: bold;
-            margin-bottom: 10px;
-            color: #fff;
-            font-size: 1.1rem;
-        }
-        
-        .toc-list {
-            list-style-type: none;
-        }
-        
-        .toc-list li {
-            margin-bottom: 8px;
-        }
-        
-        .toc-list a {
-            color: #4a9eff;
-            text-decoration: none;
-        }
-        
-        .toc-list a:hover {
-            text-decoration: underline;
-        }
-        
-        /* 右侧边栏 */
-        .sidebar {
-            width: 300px;
-            background-color: #222;
-            border-radius: 3px;
-            padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-            align-self: flex-start;
-            position: sticky;
-            top: 80px;
-        }
-        
-        .sidebar-title {
-            background-color: #333;
-            padding: 12px;
-            text-align: center;
-            margin: -20px -20px 20px -20px;
-            border-bottom: 1px solid #444;
-            font-weight: bold;
-            color: #fff;
-        }
-        
-        .sidebar-section {
-            margin-bottom: 25px;
-            padding-bottom: 20px;
-            border-bottom: 1px solid #3a3a3a;
-        }
-        
-        .sidebar-section h3 {
-            color: #4a9eff;
-            margin-bottom: 10px;
-            font-size: 1.1rem;
-        }
-        
-        .sidebar-links {
-            list-style: none;
-        }
-        
-        .sidebar-links li {
-            margin-bottom: 8px;
-        }
-        
-        .sidebar-links a {
-            color: #ccc;
-            text-decoration: none;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-        }
-        
-        .sidebar-links a:hover {
-            color: #4a9eff;
         }
         
         /* 页脚 */
@@ -324,39 +320,6 @@
             margin-bottom: 10px;
         }
         
-        .footer-links {
-            display: flex;
-            justify-content: space-between;
-            flex-wrap: wrap;
-            gap: 20px;
-            padding-top: 20px;
-            border-top: 1px solid #333;
-        }
-        
-        .footer-column h4 {
-            color: #ccc;
-            margin-bottom: 10px;
-        }
-        
-        .footer-column ul {
-            list-style: none;
-        }
-        
-        .footer-column li {
-            margin-bottom: 5px;
-        }
-        
-        .footer-column a {
-            color: #999;
-            text-decoration: none;
-            font-size: 0.9rem;
-        }
-        
-        .footer-column a:hover {
-            color: #4a9eff;
-            text-decoration: underline;
-        }
-        
         .copyright {
             text-align: center;
             padding-top: 20px;
@@ -372,7 +335,7 @@
                 flex-direction: column;
             }
             
-            .sidebar {
+            .left-nav {
                 width: 100%;
                 position: static;
             }
@@ -426,9 +389,54 @@
         </div>
     </header>
     
-    <!-- 主要内容区域 -->
+    <!-- 主要内容区域 - 左侧导航栏，右侧主要内容 -->
     <div class="wiki-container">
-        <!-- 左侧主要内容 -->
+        <!-- 左侧导航栏 -->
+        <aside class="left-nav">
+            <div class="nav-title">页面导航</div>
+            
+            <div class="nav-section">
+                <h3>主要内容</h3>
+                <ul class="nav-links">
+                    <li><a href="#overview" class="nav-link active" data-section="overview"><i class="fas fa-info-circle"></i> 概述</a></li>
+                    <li><a href="#history" class="nav-link" data-section="history"><i class="fas fa-history"></i> 历史</a></li>
+                    <li><a href="#features" class="nav-link" data-section="features"><i class="fas fa-star"></i> 服务器特色</a></li>
+                    <li><a href="#rules" class="nav-link" data-section="rules"><i class="fas fa-gavel"></i> 服务器规则</a></li>
+                    <li><a href="#technical" class="nav-link" data-section="technical"><i class="fas fa-cogs"></i> 技术细节</a></li>
+                    <li><a href="#meme" class="nav-link" data-section="meme"><i class="fas fa-images"></i> 梗图区</a></li>
+                    <li><a href="#other" class="nav-link" data-section="other"><i class="fas fa-question"></i> 不知道写啥</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>服务器链接</h3>
+                <ul class="nav-links">
+                    <li><a href="#"><i class="fas fa-globe"></i> 官方网站</a></li>
+                    <li><a href="#"><i class="fas fa-download"></i> 客户端下载</a></li>
+                    <li><a href="https://b23.tv/lSHNs5S" target="_blank"><i class="fab fa-bilibili"></i> B站主页</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>社区</h3>
+                <ul class="nav-links">
+                    <li><a href="#"><i class="fab fa-qq"></i> QQ群</a></li>
+                    <div class="qq-group">1033571893</div>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>其他页面</h3>
+                <ul class="nav-links">
+                    <li><a href="#"><i class="fas fa-cube"></i> 插件列表</a></li>
+                    <li><a href="#"><i class="fas fa-map"></i> 服务器地图</a></li>
+                    <li><a href="#"><i class="fas fa-users"></i> 管理团队</a></li>
+                    <li><a href="#"><i class="fas fa-trophy"></i> 活动记录</a></li>
+                </ul>
+            </div>
+        </aside>
+        
+        <!-- 右侧主要内容 -->
         <main class="main-content">
             <!-- 页面标题 -->
             <div class="page-title">
@@ -463,8 +471,8 @@
                 <div class="infobox-row">
                     <div class="infobox-label">制作人</div>
                     <div class="infobox-value">
-                        <img src="0347627A3CFEAB6962BCDCAAF26A7876.png" alt="制作人头像" class="creator-avatar" onerror="this.src='https://via.placeholder.com/40/2a2a2a/4a9eff?text=CREATOR'">
-                        <span>未知制作人</span>
+                        <img src="0347627A3CFEAB6962BCDCAAF26A7876.png" alt="制作人头像" class="creator-avatar" onerror="this.src='https://via.placeholder.com/40x60/2a2a2a/4a9eff?text=哈基米'">
+                        <span>哈基米不哈气</span>
                     </div>
                 </div>
                 
@@ -472,28 +480,14 @@
                     <div class="infobox-label">关于哈基米</div>
                     <div class="infobox-value">
                         <a href="https://b23.tv/lSHNs5S" target="_blank" style="color: #4a9eff;">
-                            <i class="fab fa-bilibili"></i> 访问B站主页
+                            点击这里
                         </a>
                     </div>
                 </div>
             </aside>
             
-            <!-- 目录 -->
-            <nav class="toc">
-                <div class="toc-title">目录</div>
-                <ul class="toc-list">
-                    <li><a href="#overview">1 概述</a></li>
-                    <li><a href="#history">2 历史</a></li>
-                    <li><a href="#features">3 服务器特色</a></li>
-                    <li><a href="#rules">4 服务器规则</a></li>
-                    <li><a href="#technical">5 技术细节</a></li>
-                    <li><a href="#gallery">6 梗图区</a></li>
-                    <li><a href="#community">7 不知道写啥</a></li>
-                </ul>
-            </nav>
-            
-            <!-- 内容分区 -->
-            <section class="content-section" id="overview">
+            <!-- 内容分区 - 默认显示第一个 -->
+            <section class="content-section active" id="overview">
                 <h2 class="section-title">概述</h2>
                 <div class="section-content">
                     <div class="placeholder-text">
@@ -501,6 +495,9 @@
                     </div>
                     <div class="placeholder-text">
                         俺不知道
+                    </div>
+                    <div class="placeholder-text">
+                        Site-114514服务器是一个神秘的游戏服务器，由哈基米不哈气大人创建。服务器充满了未知和惊喜，加入前请做好心理准备。
                     </div>
                 </div>
             </section>
@@ -514,6 +511,9 @@
                     <div class="placeholder-text">
                         没写
                     </div>
+                    <div class="placeholder-text">
+                        据传说，Site-114514服务器诞生于2025年的第一天。具体发生了什么，只有哈基米大人知道。
+                    </div>
                 </div>
             </section>
             
@@ -525,7 +525,10 @@
                     </div>
                     <div class="placeholder-text">
                         没写
-                   </div>
+                    </div>
+                    <div class="placeholder-text">
+                        特色就是没有特色，一切随缘。你可能遇到各种意想不到的情况。
+                    </div>
                 </div>
             </section>
             
@@ -537,6 +540,9 @@
                     </div>
                     <div class="placeholder-text">
                         自己进服务器看
+                    </div>
+                    <div class="placeholder-text">
+                        基本规则：不要做让哈基米大人生气的事情。具体什么是生气的事情，自己体会。
                     </div>
                 </div>
             </section>
@@ -550,44 +556,42 @@
                     <div class="placeholder-text">
                         延迟1145141919810 丢包率114514%
                     </div>
+                    <div class="placeholder-text">
+                        服务器运行在神秘的技术上，普通人类无法理解。能玩就行，别问太多。
+                    </div>
+                </div>
+            </section>
+            
+            <section class="content-section" id="meme">
+                <h2 class="section-title">梗图区</h2>
+                <div class="section-content">
+                    <div class="placeholder-text">
+                        还没收集梗图
+                    </div>
+                    <div class="placeholder-text">
+                        等有梗图再放
+                    </div>
+                    <div class="placeholder-text">
+                        这里未来会放一些服务器里的搞笑截图和梗图，欢迎大家投稿。
+                    </div>
+                </div>
+            </section>
+            
+            <section class="content-section" id="other">
+                <h2 class="section-title">不知道写啥</h2>
+                <div class="section-content">
+                    <div class="placeholder-text">
+                        真的不知道写啥
+                    </div>
+                    <div class="placeholder-text">
+                        这个分区就是凑数的
+                    </div>
+                    <div class="placeholder-text">
+                        如果你有什么建议，可以加入QQ群告诉哈基米大人。
+                    </div>
                 </div>
             </section>
         </main>
-        
-        <!-- 右侧边栏 -->
-        <aside class="sidebar">
-            <div class="sidebar-title">相关链接</div>
-            
-            <div class="sidebar-section">
-                <h3>服务器链接</h3>
-                <ul class="sidebar-links">
-                    <li><a href="#"><i class="fas fa-globe"></i> 官方网站</a></li>
-                    <li><a href="#"><i class="fas fa-download"></i> 客户端下载</a></li>
-                    <li><a href="#"><i class="fas fa-server"></i> 状态监控</a></li>
-                    <li><a href="https://b23.tv/lSHNs5S" target="_blank"><i class="fab fa-bilibili"></i> 忘了这是哪个分区了</a></li>
-                </ul>
-            </div>
-            
-            <div class="sidebar-section">
-                <h3>社区</h3>
-                <ul class="sidebar-links">
-                    <li><a href="#"><i class="fab fa-discord"></i> 不知道写啥</a></li>
-                    <li><a href="#"><i class="fab fa-qq"></i> QQ群</a></li>
-                    <li><a href="#"><i class="fas fa-envelope"></i> 联系邮箱(没有不用看)</a></li>
-                    <li><a href="#"><i class="fas fa-comments"></i> 论坛</a></li>
-                </ul>
-            </div>
-            
-            <div class="sidebar-section">
-                <h3>相关页面</h3>
-                <ul class="sidebar-links">
-                    <li><a href="#"><i class="fas fa-cube"></i> 服务器插件列表(没写)</a></li>
-                    <li><a href="#"><i class="fas fa-map"></i> 服务器地图(官方地图:Jakieinne-2)</a></li>
-                    <li><a href="#"><i class="fas fa-users"></i> 管理团队(哪个带标签自己看去)</a></li>
-                    <li><a href="#"><i class="fas fa-trophy"></i> 活动记录(我还没写)</a></li>
-                </ul>
-            </div>
-        </aside>
     </div>
     
     <!-- 页脚 -->
@@ -596,51 +600,8 @@
             <!-- 免责声明 -->
             <div class="disclaimer">
                 <h3><i class="fas fa-exclamation-triangle"></i> 免责声明</h3>
-                <p>本维基页面为Site-114514服务器的官方介绍页面，所有信息由哈基米大人提供和维护。服务器管理团队对本页面内容的准确性做保证。玩家在服务器中的行为应遵守服务器规则及相关法律法规。</p>
+                <p>本维基页面为Site-114514服务器的官方介绍页面，所有信息由哈基米大人提供和维护。哈基米大人对本页面内容的准确性你猜做不做保证。玩家在服务器中的行为应遵守服务器规则及相关法律法规。</p>
                 <p>本页面中使用的图片、标志等素材归其原作者所有，仅用于介绍目的。如有任何侵权问题，请联系页面维护者进行删除。(全是我自己的删个鸡毛)</p>
-            </div>
-            
-            <!-- 页脚链接 -->
-            <div class="footer-links">
-                <div class="footer-column">
-                    <h4>Site-114514</h4>
-                    <ul>
-                        <li><a href="#">关于服务器</a></li>
-                        <li><a href="#">规则与条款</a></li>
-                        <li><a href="#">隐私政策(凑数)</a></li>
-                        <li><a href="#">加入我们(凑数)</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>帮助</h4>
-                    <ul>
-                        <li><a href="#">常见问题</a></li>
-                        <li><a href="#">入门指南</a></li>
-                        <li><a href="#">问题反馈</a></li>
-                        <li><a href="#">支持中心</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>社区</h4>
-                    <ul>
-                        <li><a href="https://b23.tv/lSHNs5S" target="_blank">Bilibili</a></li>
-                        <li><a href="#">Discord(凑数)</a></li>
-                        <li><a href="#">玩家梗图</a></li>
-                        <li><a href="#">活动日历</a></li>
-                    </ul>
-                </div>
-                
-                <div class="footer-column">
-                    <h4>维基</h4>
-                    <ul>
-                        <li><a href="#">关于本网站</a></li>
-                        <li><a href="#">编辑指南</a></li>
-                        <li><a href="#">最近更改</a></li>
-                        <li><a href="#">页面索引</a></li>
-                    </ul>
-                </div>
             </div>
             
             <div class="copyright">
@@ -660,28 +621,9 @@
                     if(this.classList.contains('server-avatar')) {
                         this.src = 'https://via.placeholder.com/80/2a2a2a/4a9eff?text=SITE';
                     } else if(this.classList.contains('creator-avatar')) {
-                        this.src = 'https://via.placeholder.com/40/2a2a2a/4a9eff?text=CREATOR';
+                        this.src = 'https://via.placeholder.com/40x60/2a2a2a/4a9eff?text=哈基米';
                     }
                 };
-            });
-            
-            // 平滑滚动到锚点
-            const tocLinks = document.querySelectorAll('.toc-list a');
-            
-            tocLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    const targetId = this.getAttribute('href');
-                    const targetElement = document.querySelector(targetId);
-                    
-                    if(targetElement) {
-                        window.scrollTo({
-                            top: targetElement.offsetTop - 80,
-                            behavior: 'smooth'
-                        });
-                    }
-                });
             });
             
             // 搜索功能
@@ -705,6 +647,35 @@
                     searchInput.value = '';
                 }
             }
+            
+            // 左侧导航栏切换内容
+            const navLinks = document.querySelectorAll('.nav-link');
+            const contentSections = document.querySelectorAll('.content-section');
+            
+            navLinks.forEach(link => {
+                link.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    
+                    // 移除所有链接的激活状态
+                    navLinks.forEach(l => l.classList.remove('active'));
+                    // 添加当前链接的激活状态
+                    this.classList.add('active');
+                    
+                    // 获取要显示的分区ID
+                    const sectionId = this.getAttribute('data-section');
+                    
+                    // 隐藏所有内容分区
+                    contentSections.forEach(section => {
+                        section.classList.remove('active');
+                    });
+                    
+                    // 显示对应的内容分区
+                    const targetSection = document.getElementById(sectionId);
+                    if(targetSection) {
+                        targetSection.classList.add('active');
+                    }
+                });
+            });
         });
     </script>
 </body>
