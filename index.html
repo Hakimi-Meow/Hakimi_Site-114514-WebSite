@@ -12,15 +12,14 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', 'Linux Libertine', 'Georgia', 'Times', serif;
         }
-        
+
         body {
             background-color: #1a1a1a;
             color: #e6e6e6;
             line-height: 1.6;
             min-height: 100vh;
         }
-        
-        /* 返回顶部按钮 */
+
         #back-to-top {
             position: fixed;
             bottom: 30px;
@@ -39,13 +38,12 @@
             box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
         }
-        
+
         #back-to-top:hover {
             background-color: #2980b9;
             transform: translateY(-3px);
         }
-        
-        /* 移动端菜单按钮 */
+
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -54,8 +52,7 @@
             font-size: 24px;
             cursor: pointer;
         }
-        
-        /* 维基百科风格头部 */
+
         .wiki-header {
             background-color: #0d0d0d;
             border-bottom: 1px solid #333;
@@ -64,7 +61,7 @@
             top: 0;
             z-index: 1000;
         }
-        
+
         .header-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -73,7 +70,7 @@
             justify-content: space-between;
             align-items: center;
         }
-        
+
         .wiki-logo {
             font-size: 1.8rem;
             font-weight: bold;
@@ -82,29 +79,29 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .wiki-logo i {
             color: #4a9eff;
         }
-        
+
         .wiki-nav ul {
             display: flex;
             list-style: none;
             gap: 25px;
         }
-        
+
         .wiki-nav a {
             color: #ccc;
             text-decoration: none;
             font-size: 0.95rem;
             transition: color 0.2s;
         }
-        
+
         .wiki-nav a:hover {
             color: #4a9eff;
             text-decoration: underline;
         }
-        
+
         .search-box {
             display: flex;
             align-items: center;
@@ -113,7 +110,7 @@
             border-radius: 3px;
             overflow: hidden;
         }
-        
+
         .search-box input {
             background: transparent;
             border: none;
@@ -121,7 +118,7 @@
             color: #e6e6e6;
             width: 200px;
         }
-        
+
         .search-box button {
             background-color: #333;
             border: none;
@@ -129,8 +126,7 @@
             padding: 8px 15px;
             cursor: pointer;
         }
-        
-        /* 主要内容区域 - 修改为左右布局 */
+
         .wiki-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -138,14 +134,13 @@
             display: flex;
             gap: 30px;
         }
-        
-        /* 左侧导航栏 */
+
         .left-nav {
             width: 250px;
             background-color: #222;
             border-radius: 3px;
             padding: 20px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
             align-self: flex-start;
             position: sticky;
             top: 80px;
@@ -154,26 +149,25 @@
             overflow-y: auto;
             max-height: calc(100vh - 100px);
         }
-        
-        /* 电脑端滚动条样式 */
+
         .left-nav::-webkit-scrollbar {
             width: 8px;
         }
-        
+
         .left-nav::-webkit-scrollbar-track {
             background: #2a2a2a;
             border-radius: 4px;
         }
-        
+
         .left-nav::-webkit-scrollbar-thumb {
             background: #4a9eff;
             border-radius: 4px;
         }
-        
+
         .left-nav::-webkit-scrollbar-thumb:hover {
             background: #2980b9;
         }
-        
+
         .nav-title {
             background-color: #333;
             padding: 12px;
@@ -183,27 +177,27 @@
             font-weight: bold;
             color: #fff;
         }
-        
+
         .nav-section {
             margin-bottom: 25px;
             padding-bottom: 20px;
             border-bottom: 1px solid #3a3a3a;
         }
-        
+
         .nav-section h3 {
             color: #4a9eff;
             margin-bottom: 10px;
             font-size: 1.1rem;
         }
-        
+
         .nav-links {
             list-style: none;
         }
-        
+
         .nav-links li {
             margin-bottom: 8px;
         }
-        
+
         .nav-links a {
             color: #ccc;
             text-decoration: none;
@@ -214,28 +208,27 @@
             border-radius: 3px;
             transition: all 0.2s;
         }
-        
+
         .nav-links a:hover {
             color: #4a9eff;
             background-color: #2a2a2a;
         }
-        
+
         .nav-links a.active {
             color: #4a9eff;
             background-color: #2a2a2a;
             border-left: 3px solid #4a9eff;
         }
-        
-        /* 右侧主要内容 */
+
         .main-content {
             flex: 1;
             background-color: #222;
             border-radius: 3px;
             padding: 30px;
-            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
             position: relative;
         }
-        
+
         .page-title {
             border-bottom: 1px solid #4a9eff;
             padding-bottom: 15px;
@@ -244,13 +237,13 @@
             align-items: center;
             gap: 15px;
         }
-        
+
         .page-title h1 {
             font-size: 2.2rem;
             color: #fff;
             font-weight: normal;
         }
-        
+
         .server-avatar {
             width: 80px;
             height: 80px;
@@ -258,8 +251,7 @@
             border: 3px solid #4a9eff;
             object-fit: cover;
         }
-        
-        /* 信息框 - 只在概述页面显示 */
+
         .infobox {
             background-color: #2a2a2a;
             border: 1px solid #444;
@@ -271,11 +263,11 @@
             margin-left: 25px;
             display: block;
         }
-        
+
         .infobox.hidden {
             display: none;
         }
-        
+
         .infobox-title {
             background-color: #333;
             padding: 10px;
@@ -284,43 +276,42 @@
             border-bottom: 1px solid #444;
             font-weight: bold;
         }
-        
+
         .infobox-row {
             display: flex;
             padding: 8px 0;
             border-bottom: 1px solid #3a3a3a;
         }
-        
+
         .infobox-label {
             font-weight: bold;
             width: 120px;
             color: #ccc;
         }
-        
+
         .infobox-value {
             flex: 1;
         }
-        
+
         .creator-avatar {
             width: 40px;
-            height: 60px; /* 调整比例适应1080x2017图片 */
+            height: 60px;
             object-fit: cover;
             border-radius: 5px;
             vertical-align: middle;
             margin-right: 8px;
             border: 1px solid #555;
         }
-        
-        /* 内容分区 */
+
         .content-section {
             margin-bottom: 40px;
-            display: none; /* 默认隐藏所有分区 */
+            display: none;
         }
-        
+
         .content-section.active {
-            display: block; /* 显示当前激活的分区 */
+            display: block;
         }
-        
+
         .section-title {
             background-color: #2a2a2a;
             padding: 12px 20px;
@@ -329,11 +320,11 @@
             font-size: 1.5rem;
             color: #fff;
         }
-        
+
         .section-content {
             padding: 0 10px;
         }
-        
+
         .placeholder-text {
             background-color: #2a2a2a;
             padding: 15px;
@@ -343,7 +334,7 @@
             font-style: italic;
             border-left: 3px solid #555;
         }
-        
+
         .content-text {
             background-color: #2a2a2a;
             padding: 15px;
@@ -352,7 +343,7 @@
             color: #e6e6e6;
             border-left: 3px solid #555;
         }
-        
+
         .warning-box {
             background-color: #332222;
             padding: 20px;
@@ -360,7 +351,7 @@
             margin-bottom: 20px;
             border-left: 5px solid #ff6b6b;
         }
-        
+
         .warning-box h3 {
             color: #ff6b6b;
             margin-bottom: 10px;
@@ -368,7 +359,7 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .info-box {
             background-color: #223322;
             padding: 20px;
@@ -376,7 +367,7 @@
             margin-bottom: 20px;
             border-left: 5px solid #4a9eff;
         }
-        
+
         .info-box h3 {
             color: #4a9eff;
             margin-bottom: 10px;
@@ -384,7 +375,7 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .qq-group-box {
             background-color: #2a2a2a;
             padding: 25px;
@@ -393,7 +384,7 @@
             text-align: center;
             border: 2px solid #4a9eff;
         }
-        
+
         .qq-number {
             font-size: 2.5rem;
             font-weight: bold;
@@ -402,7 +393,7 @@
             margin: 15px 0;
             letter-spacing: 2px;
         }
-        
+
         .creator-profile {
             display: flex;
             align-items: center;
@@ -412,7 +403,7 @@
             background-color: #2a2a2a;
             border-radius: 8px;
         }
-        
+
         .creator-profile-img {
             width: 120px;
             height: 180px;
@@ -420,18 +411,179 @@
             border-radius: 8px;
             border: 3px solid #4a9eff;
         }
-        
+
         .creator-info {
             flex: 1;
         }
-        
+
         .creator-title {
             font-size: 1.8rem;
             color: #4a9eff;
             margin-bottom: 10px;
         }
-        
-        /* 移动端快速导航 */
+
+        /* 留言板新增样式 */
+        .gb-form { margin-bottom: 2.5rem; }
+        .gb-form-row { margin-bottom: 1.2rem; }
+        .gb-input {
+            width: 100%;
+            padding: 14px 18px;
+            background-color: rgba(255,255,255,0.05);
+            border: 1px solid #3a506b;
+            border-radius: 10px;
+            color: #e6f0ff;
+            font-size: 16px;
+            box-sizing: border-box;
+            transition: all 0.3s ease;
+        }
+        .gb-input:focus {
+            outline: none;
+            border-color: #4a9eff;
+            box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2);
+            background-color: rgba(255,255,255,0.08);
+        }
+        textarea.gb-input {
+            min-height: 120px;
+            resize: vertical;
+            font-family: inherit;
+        }
+        .gb-char-count {
+            text-align: right;
+            font-size: 0.9em;
+            color: #6c8bc7;
+            margin-top: 5px;
+        }
+        .gb-button {
+            display: block;
+            width: 100%;
+            padding: 15px;
+            background: linear-gradient(90deg, #2d8ef9, #4a9eff);
+            color: white;
+            border: none;
+            border-radius: 10px;
+            font-size: 1.1em;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .gb-button:hover:not(:disabled) {
+            background: linear-gradient(90deg, #1b7de0, #2d8ef9);
+            transform: translateY(-2px);
+            box-shadow: 0 7px 15px rgba(45, 142, 249, 0.4);
+        }
+        .gb-button:disabled {
+            opacity: 0.7;
+            cursor: not-allowed;
+        }
+        .gb-form-note {
+            text-align: center;
+            margin-top: 1rem;
+            color: #8a9bba;
+            font-size: 0.9em;
+        }
+        .gb-messages { margin-top: 1rem; }
+        .gb-loading-state {
+            text-align: center;
+            padding: 3rem;
+            color: #8a9bba;
+        }
+        .gb-spinner {
+            border: 4px solid rgba(74, 158, 255, 0.2);
+            border-top: 4px solid #4a9eff;
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            animation: spin 1s linear infinite;
+            margin: 0 auto 1rem;
+        }
+        @keyframes spin {
+            0% { transform: rotate(0deg); }
+            100% { transform: rotate(360deg); }
+        }
+        .gb-item {
+            background: rgba(255,255,255,0.03);
+            border-left: 4px solid #4a9eff;
+            border-radius: 10px;
+            padding: 1.2rem 1.5rem;
+            margin-bottom: 1.2rem;
+            transition: transform 0.2s ease;
+        }
+        .gb-item:hover {
+            transform: translateX(5px);
+            background: rgba(255,255,255,0.05);
+        }
+        .gb-item-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 0.8rem;
+        }
+        .gb-user {
+            font-weight: bold;
+            color: #4a9eff;
+        }
+        .gb-time {
+            font-size: 0.9em;
+            color: #8a9bba;
+        }
+        .gb-content {
+            color: #d1e0ff;
+            line-height: 1.6;
+            word-wrap: break-word;
+        }
+        .gb-empty-state {
+            text-align: center;
+            padding: 3rem;
+            color: #8a9bba;
+            font-style: italic;
+        }
+        .gb-toast {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            padding: 15px 25px;
+            border-radius: 10px;
+            color: white;
+            font-weight: bold;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.3);
+            z-index: 10000;
+            display: none;
+            max-width: 350px;
+        }
+        .gb-toast.success {
+            background: linear-gradient(90deg, #20c997, #12b886);
+            border-left: 5px solid #0ca678;
+        }
+        .gb-toast.error {
+            background: linear-gradient(90deg, #fa5252, #e03131);
+            border-left: 5px solid #c92a2a;
+        }
+        /* 投稿区样式 */
+        .submission-placeholder {
+            text-align: center;
+            padding: 60px 20px;
+            background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+            border-radius: 15px;
+            border: 2px dashed #4a9eff;
+        }
+        .submission-placeholder i {
+            font-size: 4rem;
+            color: #4a9eff;
+            margin-bottom: 20px;
+            opacity: 0.7;
+        }
+        .submission-placeholder h3 {
+            font-size: 2rem;
+            color: #fff;
+            margin-bottom: 15px;
+        }
+        .submission-placeholder p {
+            color: #8a9bba;
+            max-width: 500px;
+            margin: 0 auto;
+            line-height: 1.8;
+        }
+
         .mobile-quick-nav {
             display: none;
             position: fixed;
@@ -443,17 +595,17 @@
             padding: 10px 0;
             z-index: 999;
         }
-        
+
         .mobile-quick-nav ul {
             display: flex;
             justify-content: space-around;
             list-style: none;
         }
-        
+
         .mobile-quick-nav li {
             text-align: center;
         }
-        
+
         .mobile-quick-nav a {
             color: #ccc;
             text-decoration: none;
@@ -463,25 +615,24 @@
             gap: 5px;
             font-size: 0.8rem;
         }
-        
+
         .mobile-quick-nav i {
             font-size: 1.2rem;
         }
-        
-        /* 页脚 */
+
         .wiki-footer {
             background-color: #0d0d0d;
             border-top: 1px solid #333;
             padding: 30px 0;
             margin-top: 50px;
         }
-        
+
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-        
+
         .disclaimer {
             background-color: #2a2a2a;
             border: 1px solid #666;
@@ -489,12 +640,12 @@
             border-radius: 3px;
             margin-bottom: 20px;
         }
-        
+
         .disclaimer h3 {
             color: #ff6b6b;
             margin-bottom: 10px;
         }
-        
+
         .copyright {
             text-align: center;
             padding-top: 20px;
@@ -503,13 +654,12 @@
             border-top: 1px solid #333;
             margin-top: 20px;
         }
-        
-        /* 响应式设计 */
+
         @media (max-width: 992px) {
             .wiki-container {
                 flex-direction: column;
             }
-            
+
             .left-nav {
                 width: 100%;
                 position: static;
@@ -517,27 +667,26 @@
                 max-height: none;
                 overflow-y: visible;
             }
-            
+
             .infobox {
                 float: none;
                 width: 100%;
                 margin-left: 0;
             }
-            
+
             .creator-profile {
                 flex-direction: column;
                 text-align: center;
             }
-            
-            /* 移动端导航栏 */
+
             .mobile-menu-btn {
                 display: block;
             }
-            
+
             .wiki-nav {
                 display: none;
             }
-            
+
             .wiki-nav.active {
                 display: block;
                 position: absolute;
@@ -548,962 +697,534 @@
                 padding: 20px;
                 border-bottom: 1px solid #333;
             }
-            
+
             .wiki-nav.active ul {
                 flex-direction: column;
                 gap: 15px;
             }
-            
+
             .search-box {
                 margin-top: 15px;
                 width: 100%;
             }
-            
+
             .search-box input {
                 width: 100%;
             }
-            
-            /* 移动端快速导航 */
+
             .mobile-quick-nav {
                 display: block;
             }
-            
-            /* 移动端内容区域额外padding */
+
             .main-content {
                 padding: 20px 15px;
-                margin-bottom: 70px; /* 为底部快速导航留出空间 */
+                margin-bottom: 70px;
             }
-            
-            /* 返回顶部按钮位置调整 */
+
             #back-to-top {
                 bottom: 80px;
                 right: 20px;
-            }
-        }
-        
-        @media (max-width: 768px) {
-            .header-container {
-                flex-wrap: wrap;
-            }
-            
-            .wiki-logo {
-                font-size: 1.5rem;
-            }
-            
-            .page-title h1 {
-                font-size: 1.8rem;
-            }
-            
-            .qq-number {
-                font-size: 1.8rem;
-            }
-            
-            .section-title {
-                font-size: 1.3rem;
-                padding: 10px 15px;
-            }
-            
-            .creator-title {
-                font-size: 1.5rem;
-            }
-        }
-        
-        @media (max-width: 480px) {
-            .page-title {
-                flex-direction: column;
-                text-align: center;
-                gap: 10px;
-            }
-            
-            .page-title h1 {
-                font-size: 1.6rem;
-            }
-            
-            .infobox {
-                padding: 15px;
-            }
-            
-            .infobox-row {
-                flex-direction: column;
-                gap: 5px;
-            }
-            
-            .infobox-label {
-                width: 100%;
             }
         }
     </style>
 </head>
 <body>
     <!-- 返回顶部按钮 -->
-    <div id="back-to-top" title="返回顶部">
+    <div id="back-to-top" onclick="scrollToTop()">
         <i class="fas fa-arrow-up"></i>
     </div>
-    
-    <!-- 移动端快速导航 -->
-    <nav class="mobile-quick-nav">
-        <ul>
-            <li><a href="#overview" class="mobile-nav-link" data-section="overview"><i class="fas fa-home"></i> 概述</a></li>
-            <li><a href="#features" class="mobile-nav-link" data-section="features"><i class="fas fa-star"></i> 特色</a></li>
-            <li><a href="#creator" class="mobile-nav-link" data-section="creator"><i class="fas fa-user"></i> 制作人</a></li>
-            <li><a href="#qq" class="mobile-nav-link" data-section="qq"><i class="fab fa-qq"></i> QQ群</a></li>
-            <li><a href="#other" class="mobile-nav-link" data-section="other"><i class="fas fa-ellipsis-h"></i> 更多</a></li>
-        </ul>
-    </nav>
-    
-    <!-- 维基百科风格头部 -->
+
+    <!-- 头部 -->
     <header class="wiki-header">
         <div class="header-container">
             <div class="wiki-logo">
-                <i class="fas fa-book"></i>
-                <span>CN Site-114514 维基百科</span>
+                <i class="fas fa-database"></i>
+                <span>Site-114514 维基</span>
             </div>
             
-            <button class="mobile-menu-btn" id="mobile-menu-toggle">
+            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
                 <i class="fas fa-bars"></i>
             </button>
             
-            <nav class="wiki-nav" id="main-nav">
+            <nav class="wiki-nav" id="wikiNav">
                 <ul>
-                    <li><a href="#overview" class="nav-link" data-section="overview"><i class="fas fa-home"></i> 首页</a></li>
-                    <li><a href="#history" class="nav-link" data-section="history"><i class="fas fa-history"></i> 最近更改</a></li>
-                    <li><a href="#meme" class="nav-link" data-section="meme"><i class="fas fa-random"></i> 随机梗图</a></li>
-                    <li><a href="#help" class="nav-link" data-section="help"><i class="fas fa-question-circle"></i> 帮助</a></li>
+                    <li><a href="#overview">概述</a></li>
+                    <li><a href="#maps">服务器地图</a></li>
+                    <li><a href="#creator">关于创作者</a></li>
+                    <li><a href="#contact">联系我们</a></li>
+                    <li><a href="#development">玩家开发区</a></li>
+                    <li><a href="#links">外部链接</a></li>
                 </ul>
-                
                 <div class="search-box">
-                    <input type="text" placeholder="搜索维基..." id="search-input">
-                    <button id="search-button"><i class="fas fa-search"></i></button>
+                    <input type="text" placeholder="搜索本维基...">
+                    <button><i class="fas fa-search"></i></button>
                 </div>
             </nav>
         </div>
     </header>
-    
-    <!-- 主要内容区域 - 左侧导航栏，右侧主要内容 -->
+
+    <!-- 主要内容容器 -->
     <div class="wiki-container">
-        <!-- 左侧导航栏 -->
-        <aside class="left-nav" id="left-nav">
-            <div class="nav-title">页面导航</div>
+        <!-- 左侧导航 -->
+        <aside class="left-nav">
+            <div class="nav-title">
+                <i class="fas fa-compass"></i> 导航
+            </div>
             
             <div class="nav-section">
-                <h3>主要内容</h3>
+                <h3><i class="fas fa-home"></i> 主要页面</h3>
                 <ul class="nav-links">
-                    <li><a href="#overview" class="nav-link active" data-section="overview"><i class="fas fa-info-circle"></i> 概述</a></li>
-                    <li><a href="#history" class="nav-link" data-section="history"><i class="fas fa-history"></i> 历史</a></li>
-                    <li><a href="#features" class="nav-link" data-section="features"><i class="fas fa-star"></i> 服务器特色</a></li>
-                    <li><a href="#rules" class="nav-link" data-section="rules"><i class="fas fa-gavel"></i> 服务器规则</a></li>
-                    <li><a href="#technical" class="nav-link" data-section="technical"><i class="fas fa-cogs"></i> 技术细节</a></li>
-                    <li><a href="#meme" class="nav-link" data-section="meme"><i class="fas fa-images"></i> 梗图区</a></li>
-                    <li><a href="#creator" class="nav-link" data-section="creator"><i class="fas fa-user"></i> 制作人介绍</a></li>
-                    <li><a href="#qq" class="nav-link" data-section="qq"><i class="fab fa-qq"></i> QQ群信息</a></li>
-                    <li><a href="#other" class="nav-link" data-section="other"><i class="fas fa-question"></i> 不知道写啥</a></li>
+                    <li><a href="#" onclick="showSection('overview'); return false;" class="active"><i class="fas fa-info-circle"></i> 概述</a></li>
+                    <li><a href="#" onclick="showSection('maps'); return false;"><i class="fas fa-map"></i> 服务器地图</a></li>
+                    <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 关于创作者</a></li>
+                    <li><a href="#" onclick="showSection('contact'); return false;"><i class="fas fa-comments"></i> 联系我们与加入QQ群</a></li>
+                </ul>
+            </div>
+            
+            <!-- 新增：玩家开发区导航 -->
+            <div class="nav-section">
+                <h3><i class="fas fa-code"></i> 玩家开发区</h3>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="showSubSection('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 访客留言板</a></li>
+                    <li><a href="#" onclick="showSubSection('submission'); return false;"><i class="fas fa-paper-plane"></i> 投稿区</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <h3>其他页面</h3>
+                <h3><i class="fas fa-external-link-alt"></i> 外部链接</h3>
                 <ul class="nav-links">
-                    <li><a href="#plugins" class="nav-link" data-section="plugins"><i class="fas fa-cube"></i> 服务器插件列表</a></li>
-                    <li><a href="#map" class="nav-link" data-section="map"><i class="fas fa-map"></i> 服务器地图</a></li>
-                    <li><a href="#team" class="nav-link" data-section="team"><i class="fas fa-users"></i> 管理团队</a></li>
-                    <li><a href="#events" class="nav-link" data-section="events"><i class="fas fa-trophy"></i> 活动记录</a></li>
+                    <li><a href="#" onclick="showSection('links'); return false;"><i class="fas fa-link"></i> 外部链接</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <h3>外部链接</h3>
+                <h3><i class="fas fa-tools"></i> 工具</h3>
                 <ul class="nav-links">
-                    <li><a href="#"><i class="fas fa-globe"></i> 官方网站</a></li>
-                    <li><a href="#"><i class="fas fa-download"></i> 客户端下载</a></li>
-                    <li><a href="https://b23.tv/lSHNs5S" target="_blank"><i class="fab fa-bilibili"></i> B站主页</a></li>
-                </ul>
-            </div>
-            
-            <div class="nav-section">
-                <h3>快速跳转</h3>
-                <ul class="nav-links">
-                    <li><a href="#" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i> 返回顶部</a></li>
-                    <li><a href="#" onclick="scrollToBottom()"><i class="fas fa-arrow-down"></i> 跳到底部</a></li>
+                    <li><a href="#"><i class="fas fa-print"></i> 打印本页</a></li>
+                    <li><a href="#"><i class="fas fa-download"></i> 下载为PDF</a></li>
                 </ul>
             </div>
         </aside>
-        
+
         <!-- 右侧主要内容 -->
         <main class="main-content">
             <!-- 页面标题 -->
             <div class="page-title">
-                <img src="81DFBC14331A0B21C5B3C20246F25AFA.png" alt="Site-114514服务器头像" class="server-avatar" onerror="this.src='https://via.placeholder.com/80/2a2a2a/4a9eff?text=SITE'">
-                <h1>Site-114514服务器</h1>
+                <img src="https://via.placeholder.com/80" alt="Site-114514 Logo" class="server-avatar">
+                <h1>Site-114514</h1>
             </div>
-            
-            <!-- 信息框 - 只在概述页面显示 -->
-            <aside class="infobox" id="infobox">
-                <div class="infobox-title">Site-114514</div>
-                
-                <div class="infobox-row">
-                    <div class="infobox-label">类型</div>
-                    <div class="infobox-value">土豆服务器</div>
-                </div>
-                
-                <div class="infobox-row">
-                    <div class="infobox-label">状态</div>
-                    <div class="infobox-value">未知</div>
-                </div>
-                
-                <div class="infobox-row">
-                    <div class="infobox-label">创建日期</div>
-                    <div class="infobox-value">2025年1月1日</div>
-                </div>
-                
-                <div class="infobox-row">
-                    <div class="infobox-label">版本</div>
-                    <div class="infobox-value">1.145.14</div>
-                </div>
-                
-                <div class="infobox-row">
-                    <div class="infobox-label">制作人</div>
-                    <div class="infobox-value">
-                        <img src="0347627A3CFEAB6962BCDCAAF26A7876.png" alt="制作人头像" class="creator-avatar" onerror="this.src='https://via.placeholder.com/40x60/2a2a2a/4a9eff?text=CREATOR'">
-                        <span>哈基米不哈气</span>
+
+            <!-- 概述页面 -->
+            <section id="overview" class="content-section active">
+                <div class="infobox" id="overview-infobox">
+                    <div class="infobox-title">站点信息</div>
+                    <div class="infobox-row">
+                        <div class="infobox-label">Site-114514</div>
+                        <div class="infobox-value">PSCP国人社区服务器</div>
                     </div>
-                </div>
-                
-                <div class="infobox-row">
-                    <div class="infobox-label">看看哈基米的B ♥</div>
-                    <div class="infobox-value">
-                        <a href="https://b23.tv/lSHNs5S" target="_blank" style="color: #4a9eff;">
-                            <i class=""></i> 点♥击♥访♥问♥
-                        </a>
+                    <div class="infobox-row">
+                        <div class="infobox-label">状态</div>
+                        <div class="infobox-value">正在运行</div>
                     </div>
-                </div>
-            </aside>
-            
-            <!-- 内容分区 - 默认显示第一个 -->
-            <section class="content-section active" id="overview">
-                <h2 class="section-title">概述</h2>
-                <div class="section-content">
-                    <div class="info-box">
-                        <h3><i class="fas fa-info-circle"></i> 服务器简介</h3>
-                        <p>Site-114514是一个神秘的游戏服务器，由传奇人物"哈基米不哈气"于2025年创建。服务器以高度自由的玩法和不可预测的事件著称，吸引了大量寻求刺激的玩家。</p>
-                        <p>服务器运行在一种名为"马铃薯-豆土"的先进技术上，虽然延迟和丢包率都高得惊人，但玩家们纷纷表示："能进去就是奇迹，能玩就是缘分。"</p>
+                    <div class="infobox-row">
+                        <div class="infobox-label">创建日期</div>
+                        <div class="infobox-value">2025年1月■日 <br><small><i>正式开服时间为■■■■■</i></small></div>
                     </div>
-                    
-                    <div class="content-text">
-                        <h3>服务器特色概述</h3>
-                        <ul>
-                            <li><strong>随机事件系统</strong>：服务器内会发生各种意想不到的事件，从突然的资源翻倍到全体玩家变成鸡，只有你想不到，没有服务器做不到。</li>
-                            <li><strong>哈基米大人的意志</strong>：制作人会不定时上线视察，可能会带来福利，也可能带来"惊喜"。</li>
-                            <li><strong>独特的社区文化</strong>：玩家之间形成了独特的交流方式，比如用"114514"打招呼，用"1919810"道别。</li>
-                            <li><strong>玄学连接系统</strong>：服务器的连接成功率完全看缘分，有时候一次就进，有时候尝试114514次也进不去。</li>
-                        </ul>
+                    <div class="infobox-row">
+                        <div class="infobox-label">版本</div>
+                        <div class="infobox-value">■/#%**#%/</div>
                     </div>
-                    
-                    <div class="warning-box">
-                        <h3><i class="fas fa-exclamation-triangle"></i> 重要提醒</h3>
-                        <p>加入本服务器前，请确保您具备以下条件：</p>
-                        <ol>
-                            <li>强大的心理承受能力（服务器内任何事情都可能发生）</li>
-                            <li>足够的时间（连接服务器可能需要耐心）</li>
-                            <li>对哈基米大人的绝对尊重</li>
-                            <li>能接受"俺是农民，俺不知道"的客服态度</li>
-                        </ol>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="content-section" id="history">
-                <h2 class="section-title">历史</h2>
-                <div class="section-content">
-                    <div class="content-text">
-                        <h3>创世之初 (2025年1月1日)</h3>
-                        <p>据传说，在2025年的第一天，哈基米大人突然灵光一现，决定创建一个游戏服务器。当时他正在吃烤红薯，于是决定将服务器命名为Site-114514，因为"114514"看起来像红薯的条形码。</p>
-                        <p>最初版本只有最基本的生存模式，但由于哈基米大人的特殊编程技巧，服务器从一开始就表现出与众不同的特性。</p>
-                    </div>
-                    
-                    <div class="content-text">
-                        <h3>混沌时期 (2025年1月-3月)</h3>
-                        <p>服务器刚开放的三个月内，发生了以下著名事件：</p>
-                        <ul>
-                            <li><strong>第一次大崩溃</strong>：开服第一天，由于玩家数量超过预期（其实只有3个人），服务器崩溃了114514次。</li>
-                            <li><strong>方块雨事件</strong>：2025年1月15日，服务器突然下起了钻石方块雨，持续了10分钟，然后所有钻石变成了泥土。</li>
-                            <li><strong>时间倒流事件</strong>：2月30日（是的，2月30日），服务器时间突然倒流，玩家们的建筑消失了，但背包物品翻倍了。</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="content-text">
-                        <h3>稳定发展期 (2025年4月至今)</h3>
-                        <p>经过多次调整（或者说，哈基米大人终于睡醒了），服务器逐渐稳定下来。虽然"稳定"这个词在Site-114514中有特殊含义，但至少不会每小时崩溃一次了。</p>
-                        <p>目前服务器拥有了一批忠实玩家，他们自称"哈基米的信徒"，每天上线第一件事是向哈基米大人祈祷今天服务器能正常连接。</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="content-section" id="features">
-                <h2 class="section-title">服务器特色</h2>
-                <div class="section-content">
-                    <div class="content-text">
-                        <h3>核心特色系统</h3>
-                        <p>Site-114514服务器的特色不在于有多少插件，而在于有多少"惊喜"：</p>
-                        
-                        <h4>1. 哈基米赐福系统</h4>
-                        <p>每天随机时间，哈基米大人会在线赐福。赐福效果包括但不限于：</p>
-                        <ul>
-                            <li><strong>资源大爆发</strong>：所有矿石产量翻114514倍</li>
-                            <li><strong>物理法则修改</strong>：重力反转，玩家可以倒着走天花板</li>
-                            <li><strong>生物变异</strong>：所有鸡变成末影龙，所有苦力怕变成村民</li>
-                            <li><strong>天气异常</strong>：下起蛋糕雨、TNT雨或附魔书雨</li>
-                        </ul>
-                        
-                        <h4>2. 玄学经济系统</h4>
-                        <p>服务器的经济系统完全基于玄学：</p>
-                        <ul>
-                            <li>物品价格随时间波动，但波动规律无人能懂</li>
-                            <li>交易成功率与玩家当天运势相关</li>
-                            <li>偶尔会出现"免费赠送日"，所有物品0元购</li>
-                        </ul>
-                        
-                        <h4>3. 不可预测事件系统</h4>
-                        <p>每114514秒（约31.8小时），服务器会发生随机事件：</p>
-                        <ul>
-                            <li>地图重置（但玩家建筑随机保留）</li>
-                            <li>所有玩家传送到随机位置</li>
-                            <li>昼夜循环速度改变（一天只有10分钟或长达100小时）</li>
-                            <li>突然开启硬核模式（死亡即删档）</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="info-box">
-                        <h3><i class="fas fa-lightbulb"></i> 特色总结</h3>
-                        <p>总而言之，Site-114514的特色就是"没有特色，一切皆有可能"。这里没有固定的玩法，没有不变的规则，只有无限的惊喜（或惊吓）。</p>
-                        <p>正如一位老玩家所说："在其他服务器，你是来玩游戏的；在Site-114514，你是来体验人生的无常。"</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="content-section" id="rules">
-                <h2 class="section-title">服务器规则</h2>
-                <div class="section-content">
-                    <div class="warning-box">
-                        <h3><i class="fas fa-exclamation-circle"></i> 重要警告</h3>
-                        <p>以下规则由哈基米大人亲自制定，违反者后果自负。哈基米大人拥有最终解释权，且解释可能随时间变化。</p>
-                    </div>
-                    
-                    <div class="content-text">
-                        <h3>第一章：基本原则</h3>
-                        <ol>
-                            <li><strong>尊重哈基米大人</strong>：在任何时间、任何地点，必须对哈基米大人保持最高敬意。称呼必须正确："哈基米大人"或"哈基米不哈气大人"。简称"哈基米"也可接受，但绝对不能用"哈气"。</li>
-                            <li><strong>接受不确定性</strong>：服务器内一切皆有可能，不要抱怨。如果抱怨，可能会被传送到虚空观光10分钟。</li>
-                            <li><strong>自行解决问题</strong>：遇到问题先自己尝试解决114514次，再考虑求助。客服标准回答是："俺是农民，俺不知道。"</li>
-                        </ol>
-                        
-                        <h3>第二章：游戏内行为规范</h3>
-                        <ol>
-                            <li><strong>建筑自由</strong>：可以随意建造，但建筑可能随机消失、变形或获得特殊属性。</li>
-                            <li><strong>PVP规则</strong>：PVP全天开放，但战斗结果可能被哈基米大人修改。比如你明明赢了，却发现自己被传送到末地。</li>
-                            <li><strong>资源收集</strong>：资源刷新完全随机，可能一夜暴富，也可能挖114514个方块只有一块泥土。</li>
-                            <li><strong>聊天礼仪</strong>：禁止人身攻击，但可以用"114514"表达各种情绪。比如"这个BUG真是114514"（表示愤怒）或"哈基米大人114514"（表示崇拜）。</li>
-                        </ol>
-                        
-                        <h3>第三章：违规处理</h3>
-                        <p>违规处理方式包括但不限于：</p>
-                        <ul>
-                            <li>变成鸡114514秒</li>
-                            <li>背包物品随机交换</li>
-                            <li>传送到"反思小屋"（一个只有基岩的房间）</li>
-                            <li>获得"哈基米的凝视"debuff（所有操作有50%概率反向执行）</li>
-                        </ul>
-                        
-                        <p>严重违规者可能被永久加入"哈基米的不欢迎名单"，具体表现是永远无法连接服务器，或者一进服务器就自动退出。</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="content-section" id="technical">
-                <h2 class="section-title">技术细节</h2>
-                <div class="section-content">
-                    <div class="content-text">
-                        <h3>硬件配置</h3>
-                        <p>Site-114514运行在一台传奇的服务器上：</p>
-                        <ul>
-                            <li><strong>CPU</strong>：英特尔马铃薯i9-114514K（14纳米制程，主频1.14514GHz）</li>
-                            <li><strong>内存</strong>：DDR2 114514MB（实际可用：看心情）</li>
-                            <li><strong>存储</strong>：机械硬盘x1，容量1919810GB（读写速度：114514字节/秒）</li>
-                            <li><strong>网络</strong>：拨号上网，带宽1145.14Kbps（上行）/1919.810Kbps（下行）</li>
-                            <li><strong>电源</strong>：土豆电池供电，续航时间取决于土豆的新鲜程度</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="content-text">
-                        <h3>软件环境</h3>
-                        <ul>
-                            <li><strong>操作系统</strong>：Windows 95（汉化版）</li>
-                            <li><strong>Java版本</strong>：Java 1.4.2_114514</li>
-                            <li><strong>服务器核心</strong>：CraftBukkit 1.145.14-R0.1-SNAPSHOT（哈基米定制版）</li>
-                            <li><strong>数据库</strong>：Microsoft Access 97</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="content-text">
-                        <h3>性能指标</h3>
-                        <p>服务器的性能表现如下：</p>
-                        <ul>
-                            <li><strong>延迟</strong>：1145141919810ms（本地连接）/ 随机（远程连接）</li>
-                            <li><strong>丢包率</strong>：114514%（稳定保持）</li>
-                            <li><strong>TPS</strong>：0-20之间随机波动，平均值为1.14514</li>
-                            <li><strong>最大在线人数</strong>：理论114514人，实际114人（因为第115个人连接会导致服务器重启）</li>
-                            <li><strong>正常运行时间</strong>：每月114514秒（约31.8小时），其余时间要么在重启，要么在准备重启</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="info-box">
-                        <h3><i class="fas fa-server"></i> 技术总结</h3>
-                        <p>用专业术语来说，Site-114514的技术架构是"基于玄学的分布式不可靠系统"。用大白话说就是："能玩是运气，不能玩是常态。"</p>
-                        <p>然而，正是这种极端的不可靠性，造就了服务器独特的魅力。玩家们纷纷表示："在其他服务器，我们追求流畅；在Site-114514，我们追求奇迹。"</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="content-section" id="meme">
-                <h2 class="section-title">梗图区</h2>
-                <div class="section-content">
-                    <div class="content-text">
-                        <h3>服务器经典梗图</h3>
-                        <p>由于梗图需要收集，这里先放一些文字描述的经典梗：</p>
-                        
-                        <h4>1. "连接中..." 梗</h4>
-                        <p>玩家最熟悉的画面：连接服务器时，进度条卡在114514%，然后弹出"连接失败，错误代码：1919810"。</p>
-                        
-                        <h4>2. "哈基米的凝视" 梗</h4>
-                        <p>当玩家做出可疑行为时，聊天框会突然出现："哈基米大人正在注视着你..." 然后会发生各种奇怪的事情。</p>
-                        
-                        <h4>3. "114514" 梗</h4>
-                        <p>这个数字在服务器中无处不在：物品数量、坐标、延迟时间... 甚至玩家死亡次数也经常是114514次。</p>
-                        
-                        <h4>4. "俺是农民" 梗</h4>
-                        <p>客服标准回答，无论问什么问题，答案都是"俺是农民，俺不知道。" 玩家们开始用这句话回答一切问题。</p>
-                        
-                        <h4>5. "突然暴富/突然破产" 梗</h4>
-                        <p>玩家前一天还是服务器首富，第二天所有财富变成泥土。或者相反，一觉醒来背包里全是钻石。</p>
-                    </div>
-                    
-                    <div class="info-box">
-                        <h3><i class="fas fa-camera"></i> 梗图投稿</h3>
-                        <p>欢迎玩家投稿服务器内有趣截图！投稿方式：</p>
-                        <ol>
-                            <li>截图保存</li>
-                            <li>在QQ群@哈基米大人</li>
-                            <li>说："哈基米大人，这里有个114514的梗图"</li>
-                            <li>等待回应（可能需要114514秒）</li>
-                        </ol>
-                        <p>被选中的梗图将展示在这里，投稿者将获得"哈基米的赞赏"（效果随机）。</p>
-                    </div>
-                </div>
-            </section>
-            
-            <section class="content-section" id="creator">
-                <h2 class="section-title">制作人介绍</h2>
-                <div class="section-content">
-                    <div class="creator-profile">
-                        <img src="0347627A3CFEAB6962BCDCAAF26A7876.png" alt="哈基米不哈气" class="creator-profile-img" onerror="this.src='https://via.placeholder.com/120x180/2a2a2a/4a9eff?text=哈基米'">
-                        <div class="creator-info">
-                            <h2 class="creator-title">哈基米不哈气</h2>
-                            <p><strong>称号</strong>：Site-114514创造者、玄学服务器之父、农民程序员、不可预测性的化身</p>
-                            <p><strong>名言</strong>："俺是农民，俺不知道。"</p>
-                            <p><strong>B♥</strong>：<a href="https://b23.tv/lSHNs5S" target="_blank" style="color: #4a9eff;">点♥击♥访♥问♥</a></p>
+                    <div class="infobox-row">
+                        <div class="infobox-label">制作人与腐竹</div>
+                        <div class="infobox-value">
+                            <img src="https://via.placeholder.com/40x60" class="creator-avatar">
+                            白喵■■*# <small><i>现处于失踪，但时不时会活跃</i></small>
                         </div>
                     </div>
-                    
+                    <div class="infobox-row">
+                        <div class="infobox-label">现任服主</div>
+                        <div class="infobox-value">哈基米不哈气</div>
+                    </div>
+                </div>
+                
+                <div class="section-title">
+                    <i class="fas fa-info-circle"></i> 服务器简介
+                </div>
+                <div class="section-content">
                     <div class="content-text">
-                        <h3>人物生平</h3>
-                        <p>哈基米不哈气，原名未知，年龄未知，性别未知。据传言，他原本是一个普通的农民，直到有一天在田里挖土豆时，突然获得了"代码启示"。</p>
-                        <p>那天，他挖出了114514个形状奇特的土豆，排列成了二进制代码。他解读代码后，就掌握了编程的奥秘——一种与现代计算机科学完全不同的玄学编程法。</p>
-                        
-                        <h3>技术特点</h3>
-                        <p>哈基米大人的编程风格独树一帜：</p>
-                        <ul>
-                            <li><strong>玄学调试法</strong>：不靠断点和日志，靠感觉和卦象</li>
-                            <li><strong>农民式代码</strong>：变量名都是"土豆1"、"土豆2"、"红薯"</li>
-                            <li><strong>随机算法</strong>：所有功能都加入随机因子，因为他认为"生活就像种地，收成看天气"</li>
-                            <li><strong>哲学式注释</strong>：代码注释都是"这里应该有东西"、"不知道为什么但能用"、"哈基米大人说这样写"</li>
-                        </ul>
-                        
-                        <h3>服务器管理风格</h3>
-                        <p>哈基米大人管理服务器的方式也很独特：</p>
-                        <ul>
-                            <li><strong>不定期上线</strong>：可能一天上线114514次，也可能114514天不上线</li>
-                            <li><strong>随机干预</strong>：突然给某个玩家发钻石，或者突然把某个玩家的家变成蘑菇屋</li>
-                            <li><strong>谜语式公告</strong>：服务器公告通常是"今天天气不错"、"土豆熟了"、"114514"这样的内容</li>
-                            <li><strong>农民式客服</strong>：所有问题都用"俺是农民，俺不知道"回答，但有时候会突然给出完美解决方案</li>
-                        </ul>
+                        Site-114514是一个PSCP重插件服包括但不限于912 062-DE 247-J……<剩下的需要你自己去探索>
+                        当然如果想要教学<看祂想不想发>，请关注哈基米B站账号:哈基米_不哈气
+                    </div>
+                </div>
+
+                <div class="section-title">
+                    <i class="fas fa-star"></i> 服务器特色概述
+                </div>
+                <div class="section-content">
+                    <div class="content-text">
+                        <ol>
+                            <li>独立地图[看wbt制作程度]</li>
+                            <li>超多SCP<不要和官网相比></li>
+                            <li>5K模式<现处于不开放></li>
+                            <li>以及良好的管理组<可能吧…></li>
+                            <li>GOC超多超模阵营<这是真的></li>
+                            <li>独立武器数值</li>
+                        </ol>
                     </div>
                     
-                    <div class="info-box">
-                        <h3><i class="fas fa-heart"></i> 玩家评价</h3>
-                        <p>"哈基米大人是个谜，但正因如此，Site-114514才如此迷人。" —— 老玩家A</p>
-                        <p>"在其他服务器，我是玩家；在这里，我是哈基米大人的信徒。" —— 老玩家B</p>
-                        <p>"我进过无数服务器，但只有这里让我每天都有惊喜（或惊吓）。" —— 老玩家C</p>
+                    <div class="warning-box">
+                        <h3><i class="fas fa-exclamation-triangle"></i> 加入本服务器前，请确保您具备以下条件：</h3>
+                        <ol>
+                            <li>强大的心理承受能力（服务器内任何事都可能发生）</li>
+                            <li>不要违规(活跃管理已经很累了)</li>
+                            <li>不要向145学习<这是必须的，我不想再出现第2个了></li>
+                            <li>尊重人，服务器的任何人都需要尊重，不能辱骂<某些管理都不遵守这些规则，我不说是谁></li>
+                            <li>观看规则<这是最重要的，当然有一些规则需要问管理，因为哈基米有时会不改></li>
+                            <li>欢迎你们加入这个服务器</li>
+                        </ol>
                     </div>
                 </div>
             </section>
-            
-            <section class="content-section" id="qq">
-                <h2 class="section-title">QQ群信息</h2>
+
+            <!-- 服务器地图页面 -->
+            <section id="maps" class="content-section">
+                <div class="section-title">
+                    <i class="fas fa-map"></i> 服务器地图
+                </div>
+                <div class="section-content">
+                    <div class="placeholder-text">
+                        此处将展示服务器的地图信息、布局和重要位置标记。内容正在更新中...
+                    </div>
+                </div>
+            </section>
+
+            <!-- 关于创作者页面 -->
+            <section id="creator" class="content-section">
+                <div class="section-title">
+                    <i class="fas fa-user"></i> 关于创作者
+                </div>
+                <div class="section-content">
+                    <div class="creator-profile">
+                        <img src="https://via.placeholder.com/120x180" alt="创作者头像" class="creator-profile-img">
+                        <div class="creator-info">
+                            <h3 class="creator-title">Hakimi</h3>
+                            <p>Site-114514的现任服主，负责服务器的维护、更新和社区管理。</p>
+                            <p>对P:SCP游戏有着深厚的热情，致力于打造一个有趣且活跃的玩家社区。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 联系我们与加入QQ群页面 -->
+            <section id="contact" class="content-section">
+                <div class="section-title">
+                    <i class="fas fa-comments"></i> 联系我们与加入QQ群
+                </div>
                 <div class="section-content">
                     <div class="qq-group-box">
                         <h3><i class="fab fa-qq"></i> Site-114514官方QQ群</h3>
-                        <p>欢迎加入我们的官方QQ群，与哈基米大人和其他玩家交流！</p>
+                        <p>欢迎加入我们的官方QQ群，与其他的玩家以及管理组一起讨论游戏，我们欢迎你加入。</p>
+                        <p>当然，你现在加入的是审核群，主群需要通过审核才可进入<为了防止群封，虽然说已经被封过一次了></p>
+                        
                         <div class="qq-number">1033571893</div>
-                        <p>请使用"114514"作为加群暗号，否则可能被拒绝</p>
-                    </div>
-                    
-                    <div class="content-text">
-                        <h3>QQ群规则</h3>
-                        <ol>
-                            <li><strong>尊重哈基米大人</strong>：在群内也必须保持对哈基米大人的敬意</li>
-                            <li><strong>禁止广告</strong>：发广告者会被禁言114514秒</li>
-                            <li><strong>聊天主题</strong>：可以讨论服务器问题、分享游戏经历、发梗图</li>
-                            <li><strong>求助规范</strong>：提问前先看群公告，公告里可能有答案。如果没有，再问哈基米大人</li>
-                            <li><strong>禁言规则</strong>：违规者可能被禁言，禁言时长通常是114514秒，但哈基米大人可能临时更改</li>
-                        </ol>
-                    </div>
-                    
-                    <div class="content-text">
-                        <h3>群内特色</h3>
+                        
+                        <h4><i class="fas fa-gavel"></i> QQ群规则</h4>
                         <ul>
-                            <li><strong>哈基米大人不定期出没</strong>：可能突然出现说"土豆熟了"，然后消失</li>
-                            <li><strong>玄学问题解答</strong>：技术问题可能得到玄学解答，比如"重启电脑114514次"</li>
-                            <li><strong>梗图分享</strong>：群相册收集了大量服务器梗图</li>
-                            <li><strong>活动预告</strong>：服务器活动会在群内提前114514秒通知（约31.8小时，但不一定准确）</li>
+                            <li><strong>禁止广告</strong>：如果是娱乐可以暂时性容忍，如果纯赚钱立刻踢出</li>
+                            <li><strong>聊天主题</strong>：可以讨论服务器问题、分享游戏经历、发梗图<当然也包括其他什么主题比如SCP></li>
+                            <li><strong>求助规范</strong>：可以在Q群里求助管理，包括违规以及一些重大违规事件，管理看到会管</li>
+                            <li><strong>禁言规则</strong>：除非太过于不尊重他人又或者摄政或者什么的通常禁言一天，如果在次禁言一周，第3次直接踢出</li>
+                            <li><strong>梗图分享</strong>：群相册收集了大量服务器梗图<包括一些逆天图片></li>
+                            <li><strong>活动预告</strong>：通常在Q群里会有预告，包括一些更新<得看那帮CO愿不愿意发></li>
                         </ul>
-                    </div>
-                    
-                    <div class="warning-box">
-                        <h3><i class="fas fa-exclamation-triangle"></i> 重要提醒</h3>
-                        <p>加入QQ群后，请注意：</p>
+                        
+                        <h4><i class="fas fa-exclamation-circle"></i> 加入QQ群后，请注意：</h4>
                         <ol>
-                            <li>哈基米大人可能在任何时间@全体成员，内容可能是重要公告，也可能只是"今天天气不错"</li>
-                            <li>群文件中的"客户端下载"可能不是最新版本，最新版本需要直接问哈基米大人</li>
-                            <li>如果哈基米大人长时间不说话，不要@他，他可能在种土豆</li>
-                            <li>群内可能有"哈基米的信徒"机器人，会随机发送"114514"或"哈基米大人万岁"</li>
+                            <li>严格遵守群规</li>
+                            <li>不要向新人玩家传授违规的知识<这里重点点名145></li>
+                            <li>看到违规要及时向Q群管理反映<附带截图></li>
+                            <li>尊重他人，不要随便骂人</li>
+                            <li>拥有良好的心理态度</li>
+                            <li>您可以在管理申请期间申请管理，在此之后请遵守管理规则</li>
                         </ol>
                     </div>
                 </div>
             </section>
-            
-            <section class="content-section" id="other">
-                <h2 class="section-title">不知道写啥</h2>
+
+            <!-- 玩家开发区 - 访客留言板 -->
+            <section id="guestbook" class="content-section">
+                <div class="section-title">
+                    <i class="fas fa-comment-dots"></i> 访客留言板
+                </div>
                 <div class="section-content">
-                    <div class="content-text">
-                        <h3>这个分区的来历</h3>
-                        <p>创建这个分区时，哈基米大人说："不知道写啥，就写不知道写啥吧。" 于是就有了这个分区。</p>
-                        <p>这个分区体现了Site-114514的核心哲学：不需要理由，不需要逻辑，存在本身就是意义。</p>
+                    <p class="subtitle">欢迎在这里留下您的想法、建议或仅仅是打个招呼。</p>
+                    
+                    <div class="gb-form">
+                        <div class="gb-form-row">
+                            <input type="text" id="gb-username" class="gb-input" placeholder="您的昵称 (可选)" maxlength="20">
+                        </div>
+                        <div class="gb-form-row">
+                            <textarea id="gb-message" class="gb-input" placeholder="请在此输入您的留言...（内容将在提交后公开显示）" rows="4" required maxlength="500"></textarea>
+                            <div class="gb-char-count"><span id="gb-char-count">0</span> / 500</div>
+                        </div>
+                        <button id="gb-submit-btn" class="gb-button" onclick="submitGuestbookMessage()">
+                            <span class="btn-text"><i class="fas fa-paper-plane"></i> 发布留言</span>
+                            <span class="btn-loading" style="display:none;"><i class="fas fa-spinner fa-spin"></i> 发送中...</span>
+                        </button>
+                        <p class="gb-form-note"><i class="fas fa-info-circle"></i> 请文明发言，留言将公开显示。</p>
                     </div>
                     
-                    <div class="content-text">
-                        <h3>你可以在这里找到</h3>
+                    <div class="gb-messages" id="gb-messages">
+                        <div class="gb-loading-state" id="gb-loading">
+                            <div class="gb-spinner"></div>
+                            <p>正在加载留言...</p>
+                        </div>
+                        <!-- 留言列表将动态加载在这里 -->
+                    </div>
+                </div>
+            </section>
+
+            <!-- 玩家开发区 - 投稿区 -->
+            <section id="submission" class="content-section">
+                <div class="section-title">
+                    <i class="fas fa-paper-plane"></i> 投稿区
+                </div>
+                <div class="section-content">
+                    <div class="submission-placeholder">
+                        <i class="fas fa-cogs"></i>
+                        <h3>网页开发中</h3>
+                        <p>投稿功能正在紧锣密鼓地开发中，即将上线！</p>
+                        <p>未来您可以在这里提交您的游戏截图、原创故事、插件建议等内容。</p>
+                        <p>敬请期待...</p>
+                    </div>
+                </div>
+            </section>
+
+            <!-- 外部链接页面 -->
+            <section id="links" class="content-section">
+                <div class="section-title">
+                    <i class="fas fa-external-link-alt"></i> 外部链接
+                </div>
+                <div class="section-content">
+                    <div class="info-box">
+                        <h3><i class="fas fa-link"></i> 相关链接</h3>
                         <ul>
-                            <li><strong>随机思考</strong>：哈基米大人偶尔会在这里写下他的哲学思考，比如"土豆为什么是土豆？"</li>
-                            <li><strong>无用信息</strong>：一些对游戏毫无帮助但有趣的信息，比如"服务器机房里有114514只蚂蚁"</li>
-                            <li><strong>占位文字</strong>：当其他分区不知道写什么时，就把内容放在这里</li>
-                            <li><strong>时间胶囊</strong>：玩家可以在这里留言给未来的自己或他人，但留言可能随机消失或变形</li>
+                            <li><a href="https://projectscp.net/en/Other/CommunityServers/HookFunctions/" target="_blank"><i class="fas fa-globe"></i> 官方网站</a> - Project SCP相关文档与社区服务器信息</li>
+                            <li><a href="https://autopatchcn.yuanshen.com/client_app/download/Android/20251124182449_lRpe1GTcjzBZQBU1/ydbackup307/yuanshen_6.2.0.apk" target="_blank"><i class="fas fa-download"></i> 客户端下载</a> - 下载服务器客户端</li>
+                            <li><a href="https://pd.qq.com/s/d7twgdzdo?b=9" target="_blank"><i class="fab fa-qq"></i> QQ频道</a> - 加入我们的QQ频道获取最新动态</li>
                         </ul>
                     </div>
-                    
-                    <div class="info-box">
-                        <h3><i class="fas fa-question-circle"></i> 常见问题</h3>
-                        <p><strong>问：这个分区有什么用？</strong><br>答：没什么用，就像生活本身。</p>
-                        <p><strong>问：为什么要有这个分区？</strong><br>答：哈基米大人说要有，所以就有了。</p>
-                        <p><strong>问：这里的内容会更新吗？</strong><br>答：看心情，可能114514年不更新，也可能一天更新114514次。</p>
-                    </div>
-                    
-                    <div class="content-text">
-                        <h3>写给新玩家的话</h3>
-                        <p>如果你是新玩家，看到这个分区感到困惑，恭喜你，你已经体验到了Site-114514的精髓。</p>
-                        <p>在这里，重要的不是理解，而是感受；不是逻辑，而是体验；不是答案，而是问题本身。</p>
-                        <p>就像哈基米大人常说的："俺是农民，俺不知道。" 但这不妨碍我们享受这个服务器带来的乐趣（和困惑）。</p>
-                        <p>欢迎来到Site-114514，这里的一切都没有意义，但正因如此，一切都有了意义。</p>
-                    </div>
-                </div>
-            </section>
-            
-            <!-- 其他页面内容（显示页面未完成） -->
-            <section class="content-section" id="plugins">
-                <div class="warning-box">
-                    <h3><i class="fas fa-tools"></i> 页面未完成</h3>
-                    <p>插件列表页面正在开发中，哈基米大人还没想好要放哪些插件。</p>
-                    <p>当前已知插件：</p>
-                    <ul>
-                        <li>哈基米的赐福 (核心插件)</li>
-                        <li>玄学经济系统</li>
-                        <li>随机事件生成器</li>
-                        <li>土豆反作弊系统 (效果：随缘检测)</li>
-                    </ul>
-                    <p>更多插件信息，请等待哈基米大人更新。</p>
-                </div>
-            </section>
-            
-            <section class="content-section" id="map">
-                <div class="warning-box">
-                    <h3><i class="fas fa-map-marked-alt"></i> 页面未完成</h3>
-                    <p>服务器地图页面正在制作中，地图可能会随机变化，所以制作地图比较困难。</p>
-                    <p>已知地图信息：</p>
-                    <ul>
-                        <li>主世界：大小随机，地形随机</li>
-                        <li>下界：存在但不一定可进入</li>
-                        <li>末地：有末影龙，但龙的行为不可预测</li>
-                        <li>特殊区域：哈基米神殿（坐标随机变化）</li>
-                    </ul>
-                    <p>官方地图名称：Jakieinne-2（但实际地图可能不是这个）</p>
-                </div>
-            </section>
-            
-            <section class="content-section" id="team">
-                <div class="warning-box">
-                    <h3><i class="fas fa-users-cog"></i> 页面未完成</h3>
-                    <p>管理团队页面正在整理中，因为管理团队名单经常变化。</p>
-                    <p>已知管理成员：</p>
-                    <ul>
-                        <li>哈基米不哈气 (服务器所有者)</li>
-                        <li>土豆一号 (管理员，身份未知)</li>
-                        <li>红薯二号 (管理员，身份未知)</li>
-                        <li>??? (神秘管理员，只知道代号是"114514")</li>
-                    </ul>
-                    <p>要识别管理员，请找游戏内带标签的玩家。但标签可能随机出现或消失。</p>
-                </div>
-            </section>
-            
-            <section class="content-section" id="events">
-                <div class="warning-box">
-                    <h3><i class="fas fa-calendar-alt"></i> 页面未完成</h3>
-                    <p>活动记录页面正在编写中，因为活动太多，记录不过来。</p>
-                    <p>近期活动预告：</p>
-                    <ul>
-                        <li>土豆丰收节 (时间：当哈基米大人收获土豆时)</li>
-                        <li>114514纪念日 (时间：每月14日，但可能提前或推迟)</li>
-                        <li>随机福利日 (时间：完全随机)</li>
-                        <li>服务器重启派对 (时间：每次服务器重启后)</li>
-                    </ul>
-                    <p>活动详情请关注QQ群通知，但通知可能迟到或提前114514秒。</p>
-                </div>
-            </section>
-            
-            <section class="content-section" id="help">
-                <div class="info-box">
-                    <h3><i class="fas fa-question-circle"></i> 帮助页面</h3>
-                    <p>如果你需要帮助，可以参考以下方法：</p>
-                    <ol>
-                        <li>查看左侧导航栏的相关页面</li>
-                        <li>加入QQ群1033571893询问</li>
-                        <li>在服务器内向其他玩家求助</li>
-                        <li>向哈基米大人祈祷（效果随机）</li>
-                    </ol>
                 </div>
             </section>
         </main>
     </div>
-    
+
+    <!-- 移动端快速导航 -->
+    <nav class="mobile-quick-nav">
+        <ul>
+            <li><a href="#" onclick="showSection('overview'); return false;"><i class="fas fa-home"></i> 概述</a></li>
+            <li><a href="#" onclick="showSection('maps'); return false;"><i class="fas fa-map"></i> 地图</a></li>
+            <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 创作者</a></li>
+            <li><a href="#" onclick="showSection('development'); showSubSection('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 留言板</a></li>
+            <li><a href="#" onclick="showSection('links'); return false;"><i class="fas fa-link"></i> 链接</a></li>
+        </ul>
+    </nav>
+
     <!-- 页脚 -->
     <footer class="wiki-footer">
         <div class="footer-container">
-            <!-- 免责声明 -->
             <div class="disclaimer">
                 <h3><i class="fas fa-exclamation-triangle"></i> 免责声明</h3>
-                <p>本维基页面为Site-114514服务器的官方介绍页面，所有信息由哈基米大人提供和维护。哈基米大人对本页面内容的准确性你猜做不做保证。玩家在服务器中的行为应遵守服务器规则及相关法律法规。</p>
-                <p>本页面中使用的图片、标志等素材归其原作者所有，仅用于介绍目的。如有任何侵权问题，请联系页面维护者进行删除。(全是我自己的删个鸡毛)</p>
+                <p>本站为Project: SCP社区的非官方维基页面。所有内容均由社区成员创建和维护，与官方项目无关。</p>
+                <p>本站提到的所有游戏内容版权均属于其各自所有者。</p>
             </div>
             
             <div class="copyright">
-                <p>© 2025 Site-114514服务器社区</p>
-                <p>页面最后更新于：2026年1月11日</p>
-                <p>本页面由哈基米大人的神秘力量驱动</p>
-                <p style="margin-top: 10px;">
-                    <a href="#" onclick="scrollToTop()" style="color: #4a9eff; text-decoration: none; margin-right: 15px;">
-                        <i class="fas fa-arrow-up"></i> 返回顶部
-                    </a>
-                    <a href="#" onclick="window.location.reload()" style="color: #4a9eff; text-decoration: none;">
-                        <i class="fas fa-redo"></i> 刷新页面
-                    </a>
-                </p>
+                <p>&copy; 2024-2025 Site-114514 维基. 保留所有权利.</p>
+                <p>页面最后更新于 2025年1月</p>
             </div>
         </div>
     </footer>
-    
+
+    <!-- 操作提示框 -->
+    <div id="gb-toast" class="gb-toast"></div>
+
     <script>
-        // 处理图片加载失败的情况
-        document.addEventListener('DOMContentLoaded', function() {
-            const images = document.querySelectorAll('img');
+        // ==================== 原有页面功能 ====================
+        function showSection(sectionId) {
+            document.querySelectorAll('.content-section').forEach(section => {
+                section.classList.remove('active');
+            });
+            document.getElementById(sectionId).classList.add('active');
             
-            images.forEach(img => {
-                img.onerror = function() {
-                    if(this.classList.contains('server-avatar')) {
-                        this.src = 'https://via.placeholder.com/80/2a2a2a/4a9eff?text=SITE';
-                    } else if(this.classList.contains('creator-avatar')) {
-                        this.src = 'https://via.placeholder.com/40x60/2a2a2a/4a9eff?text=哈基米';
-                    } else if(this.classList.contains('creator-profile-img')) {
-                        this.src = 'https://via.placeholder.com/120x180/2a2a2a/4a9eff?text=哈基米';
-                    }
-                };
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.classList.remove('active');
             });
             
-            // 移动端菜单切换
-            const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-            const mainNav = document.getElementById('main-nav');
+            event.target.classList.add('active');
+            updateMobileNav();
+        }
+
+        function showSubSection(subSectionId) {
+            showSection('development');
             
-            mobileMenuToggle.addEventListener('click', function() {
-                mainNav.classList.toggle('active');
-            });
+            const guestbookSection = document.getElementById('guestbook');
+            const submissionSection = document.getElementById('submission');
             
-            // 点击页面其他区域关闭移动菜单
-            document.addEventListener('click', function(e) {
-                if (!mainNav.contains(e.target) && !mobileMenuToggle.contains(e.target) && window.innerWidth <= 992) {
-                    mainNav.classList.remove('active');
-                }
-            });
+            guestbookSection.style.display = 'none';
+            submissionSection.style.display = 'none';
             
-            // 搜索功能
-            const searchInput = document.getElementById('search-input');
-            const searchButton = document.getElementById('search-button');
-            
-            searchButton.addEventListener('click', function() {
-                performSearch();
-            });
-            
-            searchInput.addEventListener('keypress', function(e) {
-                if(e.key === 'Enter') {
-                    performSearch();
-                }
-            });
-            
-            function performSearch() {
-                const query = searchInput.value.trim();
-                if(query) {
-                    // 在移动端关闭菜单
-                    if(window.innerWidth <= 992) {
-                        mainNav.classList.remove('active');
-                    }
-                    
-                    // 模拟搜索功能
-                    let found = false;
-                    const contentSections = document.querySelectorAll('.content-section');
-                    
-                    contentSections.forEach(section => {
-                        const text = section.textContent.toLowerCase();
-                        if(text.includes(query.toLowerCase()) && section.id !== 'plugins' && 
-                           section.id !== 'map' && section.id !== 'team' && section.id !== 'events') {
-                            // 显示匹配的section
-                            contentSections.forEach(s => s.classList.remove('active'));
-                            section.classList.add('active');
-                            
-                            // 更新导航栏激活状态
-                            document.querySelectorAll('.nav-link, .mobile-nav-link').forEach(link => {
-                                link.classList.remove('active');
-                            });
-                            
-                            const sectionId = section.id;
-                            const matchingLink = document.querySelector(`[data-section="${sectionId}"]`);
-                            if(matchingLink) {
-                                matchingLink.classList.add('active');
-                            }
-                            
-                            // 控制信息框显示
-                            const infobox = document.getElementById('infobox');
-                            if(sectionId === 'overview') {
-                                infobox.classList.remove('hidden');
-                            } else {
-                                infobox.classList.add('hidden');
-                            }
-                            
-                            found = true;
-                            
-                            // 滚动到该section
-                            section.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                        }
-                    });
-                    
-                    if(!found) {
-                        alert(`未找到包含"${query}"的页面内容`);
-                    }
-                    
-                    searchInput.value = '';
-                }
+            if(subSectionId === 'guestbook') {
+                guestbookSection.style.display = 'block';
+            } else if(subSectionId === 'submission') {
+                submissionSection.style.display = 'block';
             }
             
-            // 左侧导航栏切换内容
-            const navLinks = document.querySelectorAll('.nav-link, .mobile-nav-link');
-            const contentSections = document.querySelectorAll('.content-section');
-            const infobox = document.getElementById('infobox');
+            updateMobileNav();
+        }
+
+        function toggleMobileMenu() {
+            const nav = document.getElementById('wikiNav');
+            nav.classList.toggle('active');
+        }
+
+        function updateMobileNav() {
+            const quickNavLinks = document.querySelectorAll('.mobile-quick-nav a');
+            quickNavLinks.forEach(link => {
+                link.classList.remove('active');
+            });
+        }
+
+        window.onscroll = function() {
+            const backToTop = document.getElementById('back-to-top');
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        };
+
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        // 页面加载后显示概述部分
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('overview');
             
-            navLinks.forEach(link => {
-                link.addEventListener('click', function(e) {
-                    e.preventDefault();
-                    
-                    // 在移动端关闭菜单
-                    if(window.innerWidth <= 992 && this.classList.contains('mobile-nav-link')) {
-                        mainNav.classList.remove('active');
-                    }
-                    
-                    // 移除所有链接的激活状态
-                    navLinks.forEach(l => l.classList.remove('active'));
-                    // 添加当前链接的激活状态
+            document.querySelectorAll('.nav-links a').forEach(link => {
+                link.addEventListener('click', function() {
+                    document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
                     this.classList.add('active');
-                    
-                    // 获取要显示的分区ID
-                    const sectionId = this.getAttribute('data-section');
-                    
-                    // 隐藏所有内容分区
-                    contentSections.forEach(section => {
-                        section.classList.remove('active');
-                    });
-                    
-                    // 显示对应的内容分区
-                    const targetSection = document.getElementById(sectionId);
-                    if(targetSection) {
-                        targetSection.classList.add('active');
-                        
-                        // 滚动到该section（移动端优化）
-                        if(window.innerWidth <= 768) {
-                            setTimeout(() => {
-                                targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                            }, 100);
-                        }
-                    }
-                    
-                    // 控制信息框的显示（只在概述页面显示）
-                    if(sectionId === 'overview') {
-                        infobox.classList.remove('hidden');
-                    } else {
-                        infobox.classList.add('hidden');
-                    }
                 });
-            });
-            
-            // 返回顶部功能
-            const backToTopBtn = document.getElementById('back-to-top');
-            
-            window.addEventListener('scroll', function() {
-                if (window.pageYOffset > 300) {
-                    backToTopBtn.style.display = 'flex';
-                } else {
-                    backToTopBtn.style.display = 'none';
-                }
-            });
-            
-            backToTopBtn.addEventListener('click', function() {
-                window.scrollTo({
-                    top: 0,
-                    behavior: 'smooth'
-                });
-            });
-            
-            // 页面加载时滚动到顶部
-            window.scrollTo(0, 0);
-            
-            // 电脑端左侧导航栏划动功能
-            const leftNav = document.getElementById('left-nav');
-            let isDragging = false;
-            let startY, scrollTop;
-            
-            // 鼠标事件
-            leftNav.addEventListener('mousedown', function(e) {
-                isDragging = true;
-                startY = e.pageY - leftNav.offsetTop;
-                scrollTop = leftNav.scrollTop;
-                leftNav.style.cursor = 'grabbing';
-            });
-            
-            document.addEventListener('mousemove', function(e) {
-                if (!isDragging) return;
-                e.preventDefault();
-                const y = e.pageY - leftNav.offsetTop;
-                const walk = (y - startY) * 2; // 滚动速度因子
-                leftNav.scrollTop = scrollTop - walk;
-            });
-            
-            document.addEventListener('mouseup', function() {
-                isDragging = false;
-                leftNav.style.cursor = 'default';
-            });
-            
-            // 鼠标滚轮事件
-            leftNav.addEventListener('wheel', function(e) {
-                // 防止页面整体滚动
-                if (leftNav.scrollHeight > leftNav.clientHeight) {
-                    e.preventDefault();
-                    leftNav.scrollTop += e.deltaY;
-                }
-            });
-            
-            // 触摸事件（移动端）
-            leftNav.addEventListener('touchstart', function(e) {
-                if (window.innerWidth <= 992) return; // 移动端使用原生滚动
-                startY = e.touches[0].pageY;
-                scrollTop = leftNav.scrollTop;
-            }, { passive: true });
-            
-            leftNav.addEventListener('touchmove', function(e) {
-                if (window.innerWidth <= 992) return; // 移动端使用原生滚动
-                e.preventDefault();
-                const y = e.touches[0].pageY;
-                const walk = (y - startY) * 2;
-                leftNav.scrollTop = scrollTop - walk;
-                startY = y;
-                scrollTop = leftNav.scrollTop;
-            }, { passive: false });
-            
-            // 悬停时显示滚动条
-            leftNav.addEventListener('mouseenter', function() {
-                this.style.overflowY = 'auto';
-            });
-            
-            leftNav.addEventListener('mouseleave', function() {
-                if (!isDragging) {
-                    this.style.overflowY = 'auto';
-                }
             });
         });
-        
-        // 辅助函数
-        function scrollToTop() {
-            window.scrollTo({
-                top: 0,
-                behavior: 'smooth'
-            });
-            return false;
+
+        // ==================== 留言板功能 ====================
+        const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
+
+        function showToast(message, type = 'success') {
+            const toast = document.getElementById('gb-toast');
+            toast.textContent = message;
+            toast.className = `gb-toast ${type}`;
+            toast.style.display = 'block';
+            setTimeout(() => { toast.style.display = 'none'; }, 4000);
         }
-        
-        function scrollToBottom() {
-            window.scrollTo({
-                top: document.body.scrollHeight,
-                behavior: 'smooth'
-            });
-            return false;
+
+        function escapeHtml(text) {
+            const div = document.createElement('div');
+            div.textContent = text;
+            return div.innerHTML;
         }
-        
-        // 移动端触摸滑动支持
-        let startY;
-        document.addEventListener('touchstart', function(e) {
-            startY = e.touches[0].clientY;
-        }, { passive: true });
-        
-        document.addEventListener('touchend', function(e) {
-            const endY = e.changedTouches[0].clientY;
-            const diff = startY - endY;
-            
-            // 向下滑动超过100px显示返回顶部按钮
-            if (diff > 100 && window.pageYOffset > 300) {
-                document.getElementById('back-to-top').style.display = 'flex';
+
+        function formatTime(isoString) {
+            const date = new Date(isoString);
+            return date.toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
+        }
+
+        async function loadGuestbookMessages() {
+            const container = document.getElementById('gb-messages');
+            const loading = document.getElementById('gb-loading');
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/messages?select=*&approved=eq.true&order=created_at.desc&limit=50`, {
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
+                });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                const messages = await response.json();
+                loading.style.display = 'none';
+                if (messages.length === 0) {
+                    container.innerHTML = '<div class="gb-empty-state"><i class="fas fa-inbox"></i><p>还没有留言，快来第一个发言吧！</p></div>';
+                    return;
+                }
+                container.innerHTML = messages.map(msg => `
+                    <div class="gb-item">
+                        <div class="gb-item-header">
+                            <span class="gb-user"><i class="fas fa-user"></i> ${escapeHtml(msg.username || '匿名用户')}</span>
+                            <span class="gb-time"><i class="far fa-clock"></i> ${formatTime(msg.created_at)}</span>
+                        </div>
+                        <div class="gb-content">${escapeHtml(msg.content)}</div>
+                    </div>
+                `).join('');
+            } catch (error) {
+                console.error('加载留言失败:', error);
+                loading.innerHTML = '<p class="error"><i class="fas fa-exclamation-triangle"></i> 加载失败，请刷新页面重试</p>';
             }
-        }, { passive: true });
-        
-        // 防止移动端双击缩放
-        let lastTouchEnd = 0;
-        document.addEventListener('touchend', function(event) {
-            const now = Date.now();
-            if (now - lastTouchEnd <= 300) {
-                event.preventDefault();
+        }
+
+        async function submitGuestbookMessage() {
+            const messageInput = document.getElementById('gb-message');
+            const usernameInput = document.getElementById('gb-username');
+            const submitBtn = document.getElementById('gb-submit-btn');
+            const btnText = submitBtn.querySelector('.btn-text');
+            const btnLoading = submitBtn.querySelector('.btn-loading');
+            const charCount = document.getElementById('gb-char-count');
+            const content = messageInput.value.trim();
+            const username = usernameInput.value.trim();
+
+            if (content.length < 2) { showToast('留言内容太短啦', 'error'); return; }
+            if (content.length > 500) { showToast('留言不能超过500字符', 'error'); return; }
+
+            submitBtn.disabled = true;
+            btnText.style.display = 'none';
+            btnLoading.style.display = 'inline';
+            try {
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/messages`, {
+                    method: 'POST',
+                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ 
+                        content, 
+                        username: username || '匿名用户', 
+                        created_at: new Date().toISOString(), 
+                        approved: true 
+                    })
+                });
+                if (!response.ok) throw new Error(`HTTP ${response.status}`);
+                showToast('留言发布成功！', 'success');
+                messageInput.value = '';
+                usernameInput.value = '';
+                charCount.textContent = '0';
+                setTimeout(loadGuestbookMessages, 800);
+            } catch (error) {
+                console.error('提交失败:', error);
+                showToast('发布失败，网络似乎出了点问题', 'error');
+            } finally {
+                submitBtn.disabled = false;
+                btnText.style.display = 'inline';
+                btnLoading.style.display = 'none';
             }
-            lastTouchEnd = now;
-        }, false);
+        }
+
+        // 留言板初始化
+        document.getElementById('gb-message').addEventListener('input', function() {
+            document.getElementById('gb-char-count').textContent = this.value.length;
+        });
+
+        if (document.readyState === 'loading') {
+            document.addEventListener('DOMContentLoaded', loadGuestbookMessages);
+        } else {
+            loadGuestbookMessages();
+        }
     </script>
 </body>
 </html>
