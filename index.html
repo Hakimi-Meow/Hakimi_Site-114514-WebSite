@@ -12,14 +12,15 @@
             box-sizing: border-box;
             font-family: 'Segoe UI', 'Linux Libertine', 'Georgia', 'Times', serif;
         }
-
+        
         body {
             background-color: #1a1a1a;
             color: #e6e6e6;
             line-height: 1.6;
             min-height: 100vh;
         }
-
+        
+        /* 返回顶部按钮 */
         #back-to-top {
             position: fixed;
             bottom: 30px;
@@ -35,15 +36,16 @@
             font-size: 24px;
             cursor: pointer;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
             transition: all 0.3s ease;
         }
-
+        
         #back-to-top:hover {
             background-color: #2980b9;
             transform: translateY(-3px);
         }
-
+        
+        /* 移动端菜单按钮 */
         .mobile-menu-btn {
             display: none;
             background: none;
@@ -52,7 +54,8 @@
             font-size: 24px;
             cursor: pointer;
         }
-
+        
+        /* 维基百科风格头部 */
         .wiki-header {
             background-color: #0d0d0d;
             border-bottom: 1px solid #333;
@@ -61,7 +64,7 @@
             top: 0;
             z-index: 1000;
         }
-
+        
         .header-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -70,7 +73,7 @@
             justify-content: space-between;
             align-items: center;
         }
-
+        
         .wiki-logo {
             font-size: 1.8rem;
             font-weight: bold;
@@ -79,29 +82,29 @@
             align-items: center;
             gap: 10px;
         }
-
+        
         .wiki-logo i {
             color: #4a9eff;
         }
-
+        
         .wiki-nav ul {
             display: flex;
             list-style: none;
             gap: 25px;
         }
-
+        
         .wiki-nav a {
             color: #ccc;
             text-decoration: none;
             font-size: 0.95rem;
             transition: color 0.2s;
         }
-
+        
         .wiki-nav a:hover {
             color: #4a9eff;
             text-decoration: underline;
         }
-
+        
         .search-box {
             display: flex;
             align-items: center;
@@ -110,7 +113,7 @@
             border-radius: 3px;
             overflow: hidden;
         }
-
+        
         .search-box input {
             background: transparent;
             border: none;
@@ -118,7 +121,7 @@
             color: #e6e6e6;
             width: 200px;
         }
-
+        
         .search-box button {
             background-color: #333;
             border: none;
@@ -126,7 +129,8 @@
             padding: 8px 15px;
             cursor: pointer;
         }
-
+        
+        /* 主要内容区域 - 修改为左右布局 */
         .wiki-container {
             max-width: 1200px;
             margin: 0 auto;
@@ -134,13 +138,14 @@
             display: flex;
             gap: 30px;
         }
-
+        
+        /* 左侧导航栏 */
         .left-nav {
             width: 250px;
             background-color: #222;
             border-radius: 3px;
             padding: 20px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             align-self: flex-start;
             position: sticky;
             top: 80px;
@@ -149,25 +154,26 @@
             overflow-y: auto;
             max-height: calc(100vh - 100px);
         }
-
+        
+        /* 电脑端滚动条样式 */
         .left-nav::-webkit-scrollbar {
             width: 8px;
         }
-
+        
         .left-nav::-webkit-scrollbar-track {
             background: #2a2a2a;
             border-radius: 4px;
         }
-
+        
         .left-nav::-webkit-scrollbar-thumb {
             background: #4a9eff;
             border-radius: 4px;
         }
-
+        
         .left-nav::-webkit-scrollbar-thumb:hover {
             background: #2980b9;
         }
-
+        
         .nav-title {
             background-color: #333;
             padding: 12px;
@@ -177,27 +183,27 @@
             font-weight: bold;
             color: #fff;
         }
-
+        
         .nav-section {
             margin-bottom: 25px;
             padding-bottom: 20px;
             border-bottom: 1px solid #3a3a3a;
         }
-
+        
         .nav-section h3 {
             color: #4a9eff;
             margin-bottom: 10px;
             font-size: 1.1rem;
         }
-
+        
         .nav-links {
             list-style: none;
         }
-
+        
         .nav-links li {
             margin-bottom: 8px;
         }
-
+        
         .nav-links a {
             color: #ccc;
             text-decoration: none;
@@ -208,27 +214,28 @@
             border-radius: 3px;
             transition: all 0.2s;
         }
-
+        
         .nav-links a:hover {
             color: #4a9eff;
             background-color: #2a2a2a;
         }
-
+        
         .nav-links a.active {
             color: #4a9eff;
             background-color: #2a2a2a;
             border-left: 3px solid #4a9eff;
         }
-
+        
+        /* 右侧主要内容 */
         .main-content {
             flex: 1;
             background-color: #222;
             border-radius: 3px;
             padding: 30px;
-            box-shadow: 0 2px 5px rgba(0,0,0,0.3);
+            box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
             position: relative;
         }
-
+        
         .page-title {
             border-bottom: 1px solid #4a9eff;
             padding-bottom: 15px;
@@ -237,13 +244,13 @@
             align-items: center;
             gap: 15px;
         }
-
+        
         .page-title h1 {
             font-size: 2.2rem;
             color: #fff;
             font-weight: normal;
         }
-
+        
         .server-avatar {
             width: 80px;
             height: 80px;
@@ -251,7 +258,8 @@
             border: 3px solid #4a9eff;
             object-fit: cover;
         }
-
+        
+        /* 信息框 - 只在概述页面显示 */
         .infobox {
             background-color: #2a2a2a;
             border: 1px solid #444;
@@ -263,11 +271,11 @@
             margin-left: 25px;
             display: block;
         }
-
+        
         .infobox.hidden {
             display: none;
         }
-
+        
         .infobox-title {
             background-color: #333;
             padding: 10px;
@@ -276,23 +284,23 @@
             border-bottom: 1px solid #444;
             font-weight: bold;
         }
-
+        
         .infobox-row {
             display: flex;
             padding: 8px 0;
             border-bottom: 1px solid #3a3a3a;
         }
-
+        
         .infobox-label {
             font-weight: bold;
             width: 120px;
             color: #ccc;
         }
-
+        
         .infobox-value {
             flex: 1;
         }
-
+        
         .creator-avatar {
             width: 40px;
             height: 60px;
@@ -302,16 +310,17 @@
             margin-right: 8px;
             border: 1px solid #555;
         }
-
+        
+        /* 内容分区 */
         .content-section {
             margin-bottom: 40px;
-            display: none;
+            display: none; /* 默认隐藏所有分区 */
         }
-
+        
         .content-section.active {
-            display: block;
+            display: block; /* 显示当前激活的分区 */
         }
-
+        
         .section-title {
             background-color: #2a2a2a;
             padding: 12px 20px;
@@ -320,11 +329,11 @@
             font-size: 1.5rem;
             color: #fff;
         }
-
+        
         .section-content {
             padding: 0 10px;
         }
-
+        
         .placeholder-text {
             background-color: #2a2a2a;
             padding: 15px;
@@ -334,7 +343,7 @@
             font-style: italic;
             border-left: 3px solid #555;
         }
-
+        
         .content-text {
             background-color: #2a2a2a;
             padding: 15px;
@@ -343,7 +352,7 @@
             color: #e6e6e6;
             border-left: 3px solid #555;
         }
-
+        
         .warning-box {
             background-color: #332222;
             padding: 20px;
@@ -351,7 +360,7 @@
             margin-bottom: 20px;
             border-left: 5px solid #ff6b6b;
         }
-
+        
         .warning-box h3 {
             color: #ff6b6b;
             margin-bottom: 10px;
@@ -359,7 +368,7 @@
             align-items: center;
             gap: 10px;
         }
-
+        
         .info-box {
             background-color: #223322;
             padding: 20px;
@@ -367,7 +376,7 @@
             margin-bottom: 20px;
             border-left: 5px solid #4a9eff;
         }
-
+        
         .info-box h3 {
             color: #4a9eff;
             margin-bottom: 10px;
@@ -375,7 +384,7 @@
             align-items: center;
             gap: 10px;
         }
-
+        
         .qq-group-box {
             background-color: #2a2a2a;
             padding: 25px;
@@ -384,7 +393,7 @@
             text-align: center;
             border: 2px solid #4a9eff;
         }
-
+        
         .qq-number {
             font-size: 2.5rem;
             font-weight: bold;
@@ -393,7 +402,7 @@
             margin: 15px 0;
             letter-spacing: 2px;
         }
-
+        
         .creator-profile {
             display: flex;
             align-items: center;
@@ -403,7 +412,7 @@
             background-color: #2a2a2a;
             border-radius: 8px;
         }
-
+        
         .creator-profile-img {
             width: 120px;
             height: 180px;
@@ -411,17 +420,17 @@
             border-radius: 8px;
             border: 3px solid #4a9eff;
         }
-
+        
         .creator-info {
             flex: 1;
         }
-
+        
         .creator-title {
             font-size: 1.8rem;
             color: #4a9eff;
             margin-bottom: 10px;
         }
-
+        
         /* 留言板样式 */
         .gb-form { margin-bottom: 2.5rem; }
         .gb-form-row { margin-bottom: 1.2rem; }
@@ -583,7 +592,8 @@
             margin: 0 auto;
             line-height: 1.8;
         }
-
+        
+        /* 移动端快速导航 */
         .mobile-quick-nav {
             display: none;
             position: fixed;
@@ -595,17 +605,17 @@
             padding: 10px 0;
             z-index: 999;
         }
-
+        
         .mobile-quick-nav ul {
             display: flex;
             justify-content: space-around;
             list-style: none;
         }
-
+        
         .mobile-quick-nav li {
             text-align: center;
         }
-
+        
         .mobile-quick-nav a {
             color: #ccc;
             text-decoration: none;
@@ -615,24 +625,25 @@
             gap: 5px;
             font-size: 0.8rem;
         }
-
+        
         .mobile-quick-nav i {
             font-size: 1.2rem;
         }
-
+        
+        /* 页脚 */
         .wiki-footer {
             background-color: #0d0d0d;
             border-top: 1px solid #333;
             padding: 30px 0;
             margin-top: 50px;
         }
-
+        
         .footer-container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
         }
-
+        
         .disclaimer {
             background-color: #2a2a2a;
             border: 1px solid #666;
@@ -640,12 +651,12 @@
             border-radius: 3px;
             margin-bottom: 20px;
         }
-
+        
         .disclaimer h3 {
             color: #ff6b6b;
             margin-bottom: 10px;
         }
-
+        
         .copyright {
             text-align: center;
             padding-top: 20px;
@@ -654,12 +665,13 @@
             border-top: 1px solid #333;
             margin-top: 20px;
         }
-
+        
+        /* 响应式设计 */
         @media (max-width: 992px) {
             .wiki-container {
                 flex-direction: column;
             }
-
+            
             .left-nav {
                 width: 100%;
                 position: static;
@@ -667,26 +679,27 @@
                 max-height: none;
                 overflow-y: visible;
             }
-
+            
             .infobox {
                 float: none;
                 width: 100%;
                 margin-left: 0;
             }
-
+            
             .creator-profile {
                 flex-direction: column;
                 text-align: center;
             }
-
+            
+            /* 移动端导航栏 */
             .mobile-menu-btn {
                 display: block;
             }
-
+            
             .wiki-nav {
                 display: none;
             }
-
+            
             .wiki-nav.active {
                 display: block;
                 position: absolute;
@@ -697,42 +710,111 @@
                 padding: 20px;
                 border-bottom: 1px solid #333;
             }
-
+            
             .wiki-nav.active ul {
                 flex-direction: column;
                 gap: 15px;
             }
-
+            
             .search-box {
                 margin-top: 15px;
                 width: 100%;
             }
-
+            
             .search-box input {
                 width: 100%;
             }
-
+            
+            /* 移动端快速导航 */
             .mobile-quick-nav {
                 display: block;
             }
-
+            
+            /* 移动端内容区域额外padding */
             .main-content {
                 padding: 20px 15px;
-                margin-bottom: 70px;
+                margin-bottom: 70px; /* 为底部快速导航留出空间 */
             }
-
+            
+            /* 返回顶部按钮位置调整 */
             #back-to-top {
                 bottom: 80px;
                 right: 20px;
             }
         }
+        
+        @media (max-width: 768px) {
+            .header-container {
+                flex-wrap: wrap;
+            }
+            
+            .wiki-logo {
+                font-size: 1.5rem;
+            }
+            
+            .page-title h1 {
+                font-size: 1.8rem;
+            }
+            
+            .qq-number {
+                font-size: 1.8rem;
+            }
+            
+            .section-title {
+                font-size: 1.3rem;
+                padding: 10px 15px;
+            }
+            
+            .creator-title {
+                font-size: 1.5rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .page-title {
+                flex-direction: column;
+                text-align: center;
+                gap: 10px;
+            }
+            
+            .page-title h1 {
+                font-size: 1.6rem;
+            }
+            
+            .infobox {
+                padding: 15px;
+            }
+            
+            .infobox-row {
+                flex-direction: column;
+                gap: 5px;
+            }
+            
+            .infobox-label {
+                width: 100%;
+            }
+        }
     </style>
 </head>
 <body>
-    <div id="back-to-top" onclick="scrollToTop()">
+    <!-- 返回顶部按钮 -->
+    <div id="back-to-top" title="返回顶部" onclick="scrollToTop()">
         <i class="fas fa-arrow-up"></i>
     </div>
-
+    
+    <!-- 移动端快速导航 -->
+    <nav class="mobile-quick-nav">
+        <ul>
+            <li><a href="#" onclick="showSection('overview'); return false;"><i class="fas fa-home"></i> 概述</a></li>
+            <li><a href="#" onclick="showSection('features'); return false;"><i class="fas fa-star"></i> 特色</a></li>
+            <li><a href="#" onclick="showSection('atmosphere'); return false;"><i class="fas fa-users"></i> 氛围</a></li>
+            <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 制作人</a></li>
+            <li><a href="#" onclick="showSection('qq'); return false;"><i class="fab fa-qq"></i> QQ群</a></li>
+            <li><a href="#" onclick="showSection('development'); showDevelopmentTab('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 留言板</a></li>
+        </ul>
+    </nav>
+    
+    <!-- 维基百科风格头部 -->
     <header class="wiki-header">
         <div class="header-container">
             <div class="wiki-logo">
@@ -740,47 +822,47 @@
                 <span>Site-114514 维基</span>
             </div>
             
-            <button class="mobile-menu-btn" onclick="toggleMobileMenu()">
+            <button class="mobile-menu-btn" id="mobile-menu-toggle">
                 <i class="fas fa-bars"></i>
             </button>
             
-            <nav class="wiki-nav" id="wikiNav">
+            <nav class="wiki-nav" id="main-nav">
                 <ul>
                     <li><a href="#" onclick="showSection('overview'); return false;">概述</a></li>
-                    <li><a href="#" onclick="showSection('maps'); return false;">服务器地图</a></li>
-                    <li><a href="#" onclick="showSection('creator'); return false;">关于创作者</a></li>
-                    <li><a href="#" onclick="showSection('notsure'); return false;">不知道写啥</a></li>
-                    <li><a href="#" onclick="showSection('contact'); return false;">联系我们</a></li>
-                    <li><a href="#" onclick="showSection('development'); return false;">玩家开发区</a></li>
-                    <li><a href="#" onclick="showSection('links'); return false;">外部链接</a></li>
+                    <li><a href="#" onclick="showSection('features'); return false;">服务器特色</a></li>
+                    <li><a href="#" onclick="showSection('atmosphere'); return false;">玩家氛围</a></li>
+                    <li><a href="#" onclick="showSection('creator'); return false;">制作人介绍</a></li>
                 </ul>
+                
                 <div class="search-box">
-                    <input type="text" placeholder="搜索本维基...">
-                    <button><i class="fas fa-search"></i></button>
+                    <input type="text" placeholder="搜索维基..." id="search-input">
+                    <button id="search-button"><i class="fas fa-search"></i></button>
                 </div>
             </nav>
         </div>
     </header>
-
+    
+    <!-- 主要内容区域 - 左侧导航栏，右侧主要内容 -->
     <div class="wiki-container">
-        <aside class="left-nav">
-            <div class="nav-title">
-                <i class="fas fa-compass"></i> 导航
-            </div>
+        <!-- 左侧导航栏 -->
+        <aside class="left-nav" id="left-nav">
+            <div class="nav-title">页面导航</div>
             
             <div class="nav-section">
-                <h3><i class="fas fa-home"></i> 主要页面</h3>
+                <h3>主要内容</h3>
                 <ul class="nav-links">
                     <li><a href="#" onclick="showSection('overview'); return false;" class="active"><i class="fas fa-info-circle"></i> 概述</a></li>
-                    <li><a href="#" onclick="showSection('maps'); return false;"><i class="fas fa-map"></i> 服务器地图</a></li>
-                    <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 关于创作者</a></li>
-                    <li><a href="#" onclick="showSection('notsure'); return false;"><i class="fas fa-question-circle"></i> 不知道写啥</a></li>
-                    <li><a href="#" onclick="showSection('contact'); return false;"><i class="fas fa-comments"></i> 联系我们与加入QQ群</a></li>
+                    <li><a href="#" onclick="showSection('features'); return false;"><i class="fas fa-star"></i> 服务器特色</a></li>
+                    <li><a href="#" onclick="showSection('atmosphere'); return false;"><i class="fas fa-users"></i> 玩家氛围</a></li>
+                    <li><a href="#" onclick="showSection('events'); return false;"><i class="fas fa-calendar-alt"></i> 活动</a></li>
+                    <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 制作人介绍</a></li>
+                    <li><a href="#" onclick="showSection('qq'); return false;"><i class="fab fa-qq"></i> QQ群信息</a></li>
+                    <li><a href="#" onclick="showSection('other'); return false;"><i class="fas fa-question"></i> 不知道写啥</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <h3><i class="fas fa-code"></i> 玩家开发区</h3>
+                <h3>玩家开发区</h3>
                 <ul class="nav-links">
                     <li><a href="#" onclick="showSection('development'); showDevelopmentTab('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 访客留言板</a></li>
                     <li><a href="#" onclick="showSection('development'); showDevelopmentTab('submission'); return false;"><i class="fas fa-paper-plane"></i> 投稿区</a></li>
@@ -788,84 +870,89 @@
             </div>
             
             <div class="nav-section">
-                <h3><i class="fas fa-external-link-alt"></i> 外部链接</h3>
+                <h3>其他页面</h3>
                 <ul class="nav-links">
                     <li><a href="#" onclick="showSection('links'); return false;"><i class="fas fa-link"></i> 外部链接</a></li>
                 </ul>
             </div>
             
-            <!-- 工具栏：改回原来的"返回上部"和"返回下部" -->
             <div class="nav-section">
-                <h3><i class="fas fa-tools"></i> 工具</h3>
+                <h3>工具</h3>
                 <ul class="nav-links">
-                    <li><a href="#top" onclick="scrollToTop(); return false;"><i class="fas fa-arrow-up"></i> 返回上部</a></li>
-                    <li><a href="#bottom" onclick="scrollToBottom(); return false;"><i class="fas fa-arrow-down"></i> 返回下部</a></li>
+                    <li><a href="#" onclick="scrollToTop(); return false;"><i class="fas fa-arrow-up"></i> 返回顶部</a></li>
+                    <li><a href="#" onclick="scrollToBottom(); return false;"><i class="fas fa-arrow-down"></i> 跳到底部</a></li>
                 </ul>
             </div>
         </aside>
-
+        
+        <!-- 右侧主要内容 -->
         <main class="main-content">
+            <!-- 页面标题 -->
             <div class="page-title">
-                <img src="https://via.placeholder.com/80" alt="Site-114514 Logo" class="server-avatar">
-                <h1>Site-114514</h1>
+                <img src="81DFBC14331A0B21C5B3C20246F25AFA.png" alt="Site-114514服务器头像" class="server-avatar">
+                <h1>Site-114514服务器</h1>
             </div>
-
-            <!-- 页面顺序与你一开始保持一致 -->
-            <section id="overview" class="content-section active">
-                <div class="infobox" id="overview-infobox">
-                    <div class="infobox-title">站点信息</div>
-                    <div class="infobox-row">
-                        <div class="infobox-label">Site-114514</div>
-                        <div class="infobox-value">PSCP国人社区服务器</div>
-                    </div>
-                    <div class="infobox-row">
-                        <div class="infobox-label">状态</div>
-                        <div class="infobox-value">正在运行</div>
-                    </div>
-                    <div class="infobox-row">
-                        <div class="infobox-label">创建日期</div>
-                        <div class="infobox-value">2025年1月■日 <br><small><i>正式开服时间为■■■■■</i></small></div>
-                    </div>
-                    <div class="infobox-row">
-                        <div class="infobox-label">版本</div>
-                        <div class="infobox-value">■/#%**#%/</div>
-                    </div>
-                    <div class="infobox-row">
-                        <div class="infobox-label">制作人与腐竹</div>
-                        <div class="infobox-value">
-                            <img src="https://via.placeholder.com/40x60" class="creator-avatar">
-                            白喵■■*# <small><i>现处于失踪，但时不时会活跃</i></small>
-                        </div>
-                    </div>
-                    <div class="infobox-row">
-                        <div class="infobox-label">前任服主</div>
-                        <div class="infobox-value">哈基米不哈气</div>
+            
+            <!-- 信息框 - 只在概述页面显示 -->
+            <aside class="infobox" id="infobox">
+                <div class="infobox-title">Site-114514</div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">类型</div>
+                    <div class="infobox-value">PSCP国人社区服务器</div>
+                </div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">状态</div>
+                    <div class="infobox-value">正在运行</div>
+                </div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">创建日期</div>
+                    <div class="infobox-value">2025年1月■日 <br><small><i>正式开服时间为■■■■■</i></small></div>
+                </div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">版本</div>
+                    <div class="infobox-value">■/#%**#%/</div>
+                </div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">现任服主</div>
+                    <div class="infobox-value">
+                        <img src="0347627A3CFEAB6962BCDCAAF26A7876.png" alt="制作人头像" class="creator-avatar">
+                        <span>哈基米</span>
                     </div>
                 </div>
                 
-                <div class="section-title">
-                    <i class="fas fa-info-circle"></i> 服务器简介
-                </div>
-                <div class="section-content">
-                    <div class="content-text">
-                        Site-114514是一个PSCP重插件服包括但不限于912 062-DE 247-J……<剩下的需要你自己去探索>
-                        当然如果想要教学<看祂想不想发>，请关注哈基米B站账号:哈基米_不哈气
+                <div class="infobox-row">
+                    <div class="infobox-label">前任服主</div>
+                    <div class="infobox-value">
+                        白喵■■*# <small><i>现处于失踪，但时不时会活跃</i></small>
                     </div>
                 </div>
-
-                <div class="section-title">
-                    <i class="fas fa-star"></i> 服务器特色概述
-                </div>
+            </aside>
+            
+            <!-- 内容分区 - 默认显示第一个 -->
+            <section class="content-section active" id="overview">
+                <h2 class="section-title">概述</h2>
                 <div class="section-content">
+                    <div class="info-box">
+                        <h3><i class="fas fa-info-circle"></i> 服务器简介</h3>
+                        <p>Site-114514是一个PSCP重插件服包括但不限于912 062-DE 247-J……<剩下的需要你自己去探索></p>
+                        <p>当然如果想要教学<看祂想不想发>，请关注哈基米B站账号:哈基米_不哈气</p>
+                    </div>
+                    
                     <div class="content-text">
-                        <ol>
-                            <li>独立地图[看wbt制作程度]</li>
-                            <li>超多SCP<不要和官网相比></li>
-                            <li>5K模式<现处于不开放></li>
-                            <li>以及良好的管理组<可能吧…></li>
-                            <li>GOC超多超模阵营<这是真的></li>
-                            <li>独立武器数值</li>
-                        </ol>
+                        <h3>服务器特色概述</h3>
+                        <ul>
+                            <li><strong>独立地图</strong>：[看wbt制作程度]</li>
+                            <li><strong>超多SCP</strong>：<不要和官网相比></li>
+                            <li><strong>5K模式</strong>：<现处于不开放></li>
+                            <li><strong>以及良好的管理组</strong>：<可能吧…></li>
+                            <li><strong>GOC超多超模阵营</strong>：<这是真的></li>
+                            <li><strong>独立武器数值</strong></li>
+                        </ul>
                     </div>
                     
                     <div class="warning-box">
@@ -881,61 +968,135 @@
                     </div>
                 </div>
             </section>
-
-            <section id="maps" class="content-section">
-                <div class="section-title">
-                    <i class="fas fa-map"></i> 服务器地图
-                </div>
+            
+            <section class="content-section" id="features">
+                <h2 class="section-title">服务器特色</h2>
                 <div class="section-content">
-                    <div class="placeholder-text">
-                        此处将展示服务器的地图信息、布局和重要位置标记。内容正在更新中...
+                    <div class="content-text">
+                        <h3>核心特色系统</h3>
+                        <p>Site-114514服务器的特色在于丰富的插件系统：</p>
+                        
+                        <h4>1. GOC阵营</h4>
+                        <ul>
+                            <li>破碎之刃</li>
+                            <li>1102</li>
+                            <li>急急急</li>
+                            <li>最大伤害</li>
+                            <li>735</li>
+                            <li>评估</li>
+                            <li>攻击</li>
+                            <li>101</li>
+                            <li>75</li>
+                            <li>陆军</li>
+                            <li>特工组</li>
+                        </ul>
+                        
+                        <h4>2. 基金会阵营</h4>
+                        <ul>
+                            <li>A1</li>
+                            <li>O1</li>
+                            <li>AMTFnu7</li>
+                            <li>R1</li>
+                            <li>A9</li>
+                            <li>T5</li>
+                            <li>O0</li>
+                            <li>MO</li>
+                        </ul>
+                        
+                        <h4>3. CI阵营</h4>
+                        <ul>
+                            <li>德尔塔突袭</li>
+                            <li>空降</li>
+                            <li>暗影突击</li>
+                            <li>西格玛</li>
+                            <li>VDV</li>
+                        </ul>
+                        
+                        <p><i><以上是一些服务器内能看见的，有些东西是不会刷的></i></p>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3><i class="fas fa-lightbulb"></i> 特色总结</h3>
+                        <p>总体算下来还是不错的，总之这是一个还算还行的服务器，管理组也不错，可以算是比较欢乐的服务器，最后欢迎你来玩儿，我们永远欢迎任何人<一定要开聊天框></p>
                     </div>
                 </div>
             </section>
-
-            <section id="creator" class="content-section">
-                <div class="section-title">
-                    <i class="fas fa-user"></i> 关于创作者
+            
+            <section class="content-section" id="atmosphere">
+                <h2 class="section-title">玩家氛围</h2>
+                <div class="section-content">
+                    <div class="content-text">
+                        <h3>服务器社区氛围特点</h3>
+                        <ol>
+                            <li><strong>可能会有太多唐人，不要红温</strong>：服务器内可能有较多新手玩家，请保持耐心。</li>
+                            <li><strong>有大手子，被打爆一条线的时候，不要生气</strong>：服务器中有高水平玩家，被压制时请保持良好心态。</li>
+                            <li><strong>会有管理神权<这是肯定的></strong>：管理员在服务器中有一定的权威，请尊重管理决定。</li>
+                        </ol>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3><i class="fas fa-heart"></i> 社区精神</h3>
+                        <p>我们致力于打造一个友好、互助的游戏社区。无论你是新手还是老玩家，都能在这里找到属于你的乐趣。</p>
+                        <p>记住：游戏是为了快乐，输赢不是全部！</p>
+                    </div>
                 </div>
+            </section>
+            
+            <section class="content-section" id="events">
+                <h2 class="section-title">活动</h2>
+                <div class="section-content">
+                    <div class="content-text">
+                        <h3>服务器活动安排</h3>
+                        <p>一些特殊节日会有特殊活动，当然也会有管理组团建，你也可以来参加<前提是你必须有一个管理的好友></p>
+                        
+                        <h4>活动类型</h4>
+                        <ul>
+                            <li><strong>节日活动</strong>：在各种传统和游戏节日期间举办的特殊活动</li>
+                            <li><strong>管理组团建</strong>：由管理组织的团队建设活动</li>
+                            <li><strong>竞赛活动</strong>：PVP、建筑比赛等竞技性活动</li>
+                            <li><strong>社区活动</strong>：玩家自发组织的各种趣味活动</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3><i class="fas fa-calendar-check"></i> 参与须知</h3>
+                        <p>想要参加活动？请注意：</p>
+                        <ol>
+                            <li>关注QQ群公告，活动会提前通知</li>
+                            <li>有些活动需要提前报名</li>
+                            <li>遵守活动规则，尊重其他参与者</li>
+                            <li>活动奖励将在活动结束后发放</li>
+                        </ol>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="content-section" id="creator">
+                <h2 class="section-title">制作人介绍</h2>
                 <div class="section-content">
                     <div class="creator-profile">
-                        <img src="https://via.placeholder.com/120x180" alt="创作者头像" class="creator-profile-img">
+                        <img src="0347627A3CFEAB6962BCDCAAF26A7876.png" alt="哈基米" class="creator-profile-img">
                         <div class="creator-info">
-                            <h3 class="creator-title">Hakimi</h3>
-                            <p>Site-114514的现任服主，负责服务器的维护、更新和社区管理。</p>
-                            <p>对P:SCP游戏有着深厚的热情，致力于打造一个有趣且活跃的玩家社区。</p>
-                            <p><a href="https://space.bilibili.com/你的B站ID" target="_blank"><i class="fab fa-bilibili"></i> B站主页</a> | 
-                               <a href="https://github.com/Hakimi-Meow" target="_blank"><i class="fab fa-github"></i> GitHub</a></p>
+                            <h2 class="creator-title">哈基米</h2>
+                            <p><strong>现任服主</strong>：Site-114514服务器现任负责人</p>
+                            <p><strong>B站账号</strong>：<a href="https://space.bilibili.com/你的B站ID" target="_blank" style="color: #4a9eff;">哈基米_不哈气</a></p>
+                            <p><strong>GitHub</strong>：<a href="https://github.com/Hakimi-Meow" target="_blank" style="color: #4a9eff;">Hakimi-Meow</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="creator-profile">
+                        <div class="creator-info">
+                            <h2 class="creator-title">白喵■■*#</h2>
+                            <p><strong>前任服主</strong>：Site-114514服务器前任负责人</p>
+                            <p><strong>当前状态</strong>：<i>现处于失踪，但时不时会活跃</i></p>
+                            <p><strong>服务器贡献</strong>：为服务器早期发展做出了重要贡献</p>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <section id="notsure" class="content-section">
-                <div class="section-title">
-                    <i class="fas fa-question-circle"></i> 不知道写啥
-                </div>
-                <div class="section-content">
-                    <div class="placeholder-text">
-                        这个页面还没想好要写什么内容，以后可能会添加更多有趣的东西...
-                    </div>
-                    <div class="content-text">
-                        <p>这里可以放一些零散的想法、有趣的发现，或者服务器里发生的有趣事情。</p>
-                        <p>也许以后会变成：</p>
-                        <ul>
-                            <li>服务器趣事记录</li>
-                            <li>玩家精彩瞬间</li>
-                            <li>开发日志</li>
-                            <li>随便写写的地方</li>
-                        </ul>
-                    </div>
-                </div>
-            </section>
-
-            <section id="contact" class="content-section">
-                <div class="section-title">
-                    <i class="fas fa-comments"></i> 联系我们与加入QQ群
-                </div>
+            
+            <section class="content-section" id="qq">
+                <h2 class="section-title">QQ群信息</h2>
                 <div class="section-content">
                     <div class="qq-group-box">
                         <h3><i class="fab fa-qq"></i> Site-114514官方QQ群</h3>
@@ -958,7 +1119,7 @@
                         <ol>
                             <li>严格遵守群规</li>
                             <li>不要向新人玩家传授违规的知识<这里重点点名145></li>
-                            <li>看到违规要及时向Q群管理反映<附带截图></li>
+                            <li>看到违规要及时向Q群反映<附带截图></li>
                             <li>尊重他人，不要随便骂人</li>
                             <li>拥有良好的心理态度</li>
                             <li>您可以在管理申请期间申请管理，在此之后请遵守管理规则</li>
@@ -966,8 +1127,36 @@
                     </div>
                 </div>
             </section>
-
-            <section id="development" class="content-section">
+            
+            <section class="content-section" id="other">
+                <h2 class="section-title">不知道写啥</h2>
+                <div class="section-content">
+                    <div class="content-text">
+                        <h3>这个分区的来历</h3>
+                        <p>创建这个分区时，哈基米大人说："不知道写啥，就写不知道写啥吧。" 于是就有了这个分区。</p>
+                        <p>这个分区体现了Site-114514的核心哲学：不需要理由，不需要逻辑，存在本身就是意义。</p>
+                    </div>
+                    
+                    <div class="content-text">
+                        <h3>你可以在这里找到</h3>
+                        <ul>
+                            <li><strong>随机思考</strong>：哈基米大人偶尔会在这里写下他的哲学思考，比如"土豆为什么是土豆？"</li>
+                            <li><strong>无用信息</strong>：一些对游戏毫无帮助但有趣的信息，比如"服务器机房里有114514只蚂蚁"</li>
+                            <li><strong>占位文字</strong>：当其他分区不知道写什么时，就把内容放在这里</li>
+                            <li><strong>时间胶囊</strong>：玩家可以在这里留言给未来的自己或他人，但留言可能随机消失或变形</li>
+                        </ul>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3><i class="fas fa-question-circle"></i> 常见问题</h3>
+                        <p><strong>问：这个分区有什么用？</strong><br>答：没什么用，就像生活本身。</p>
+                        <p><strong>问：为什么要有这个分区？</strong><br>答：哈基米大人说要有，所以就有了。</p>
+                        <p><strong>问：这里的内容会更新吗？</strong><br>答：看心情，可能114514年不更新，也可能一天更新114514次。</p>
+                    </div>
+                </div>
+            </section>
+            
+            <section class="content-section" id="development">
                 <div class="section-title">
                     <i class="fas fa-code"></i> 玩家开发区
                 </div>
@@ -1018,68 +1207,58 @@
                     </div>
                 </div>
             </section>
-
-            <section id="links" class="content-section">
-                <div class="section-title">
-                    <i class="fas fa-external-link-alt"></i> 外部链接
-                </div>
+            
+            <section class="content-section" id="links">
+                <h2 class="section-title">外部链接</h2>
                 <div class="section-content">
-                    <!-- 外部链接改为原来的三个块链接格式 -->
-                    <div class="info-box">
-                        <h3><i class="fas fa-globe"></i> 官方网站</h3>
-                        <div class="content-text">
-                            <p>Project: SCP官方网站，包含社区服务器信息和相关文档。</p>
-                            <p><a href="https://projectscp.net/en/Other/CommunityServers/HookFunctions/" target="_blank">https://projectscp.net/en/Other/CommunityServers/HookFunctions/</a></p>
-                        </div>
+                    <div class="content-text">
+                        <h3>官方网站</h3>
+                        <p>Project: SCP官方网站，包含社区服务器信息和相关文档。</p>
+                        <p><a href="https://projectscp.net/en/Other/CommunityServers/HookFunctions/" target="_blank" style="color: #4a9eff;">https://projectscp.net/en/Other/CommunityServers/HookFunctions/</a></p>
                     </div>
                     
-                    <div class="info-box">
-                        <h3><i class="fas fa-download"></i> 客户端下载</h3>
-                        <div class="content-text">
-                            <p>下载Site-114514服务器客户端，开始你的游戏之旅。</p>
-                            <p><a href="https://autopatchcn.yuanshen.com/client_app/download/Android/20251124182449_lRpe1GTcjzBZQBU1/ydbackup307/yuanshen_6.2.0.apk" target="_blank">Android客户端下载链接</a></p>
-                        </div>
+                    <div class="content-text">
+                        <h3>客户端下载</h3>
+                        <p>下载Site-114514服务器客户端，开始你的游戏之旅。</p>
+                        <p><a href="https://autopatchcn.yuanshen.com/client_app/download/Android/20251124182449_lRpe1GTcjzBZQBU1/ydbackup307/yuanshen_6.2.0.apk" target="_blank" style="color: #4a9eff;">Android客户端下载链接</a></p>
                     </div>
                     
-                    <div class="info-box">
-                        <h3><i class="fab fa-qq"></i> QQ频道</h3>
-                        <div class="content-text">
-                            <p>加入我们的QQ频道，获取最新服务器动态和活动通知。</p>
-                            <p><a href="https://pd.qq.com/s/d7twgdzdo?b=9" target="_blank">https://pd.qq.com/s/d7twgdzdo?b=9</a></p>
-                        </div>
+                    <div class="content-text">
+                        <h3>QQ频道</h3>
+                        <p>加入我们的QQ频道，获取最新服务器动态和活动通知。</p>
+                        <p><a href="https://pd.qq.com/s/d7twgdzdo?b=9" target="_blank" style="color: #4a9eff;">https://pd.qq.com/s/d7twgdzdo?b=9</a></p>
                     </div>
                 </div>
             </section>
         </main>
     </div>
-
-    <nav class="mobile-quick-nav">
-        <ul>
-            <li><a href="#" onclick="showSection('overview'); return false;"><i class="fas fa-home"></i> 概述</a></li>
-            <li><a href="#" onclick="showSection('maps'); return false;"><i class="fas fa-map"></i> 地图</a></li>
-            <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 创作者</a></li>
-            <li><a href="#" onclick="showSection('notsure'); return false;"><i class="fas fa-question-circle"></i> 不知道写啥</a></li>
-            <li><a href="#" onclick="showSection('development'); showDevelopmentTab('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 留言板</a></li>
-            <li><a href="#" onclick="showSection('links'); return false;"><i class="fas fa-link"></i> 链接</a></li>
-        </ul>
-    </nav>
-
+    
+    <!-- 页脚 -->
     <footer class="wiki-footer">
         <div class="footer-container">
+            <!-- 免责声明 -->
             <div class="disclaimer">
                 <h3><i class="fas fa-exclamation-triangle"></i> 免责声明</h3>
-                <p>本站为Project: SCP社区的非官方维基页面。
-本站点仅为Site-114514服务器官网，所有内容均由社区成员创建和维护，与官方项目无关。</p>
-                <p>本站提到的所有游戏内容版权均属于其各自所有者。</p>
+                <p>本维基页面为Site-114514服务器的官方介绍页面，所有信息由哈基米大人提供和维护。哈基米大人对本页面内容的准确性你猜做不做保证。玩家在服务器中的行为应遵守服务器规则及相关法律法规。</p>
+                <p>本页面中使用的图片、标志等素材归其原作者所有，仅用于介绍目的。如有任何侵权问题，请联系页面维护者进行删除。(全是我自己的删个鸡毛)</p>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2025-2026 Site-114514 维基. 保留所有权利.</p>
-                <p>页面最后更新于 2026年1月</p>
+                <p>© 2025-2026 Site-114514服务器社区</p>
+                <p>页面最后更新于：2026年1月</p>
+                <p>本页面由哈基米大人的神秘力量驱动</p>
+                <p style="margin-top: 10px;">
+                    <a href="#" onclick="scrollToTop(); return false;" style="color: #4a9eff; text-decoration: none; margin-right: 15px;">
+                        <i class="fas fa-arrow-up"></i> 返回顶部
+                    </a>
+                    <a href="#" onclick="window.location.reload()" style="color: #4a9eff; text-decoration: none;">
+                        <i class="fas fa-redo"></i> 刷新页面
+                    </a>
+                </p>
             </div>
         </div>
     </footer>
-
+    
     <div id="gb-toast" class="gb-toast"></div>
 
     <script>
@@ -1133,7 +1312,7 @@
         }
 
         function toggleMobileMenu() {
-            const nav = document.getElementById('wikiNav');
+            const nav = document.getElementById('main-nav');
             nav.classList.toggle('active');
         }
 
@@ -1152,6 +1331,7 @@
             window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
         }
 
+        // 返回顶部按钮显示控制
         window.onscroll = function() {
             const backToTop = document.getElementById('back-to-top');
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
