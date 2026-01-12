@@ -593,7 +593,7 @@
             line-height: 1.8;
         }
         
-        /* 移动端快速导航 */
+        /* 移动端快速导航 - 第一版样式 */
         .mobile-quick-nav {
             display: none;
             position: fixed;
@@ -624,10 +624,66 @@
             align-items: center;
             gap: 5px;
             font-size: 0.8rem;
+            padding: 5px;
+            border-radius: 5px;
+            transition: all 0.2s;
+        }
+        
+        .mobile-quick-nav a:hover {
+            color: #4a9eff;
+            background-color: #2a2a2a;
         }
         
         .mobile-quick-nav i {
             font-size: 1.2rem;
+        }
+        
+        /* 外部链接样式 - 第一版格式 */
+        .external-links-grid {
+            display: flex;
+            flex-direction: column;
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .external-link-block {
+            background-color: #2a2a2a;
+            border: 1px solid #444;
+            border-radius: 5px;
+            padding: 15px;
+            transition: all 0.3s;
+        }
+        
+        .external-link-block:hover {
+            background-color: #333;
+            border-color: #4a9eff;
+            transform: translateY(-2px);
+        }
+        
+        .external-link-block h3 {
+            color: #4a9eff;
+            margin-bottom: 10px;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .external-link-block p {
+            color: #ccc;
+            margin-bottom: 10px;
+        }
+        
+        .external-link-block a {
+            color: #4a9eff;
+            text-decoration: none;
+            display: inline-flex;
+            align-items: center;
+            gap: 5px;
+        }
+        
+        .external-link-block a:hover {
+            text-decoration: underline;
         }
         
         /* 页脚 */
@@ -684,6 +740,7 @@
                 float: none;
                 width: 100%;
                 margin-left: 0;
+                margin-bottom: 20px;
             }
             
             .creator-profile {
@@ -741,6 +798,11 @@
                 bottom: 80px;
                 right: 20px;
             }
+            
+            /* 移动端外部链接网格 */
+            .external-links-grid {
+                grid-template-columns: 1fr;
+            }
         }
         
         @media (max-width: 768px) {
@@ -793,6 +855,14 @@
             .infobox-label {
                 width: 100%;
             }
+            
+            .mobile-quick-nav a {
+                font-size: 0.7rem;
+            }
+            
+            .mobile-quick-nav i {
+                font-size: 1rem;
+            }
         }
     </style>
 </head>
@@ -802,15 +872,14 @@
         <i class="fas fa-arrow-up"></i>
     </div>
     
-    <!-- 移动端快速导航 -->
+    <!-- 移动端快速导航 - 第一版样式 -->
     <nav class="mobile-quick-nav">
         <ul>
-            <li><a href="#" onclick="showSection('overview'); return false;"><i class="fas fa-home"></i> 概述</a></li>
-            <li><a href="#" onclick="showSection('features'); return false;"><i class="fas fa-star"></i> 特色</a></li>
-            <li><a href="#" onclick="showSection('atmosphere'); return false;"><i class="fas fa-users"></i> 氛围</a></li>
-            <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 制作人</a></li>
-            <li><a href="#" onclick="showSection('qq'); return false;"><i class="fab fa-qq"></i> QQ群</a></li>
-            <li><a href="#" onclick="showSection('development'); showDevelopmentTab('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 留言板</a></li>
+            <li><a href="#" onclick="showSection('overview'); return false;" data-section="overview"><i class="fas fa-home"></i> 概述</a></li>
+            <li><a href="#" onclick="showSection('features'); return false;" data-section="features"><i class="fas fa-star"></i> 特色</a></li>
+            <li><a href="#" onclick="showSection('creator'); return false;" data-section="creator"><i class="fas fa-user"></i> 制作人</a></li>
+            <li><a href="#" onclick="showSection('qq'); return false;" data-section="qq"><i class="fab fa-qq"></i> QQ群</a></li>
+            <li><a href="#" onclick="showSection('development'); showDevelopmentTab('guestbook'); return false;" data-section="development"><i class="fas fa-comment-dots"></i> 留言板</a></li>
         </ul>
     </nav>
     
@@ -870,9 +939,11 @@
             </div>
             
             <div class="nav-section">
-                <h3>其他页面</h3>
+                <h3>外部链接</h3>
                 <ul class="nav-links">
-                    <li><a href="#" onclick="showSection('links'); return false;"><i class="fas fa-link"></i> 外部链接</a></li>
+                    <li><a href="https://projectscp.net/en/Other/CommunityServers/HookFunctions/" target="_blank"><i class="fas fa-globe"></i> 游戏官网</a></li>
+                    <li><a href="https://autopatchcn.yuanshen.com/client_app/download/Android/20251124182449_lRpe1GTcjzBZQBU1/ydbackup307/yuanshen_6.2.0.apk" target="_blank"><i class="fas fa-download"></i> 游戏下载</a></li>
+                    <li><a href="https://pd.qq.com/s/d7twgdzdo?b=9" target="_blank"><i class="fab fa-qq"></i> QQ频道</a></li>
                 </ul>
             </div>
             
@@ -929,6 +1000,15 @@
                     <div class="infobox-label">前任服主</div>
                     <div class="infobox-value">
                         白喵■■*# <small><i>现处于失踪，但时不时会活跃</i></small>
+                    </div>
+                </div>
+                
+                <div class="infobox-row">
+                    <div class="infobox-label">看看哈基米的B♥</div>
+                    <div class="infobox-value">
+                        <a href="https://b23.tv/lSHNs5S" target="_blank" style="color: #4a9eff;">
+                            <i class="fab fa-bilibili"></i> 点♥击♥访♥问♥
+                        </a>
                     </div>
                 </div>
             </aside>
@@ -1079,8 +1159,8 @@
                         <div class="creator-info">
                             <h2 class="creator-title">哈基米</h2>
                             <p><strong>现任服主</strong>：Site-114514服务器现任负责人</p>
-                            <p><strong>B站账号</strong>：<a href="https://space.bilibili.com/你的B站ID" target="_blank" style="color: #4a9eff;">哈基米_不哈气</a></p>
-                            <p><strong>GitHub</strong>：<a href="https://github.com/Hakimi-Meow" target="_blank" style="color: #4a9eff;">Hakimi-Meow</a></p>
+                            <p><strong>看看哈基米的B♥</strong>：<a href="https://b23.tv/lSHNs5S" target="_blank" style="color: #4a9eff;"><i class="fab fa-bilibili"></i> 点♥击♥访♥问♥</a></p>
+                            <p><strong>服务器贡献</strong>：负责服务器的日常维护、更新和社区管理，对P:SCP游戏有着深厚的热情。</p>
                         </div>
                     </div>
                     
@@ -1089,7 +1169,7 @@
                             <h2 class="creator-title">白喵■■*#</h2>
                             <p><strong>前任服主</strong>：Site-114514服务器前任负责人</p>
                             <p><strong>当前状态</strong>：<i>现处于失踪，但时不时会活跃</i></p>
-                            <p><strong>服务器贡献</strong>：为服务器早期发展做出了重要贡献</p>
+                            <p><strong>服务器贡献</strong>：为服务器早期发展做出了重要贡献，奠定了服务器的基础架构。</p>
                         </div>
                     </div>
                 </div>
@@ -1211,22 +1291,30 @@
             <section class="content-section" id="links">
                 <h2 class="section-title">外部链接</h2>
                 <div class="section-content">
-                    <div class="content-text">
-                        <h3>官方网站</h3>
-                        <p>Project: SCP官方网站，包含社区服务器信息和相关文档。</p>
-                        <p><a href="https://projectscp.net/en/Other/CommunityServers/HookFunctions/" target="_blank" style="color: #4a9eff;">https://projectscp.net/en/Other/CommunityServers/HookFunctions/</a></p>
-                    </div>
-                    
-                    <div class="content-text">
-                        <h3>客户端下载</h3>
-                        <p>下载Site-114514服务器客户端，开始你的游戏之旅。</p>
-                        <p><a href="https://autopatchcn.yuanshen.com/client_app/download/Android/20251124182449_lRpe1GTcjzBZQBU1/ydbackup307/yuanshen_6.2.0.apk" target="_blank" style="color: #4a9eff;">Android客户端下载链接</a></p>
-                    </div>
-                    
-                    <div class="content-text">
-                        <h3>QQ频道</h3>
-                        <p>加入我们的QQ频道，获取最新服务器动态和活动通知。</p>
-                        <p><a href="https://pd.qq.com/s/d7twgdzdo?b=9" target="_blank" style="color: #4a9eff;">https://pd.qq.com/s/d7twgdzdo?b=9</a></p>
+                    <div class="external-links-grid">
+                        <div class="external-link-block">
+                            <h3><i class="fas fa-globe"></i> 游戏官网</h3>
+                            <p>Project: SCP官方网站，包含社区服务器信息和相关文档。</p>
+                            <a href="https://projectscp.net/en/Other/CommunityServers/HookFunctions/" target="_blank">
+                                <i class="fas fa-external-link-alt"></i> 访问官网
+                            </a>
+                        </div>
+                        
+                        <div class="external-link-block">
+                            <h3><i class="fas fa-download"></i> 游戏下载</h3>
+                            <p>下载Site-114514服务器客户端，开始你的游戏之旅。</p>
+                            <a href="https://autopatchcn.yuanshen.com/client_app/download/Android/20251124182449_lRpe1GTcjzBZQBU1/ydbackup307/yuanshen_6.2.0.apk" target="_blank">
+                                <i class="fas fa-download"></i> 下载客户端
+                            </a>
+                        </div>
+                        
+                        <div class="external-link-block">
+                            <h3><i class="fab fa-qq"></i> QQ频道</h3>
+                            <p>加入我们的QQ频道，获取最新服务器动态和活动通知。</p>
+                            <a href="https://pd.qq.com/s/d7twgdzdo?b=9" target="_blank">
+                                <i class="fab fa-qq"></i> 加入频道
+                            </a>
+                        </div>
                     </div>
                 </div>
             </section>
@@ -1269,31 +1357,69 @@
         function showSection(sectionId) {
             if (currentSection === sectionId) return;
             
+            // 隐藏所有内容分区
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
             });
             
+            // 更新左侧导航激活状态
             document.querySelectorAll('.nav-links a').forEach(link => {
                 link.classList.remove('active');
             });
             
-            document.getElementById(sectionId).classList.add('active');
+            // 移动端快速导航激活状态
+            document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
+                link.classList.remove('active');
+            });
             
+            // 显示目标分区
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+                
+                // 滚动到该section（移动端优化）
+                if (window.innerWidth <= 768) {
+                    setTimeout(() => {
+                        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                    }, 100);
+                }
+            }
+            
+            // 更新左侧导航激活状态
             const activeLink = document.querySelector(`.nav-links a[onclick*="${sectionId}"]`);
             if (activeLink) {
                 activeLink.classList.add('active');
             }
             
+            // 更新移动端导航激活状态
+            const mobileActiveLink = document.querySelector(`.mobile-quick-nav a[data-section="${sectionId}"]`);
+            if (mobileActiveLink) {
+                mobileActiveLink.classList.add('active');
+            }
+            
             currentSection = sectionId;
             
+            // 控制信息框的显示（只在概述页面显示）
+            const infobox = document.getElementById('infobox');
+            if (sectionId === 'overview') {
+                infobox.classList.remove('hidden');
+            } else {
+                infobox.classList.add('hidden');
+            }
+            
+            // 处理玩家开发区的标签页
             if (sectionId === 'development') {
                 showDevelopmentTab(currentDevTab);
             }
             
-            updateMobileNav();
+            // 移动端关闭菜单
+            if (window.innerWidth <= 992) {
+                document.getElementById('main-nav').classList.remove('active');
+            }
             
+            // 如果是留言板，加载消息
             if (sectionId === 'development' && currentDevTab === 'guestbook') {
-                loadGuestbookMessages();
+                setTimeout(loadGuestbookMessages, 300);
             }
         }
 
@@ -1311,17 +1437,20 @@
             }
         }
 
-        function toggleMobileMenu() {
+        // 移动端菜单切换
+        document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
             const nav = document.getElementById('main-nav');
             nav.classList.toggle('active');
-        }
+        });
 
-        function updateMobileNav() {
-            const quickNavLinks = document.querySelectorAll('.mobile-quick-nav a');
-            quickNavLinks.forEach(link => {
-                link.classList.remove('active');
-            });
-        }
+        // 点击页面其他区域关闭移动菜单
+        document.addEventListener('click', function(e) {
+            const nav = document.getElementById('main-nav');
+            const menuToggle = document.getElementById('mobile-menu-toggle');
+            if (!nav.contains(e.target) && !menuToggle.contains(e.target) && window.innerWidth <= 992) {
+                nav.classList.remove('active');
+            }
+        });
 
         function scrollToTop() {
             window.scrollTo({top: 0, behavior: 'smooth'});
@@ -1441,13 +1570,33 @@
 
         // 页面初始化
         document.addEventListener('DOMContentLoaded', function() {
+            // 默认显示概述页面
             showSection('overview');
             
+            // 字符计数
             document.getElementById('gb-message').addEventListener('input', function() {
                 document.getElementById('gb-char-count').textContent = this.value.length;
             });
             
+            // 移动端快速导航激活状态初始化
+            document.querySelector('.mobile-quick-nav a[data-section="overview"]').classList.add('active');
+            
+            // 初始加载留言
             loadGuestbookMessages();
+            
+            // 搜索功能
+            document.getElementById('search-button').addEventListener('click', performSearch);
+            document.getElementById('search-input').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') performSearch();
+            });
+            
+            function performSearch() {
+                const query = document.getElementById('search-input').value.trim();
+                if (query) {
+                    alert(`搜索功能：${query}\n实际搜索功能需要后端支持。`);
+                    document.getElementById('search-input').value = '';
+                }
+            }
         });
     </script>
 </body>
