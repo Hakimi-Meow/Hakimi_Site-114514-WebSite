@@ -35,7 +35,7 @@
             font-size: 24px;
             cursor: pointer;
             z-index: 1000;
-            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 4px 12px rgba(0,0,0,0.3);
             transition: all 0.3s ease;
         }
 
@@ -422,7 +422,7 @@
             margin-bottom: 10px;
         }
 
-        /* 留言板新增样式 */
+        /* 留言板样式 */
         .gb-form { margin-bottom: 2.5rem; }
         .gb-form-row { margin-bottom: 1.2rem; }
         .gb-input {
@@ -729,12 +729,10 @@
     </style>
 </head>
 <body>
-    <!-- 返回顶部按钮 -->
     <div id="back-to-top" onclick="scrollToTop()">
         <i class="fas fa-arrow-up"></i>
     </div>
 
-    <!-- 头部 -->
     <header class="wiki-header">
         <div class="header-container">
             <div class="wiki-logo">
@@ -748,12 +746,13 @@
             
             <nav class="wiki-nav" id="wikiNav">
                 <ul>
-                    <li><a href="#overview">概述</a></li>
-                    <li><a href="#maps">服务器地图</a></li>
-                    <li><a href="#creator">关于创作者</a></li>
-                    <li><a href="#contact">联系我们</a></li>
-                    <li><a href="#development">玩家开发区</a></li>
-                    <li><a href="#links">外部链接</a></li>
+                    <li><a href="#" onclick="showSection('overview'); return false;">概述</a></li>
+                    <li><a href="#" onclick="showSection('maps'); return false;">服务器地图</a></li>
+                    <li><a href="#" onclick="showSection('creator'); return false;">关于创作者</a></li>
+                    <li><a href="#" onclick="showSection('notsure'); return false;">不知道写啥</a></li>
+                    <li><a href="#" onclick="showSection('contact'); return false;">联系我们</a></li>
+                    <li><a href="#" onclick="showSection('development'); return false;">玩家开发区</a></li>
+                    <li><a href="#" onclick="showSection('links'); return false;">外部链接</a></li>
                 </ul>
                 <div class="search-box">
                     <input type="text" placeholder="搜索本维基...">
@@ -763,9 +762,7 @@
         </div>
     </header>
 
-    <!-- 主要内容容器 -->
     <div class="wiki-container">
-        <!-- 左侧导航 -->
         <aside class="left-nav">
             <div class="nav-title">
                 <i class="fas fa-compass"></i> 导航
@@ -777,16 +774,16 @@
                     <li><a href="#" onclick="showSection('overview'); return false;" class="active"><i class="fas fa-info-circle"></i> 概述</a></li>
                     <li><a href="#" onclick="showSection('maps'); return false;"><i class="fas fa-map"></i> 服务器地图</a></li>
                     <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 关于创作者</a></li>
+                    <li><a href="#" onclick="showSection('notsure'); return false;"><i class="fas fa-question-circle"></i> 不知道写啥</a></li>
                     <li><a href="#" onclick="showSection('contact'); return false;"><i class="fas fa-comments"></i> 联系我们与加入QQ群</a></li>
                 </ul>
             </div>
             
-            <!-- 新增：玩家开发区导航 -->
             <div class="nav-section">
                 <h3><i class="fas fa-code"></i> 玩家开发区</h3>
                 <ul class="nav-links">
-                    <li><a href="#" onclick="showSubSection('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 访客留言板</a></li>
-                    <li><a href="#" onclick="showSubSection('submission'); return false;"><i class="fas fa-paper-plane"></i> 投稿区</a></li>
+                    <li><a href="#" onclick="showSection('development'); showDevelopmentTab('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 访客留言板</a></li>
+                    <li><a href="#" onclick="showSection('development'); showDevelopmentTab('submission'); return false;"><i class="fas fa-paper-plane"></i> 投稿区</a></li>
                 </ul>
             </div>
             
@@ -797,24 +794,23 @@
                 </ul>
             </div>
             
+            <!-- 工具栏：改回原来的"返回上部"和"返回下部" -->
             <div class="nav-section">
                 <h3><i class="fas fa-tools"></i> 工具</h3>
                 <ul class="nav-links">
-                    <li><a href="#"><i class="fas fa-print"></i> 打印本页</a></li>
-                    <li><a href="#"><i class="fas fa-download"></i> 下载为PDF</a></li>
+                    <li><a href="#top" onclick="scrollToTop(); return false;"><i class="fas fa-arrow-up"></i> 返回上部</a></li>
+                    <li><a href="#bottom" onclick="scrollToBottom(); return false;"><i class="fas fa-arrow-down"></i> 返回下部</a></li>
                 </ul>
             </div>
         </aside>
 
-        <!-- 右侧主要内容 -->
         <main class="main-content">
-            <!-- 页面标题 -->
             <div class="page-title">
                 <img src="https://via.placeholder.com/80" alt="Site-114514 Logo" class="server-avatar">
                 <h1>Site-114514</h1>
             </div>
 
-            <!-- 概述页面 -->
+            <!-- 页面顺序与你一开始保持一致 -->
             <section id="overview" class="content-section active">
                 <div class="infobox" id="overview-infobox">
                     <div class="infobox-title">站点信息</div>
@@ -842,7 +838,7 @@
                         </div>
                     </div>
                     <div class="infobox-row">
-                        <div class="infobox-label">现任服主</div>
+                        <div class="infobox-label">前任服主</div>
                         <div class="infobox-value">哈基米不哈气</div>
                     </div>
                 </div>
@@ -886,7 +882,6 @@
                 </div>
             </section>
 
-            <!-- 服务器地图页面 -->
             <section id="maps" class="content-section">
                 <div class="section-title">
                     <i class="fas fa-map"></i> 服务器地图
@@ -898,7 +893,6 @@
                 </div>
             </section>
 
-            <!-- 关于创作者页面 -->
             <section id="creator" class="content-section">
                 <div class="section-title">
                     <i class="fas fa-user"></i> 关于创作者
@@ -910,12 +904,34 @@
                             <h3 class="creator-title">Hakimi</h3>
                             <p>Site-114514的现任服主，负责服务器的维护、更新和社区管理。</p>
                             <p>对P:SCP游戏有着深厚的热情，致力于打造一个有趣且活跃的玩家社区。</p>
+                            <p><a href="https://space.bilibili.com/你的B站ID" target="_blank"><i class="fab fa-bilibili"></i> B站主页</a> | 
+                               <a href="https://github.com/Hakimi-Meow" target="_blank"><i class="fab fa-github"></i> GitHub</a></p>
                         </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 联系我们与加入QQ群页面 -->
+            <section id="notsure" class="content-section">
+                <div class="section-title">
+                    <i class="fas fa-question-circle"></i> 不知道写啥
+                </div>
+                <div class="section-content">
+                    <div class="placeholder-text">
+                        这个页面还没想好要写什么内容，以后可能会添加更多有趣的东西...
+                    </div>
+                    <div class="content-text">
+                        <p>这里可以放一些零散的想法、有趣的发现，或者服务器里发生的有趣事情。</p>
+                        <p>也许以后会变成：</p>
+                        <ul>
+                            <li>服务器趣事记录</li>
+                            <li>玩家精彩瞬间</li>
+                            <li>开发日志</li>
+                            <li>随便写写的地方</li>
+                        </ul>
+                    </div>
+                </div>
+            </section>
+
             <section id="contact" class="content-section">
                 <div class="section-title">
                     <i class="fas fa-comments"></i> 联系我们与加入QQ群
@@ -951,136 +967,169 @@
                 </div>
             </section>
 
-            <!-- 玩家开发区 - 访客留言板 -->
-            <section id="guestbook" class="content-section">
+            <section id="development" class="content-section">
                 <div class="section-title">
-                    <i class="fas fa-comment-dots"></i> 访客留言板
+                    <i class="fas fa-code"></i> 玩家开发区
                 </div>
-                <div class="section-content">
-                    <p class="subtitle">欢迎在这里留下您的想法、建议或仅仅是打个招呼。</p>
-                    
-                    <div class="gb-form">
-                        <div class="gb-form-row">
-                            <input type="text" id="gb-username" class="gb-input" placeholder="您的昵称 (可选)" maxlength="20">
-                        </div>
-                        <div class="gb-form-row">
-                            <textarea id="gb-message" class="gb-input" placeholder="请在此输入您的留言...（内容将在提交后公开显示）" rows="4" required maxlength="500"></textarea>
-                            <div class="gb-char-count"><span id="gb-char-count">0</span> / 500</div>
-                        </div>
-                        <button id="gb-submit-btn" class="gb-button" onclick="submitGuestbookMessage()">
-                            <span class="btn-text"><i class="fas fa-paper-plane"></i> 发布留言</span>
-                            <span class="btn-loading" style="display:none;"><i class="fas fa-spinner fa-spin"></i> 发送中...</span>
-                        </button>
-                        <p class="gb-form-note"><i class="fas fa-info-circle"></i> 请文明发言，留言将公开显示。</p>
+                
+                <div id="guestbook" class="development-tab">
+                    <div class="section-title" style="margin-top:20px; font-size:1.3rem;">
+                        <i class="fas fa-comment-dots"></i> 访客留言板
                     </div>
-                    
-                    <div class="gb-messages" id="gb-messages">
-                        <div class="gb-loading-state" id="gb-loading">
-                            <div class="gb-spinner"></div>
-                            <p>正在加载留言...</p>
+                    <div class="section-content">
+                        <p class="subtitle">欢迎在这里留下您的想法、建议或仅仅是打个招呼。</p>
+                        
+                        <div class="gb-form">
+                            <div class="gb-form-row">
+                                <input type="text" id="gb-username" class="gb-input" placeholder="您的昵称 (可选)" maxlength="20">
+                            </div>
+                            <div class="gb-form-row">
+                                <textarea id="gb-message" class="gb-input" placeholder="请在此输入您的留言...（内容将在提交后公开显示）" rows="4" required maxlength="500"></textarea>
+                                <div class="gb-char-count"><span id="gb-char-count">0</span> / 500</div>
+                            </div>
+                            <button id="gb-submit-btn" class="gb-button" onclick="submitGuestbookMessage()">
+                                <span class="btn-text"><i class="fas fa-paper-plane"></i> 发布留言</span>
+                                <span class="btn-loading" style="display:none;"><i class="fas fa-spinner fa-spin"></i> 发送中...</span>
+                            </button>
+                            <p class="gb-form-note"><i class="fas fa-info-circle"></i> 请文明发言，留言将公开显示。</p>
                         </div>
-                        <!-- 留言列表将动态加载在这里 -->
+                        
+                        <div class="gb-messages" id="gb-messages">
+                            <div class="gb-loading-state" id="gb-loading">
+                                <div class="gb-spinner"></div>
+                                <p>正在加载留言...</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div id="submission" class="development-tab" style="display:none;">
+                    <div class="section-title" style="margin-top:20px; font-size:1.3rem;">
+                        <i class="fas fa-paper-plane"></i> 投稿区
+                    </div>
+                    <div class="section-content">
+                        <div class="submission-placeholder">
+                            <i class="fas fa-cogs"></i>
+                            <h3>网页开发中</h3>
+                            <p>投稿功能正在紧锣密鼓地开发中，即将上线！</p>
+                            <p>未来您可以在这里提交您的游戏截图、原创故事、插件建议等内容。</p>
+                            <p>敬请期待...</p>
+                        </div>
                     </div>
                 </div>
             </section>
 
-            <!-- 玩家开发区 - 投稿区 -->
-            <section id="submission" class="content-section">
-                <div class="section-title">
-                    <i class="fas fa-paper-plane"></i> 投稿区
-                </div>
-                <div class="section-content">
-                    <div class="submission-placeholder">
-                        <i class="fas fa-cogs"></i>
-                        <h3>网页开发中</h3>
-                        <p>投稿功能正在紧锣密鼓地开发中，即将上线！</p>
-                        <p>未来您可以在这里提交您的游戏截图、原创故事、插件建议等内容。</p>
-                        <p>敬请期待...</p>
-                    </div>
-                </div>
-            </section>
-
-            <!-- 外部链接页面 -->
             <section id="links" class="content-section">
                 <div class="section-title">
                     <i class="fas fa-external-link-alt"></i> 外部链接
                 </div>
                 <div class="section-content">
+                    <!-- 外部链接改为原来的三个块链接格式 -->
                     <div class="info-box">
-                        <h3><i class="fas fa-link"></i> 相关链接</h3>
-                        <ul>
-                            <li><a href="https://projectscp.net/en/Other/CommunityServers/HookFunctions/" target="_blank"><i class="fas fa-globe"></i> 官方网站</a> - Project SCP相关文档与社区服务器信息</li>
-                            <li><a href="https://autopatchcn.yuanshen.com/client_app/download/Android/20251124182449_lRpe1GTcjzBZQBU1/ydbackup307/yuanshen_6.2.0.apk" target="_blank"><i class="fas fa-download"></i> 客户端下载</a> - 下载服务器客户端</li>
-                            <li><a href="https://pd.qq.com/s/d7twgdzdo?b=9" target="_blank"><i class="fab fa-qq"></i> QQ频道</a> - 加入我们的QQ频道获取最新动态</li>
-                        </ul>
+                        <h3><i class="fas fa-globe"></i> 官方网站</h3>
+                        <div class="content-text">
+                            <p>Project: SCP官方网站，包含社区服务器信息和相关文档。</p>
+                            <p><a href="https://projectscp.net/en/Other/CommunityServers/HookFunctions/" target="_blank">https://projectscp.net/en/Other/CommunityServers/HookFunctions/</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3><i class="fas fa-download"></i> 客户端下载</h3>
+                        <div class="content-text">
+                            <p>下载Site-114514服务器客户端，开始你的游戏之旅。</p>
+                            <p><a href="https://autopatchcn.yuanshen.com/client_app/download/Android/20251124182449_lRpe1GTcjzBZQBU1/ydbackup307/yuanshen_6.2.0.apk" target="_blank">Android客户端下载链接</a></p>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3><i class="fab fa-qq"></i> QQ频道</h3>
+                        <div class="content-text">
+                            <p>加入我们的QQ频道，获取最新服务器动态和活动通知。</p>
+                            <p><a href="https://pd.qq.com/s/d7twgdzdo?b=9" target="_blank">https://pd.qq.com/s/d7twgdzdo?b=9</a></p>
+                        </div>
                     </div>
                 </div>
             </section>
         </main>
     </div>
 
-    <!-- 移动端快速导航 -->
     <nav class="mobile-quick-nav">
         <ul>
             <li><a href="#" onclick="showSection('overview'); return false;"><i class="fas fa-home"></i> 概述</a></li>
             <li><a href="#" onclick="showSection('maps'); return false;"><i class="fas fa-map"></i> 地图</a></li>
             <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 创作者</a></li>
-            <li><a href="#" onclick="showSection('development'); showSubSection('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 留言板</a></li>
+            <li><a href="#" onclick="showSection('notsure'); return false;"><i class="fas fa-question-circle"></i> 不知道写啥</a></li>
+            <li><a href="#" onclick="showSection('development'); showDevelopmentTab('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 留言板</a></li>
             <li><a href="#" onclick="showSection('links'); return false;"><i class="fas fa-link"></i> 链接</a></li>
         </ul>
     </nav>
 
-    <!-- 页脚 -->
     <footer class="wiki-footer">
         <div class="footer-container">
             <div class="disclaimer">
                 <h3><i class="fas fa-exclamation-triangle"></i> 免责声明</h3>
-                <p>本站为Project: SCP社区的非官方维基页面。所有内容均由社区成员创建和维护，与官方项目无关。</p>
+                <p>本站为Project: SCP社区的非官方维基页面。
+本站点仅为Site-114514服务器官网，所有内容均由社区成员创建和维护，与官方项目无关。</p>
                 <p>本站提到的所有游戏内容版权均属于其各自所有者。</p>
             </div>
             
             <div class="copyright">
-                <p>&copy; 2024-2025 Site-114514 维基. 保留所有权利.</p>
-                <p>页面最后更新于 2025年1月</p>
+                <p>&copy; 2025-2026 Site-114514 维基. 保留所有权利.</p>
+                <p>页面最后更新于 2026年1月</p>
             </div>
         </div>
     </footer>
 
-    <!-- 操作提示框 -->
     <div id="gb-toast" class="gb-toast"></div>
 
     <script>
-        // ==================== 原有页面功能 ====================
+        // ==================== 页面导航功能 ====================
+        let currentSection = 'overview';
+        let currentDevTab = 'guestbook';
+
         function showSection(sectionId) {
+            if (currentSection === sectionId) return;
+            
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
             });
-            document.getElementById(sectionId).classList.add('active');
             
             document.querySelectorAll('.nav-links a').forEach(link => {
                 link.classList.remove('active');
             });
             
-            event.target.classList.add('active');
-            updateMobileNav();
-        }
-
-        function showSubSection(subSectionId) {
-            showSection('development');
+            document.getElementById(sectionId).classList.add('active');
             
-            const guestbookSection = document.getElementById('guestbook');
-            const submissionSection = document.getElementById('submission');
+            const activeLink = document.querySelector(`.nav-links a[onclick*="${sectionId}"]`);
+            if (activeLink) {
+                activeLink.classList.add('active');
+            }
             
-            guestbookSection.style.display = 'none';
-            submissionSection.style.display = 'none';
+            currentSection = sectionId;
             
-            if(subSectionId === 'guestbook') {
-                guestbookSection.style.display = 'block';
-            } else if(subSectionId === 'submission') {
-                submissionSection.style.display = 'block';
+            if (sectionId === 'development') {
+                showDevelopmentTab(currentDevTab);
             }
             
             updateMobileNav();
+            
+            if (sectionId === 'development' && currentDevTab === 'guestbook') {
+                loadGuestbookMessages();
+            }
+        }
+
+        function showDevelopmentTab(tabId) {
+            currentDevTab = tabId;
+            
+            document.getElementById('guestbook').style.display = 'none';
+            document.getElementById('submission').style.display = 'none';
+            
+            if (tabId === 'guestbook') {
+                document.getElementById('guestbook').style.display = 'block';
+                loadGuestbookMessages();
+            } else if (tabId === 'submission') {
+                document.getElementById('submission').style.display = 'block';
+            }
         }
 
         function toggleMobileMenu() {
@@ -1095,6 +1144,14 @@
             });
         }
 
+        function scrollToTop() {
+            window.scrollTo({top: 0, behavior: 'smooth'});
+        }
+
+        function scrollToBottom() {
+            window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+        }
+
         window.onscroll = function() {
             const backToTop = document.getElementById('back-to-top');
             if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
@@ -1103,22 +1160,6 @@
                 backToTop.style.display = 'none';
             }
         };
-
-        function scrollToTop() {
-            window.scrollTo({top: 0, behavior: 'smooth'});
-        }
-
-        // 页面加载后显示概述部分
-        document.addEventListener('DOMContentLoaded', function() {
-            showSection('overview');
-            
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.addEventListener('click', function() {
-                    document.querySelectorAll('.nav-links a').forEach(l => l.classList.remove('active'));
-                    this.classList.add('active');
-                });
-            });
-        });
 
         // ==================== 留言板功能 ====================
         const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
@@ -1146,6 +1187,9 @@
         async function loadGuestbookMessages() {
             const container = document.getElementById('gb-messages');
             const loading = document.getElementById('gb-loading');
+            
+            if (!container || !loading) return;
+            
             try {
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/messages?select=*&approved=eq.true&order=created_at.desc&limit=50`, {
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
@@ -1215,16 +1259,16 @@
             }
         }
 
-        // 留言板初始化
-        document.getElementById('gb-message').addEventListener('input', function() {
-            document.getElementById('gb-char-count').textContent = this.value.length;
-        });
-
-        if (document.readyState === 'loading') {
-            document.addEventListener('DOMContentLoaded', loadGuestbookMessages);
-        } else {
+        // 页面初始化
+        document.addEventListener('DOMContentLoaded', function() {
+            showSection('overview');
+            
+            document.getElementById('gb-message').addEventListener('input', function() {
+                document.getElementById('gb-char-count').textContent = this.value.length;
+            });
+            
             loadGuestbookMessages();
-        }
+        });
     </script>
 </body>
 </html>
