@@ -1772,20 +1772,6 @@
             }
         }
 
-        function showDevelopmentTab(tabId) {
-            currentDevTab = tabId;
-            
-            document.getElementById('guestbook').style.display = 'none';
-            document.getElementById('submission').style.display = 'none';
-            
-            if (tabId === 'guestbook') {
-                document.getElementById('guestbook').style.display = 'block';
-                loadGuestbookMessages();
-            } else if (tabId === 'submission') {
-                document.getElementById('submission').style.display = 'block';
-            }
-        }
-
         // 移动端菜单切换
         document.getElementById('mobile-menu-toggle').addEventListener('click', function() {
             const nav = document.getElementById('main-nav');
@@ -2024,7 +2010,7 @@ async function submitGuestbookMessage() {
         submitBtn.innerHTML = originalText;
         addDebugMessage('--- 本次请求结束 ---', 'info');
     }
-}
+}  
 
         // 页面初始化
         document.addEventListener('DOMContentLoaded', function() {
