@@ -431,6 +431,99 @@
             margin-bottom: 10px;
         }
         
+        /* 管理组样式 */
+        .admin-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 15px;
+            margin-top: 20px;
+        }
+        
+        .admin-card {
+            background-color: #2a2a2a;
+            border-radius: 8px;
+            padding: 15px;
+            border-left: 4px solid #4a9eff;
+            transition: all 0.3s ease;
+        }
+        
+        .admin-card:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.3);
+        }
+        
+        .admin-name {
+            color: #4a9eff;
+            font-size: 1.1rem;
+            font-weight: bold;
+            margin-bottom: 5px;
+        }
+        
+        .admin-role {
+            color: #8a9bba;
+            font-size: 0.9rem;
+            margin-bottom: 10px;
+        }
+        
+        .admin-note {
+            color: #ccc;
+            font-size: 0.85rem;
+            font-style: italic;
+        }
+        
+        /* ccpe01 特殊样式 */
+        .ccpe01-special {
+            background: linear-gradient(135deg, #1a3a5a, #2a4a6a);
+            border-left: 4px solid #ffcc00;
+            padding: 20px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .ccpe01-special h3 {
+            color: #ffcc00;
+            margin-bottom: 10px;
+        }
+        
+        .ccpe01-img {
+            width: 100%;
+            max-width: 300px;
+            border-radius: 8px;
+            border: 3px solid #ffcc00;
+            margin: 15px 0;
+        }
+        
+        /* 杂项样式 */
+        .misc-items {
+            background-color: #2a2a2a;
+            padding: 20px;
+            border-radius: 10px;
+            border: 2px solid #ff6b6b;
+            margin: 20px 0;
+        }
+        
+        .misc-item {
+            padding: 10px 0;
+            border-bottom: 1px solid #3a3a3a;
+        }
+        
+        .misc-item:last-child {
+            border-bottom: none;
+        }
+        
+        .misc-item strong {
+            color: #4a9eff;
+        }
+        
+        .misc-easter-egg {
+            background: linear-gradient(135deg, #4a0072, #8a2be2);
+            color: #ffccff;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-style: italic;
+            cursor: help;
+        }
+        
         /* 留言板样式 */
         .gb-form { margin-bottom: 2.5rem; }
         .gb-form-row { margin-bottom: 1.2rem; }
@@ -593,7 +686,7 @@
             line-height: 1.8;
         }
         
-        /* 移动端快速导航 - 第一版样式 */
+        /* 移动端快速导航 */
         .mobile-quick-nav {
             display: none;
             position: fixed;
@@ -638,7 +731,7 @@
             font-size: 1.2rem;
         }
         
-        /* 外部链接样式 - 第一版格式 */
+        /* 外部链接样式 */
         .external-links-grid {
             display: flex;
             flex-direction: column;
@@ -798,11 +891,6 @@
                 bottom: 80px;
                 right: 20px;
             }
-            
-            /* 移动端外部链接网格 */
-            .external-links-grid {
-                grid-template-columns: 1fr;
-            }
         }
         
         @media (max-width: 768px) {
@@ -829,6 +917,10 @@
             
             .creator-title {
                 font-size: 1.5rem;
+            }
+            
+            .admin-list {
+                grid-template-columns: 1fr;
             }
         }
         
@@ -872,11 +964,12 @@
         <i class="fas fa-arrow-up"></i>
     </div>
     
-    <!-- 移动端快速导航 - 第一版样式 -->
+    <!-- 移动端快速导航 -->
     <nav class="mobile-quick-nav">
         <ul>
             <li><a href="#" onclick="showSection('overview'); return false;" data-section="overview"><i class="fas fa-home"></i> 概述</a></li>
             <li><a href="#" onclick="showSection('features'); return false;" data-section="features"><i class="fas fa-star"></i> 特色</a></li>
+            <li><a href="#" onclick="showSection('admin'); return false;" data-section="admin"><i class="fas fa-users"></i> 管理组</a></li>
             <li><a href="#" onclick="showSection('creator'); return false;" data-section="creator"><i class="fas fa-user"></i> 制作人</a></li>
             <li><a href="#" onclick="showSection('qq'); return false;" data-section="qq"><i class="fab fa-qq"></i> QQ群</a></li>
             <li><a href="#" onclick="showSection('development'); showDevelopmentTab('guestbook'); return false;" data-section="development"><i class="fas fa-comment-dots"></i> 留言板</a></li>
@@ -899,7 +992,7 @@
                 <ul>
                     <li><a href="#" onclick="showSection('overview'); return false;">概述</a></li>
                     <li><a href="#" onclick="showSection('features'); return false;">服务器特色</a></li>
-                    <li><a href="#" onclick="showSection('atmosphere'); return false;">玩家氛围</a></li>
+                    <li><a href="#" onclick="showSection('admin'); return false;">管理组</a></li>
                     <li><a href="#" onclick="showSection('creator'); return false;">制作人介绍</a></li>
                 </ul>
                 
@@ -911,7 +1004,7 @@
         </div>
     </header>
     
-    <!-- 主要内容区域 - 左侧导航栏，右侧主要内容 -->
+    <!-- 主要内容区域 -->
     <div class="wiki-container">
         <!-- 左侧导航栏 -->
         <aside class="left-nav" id="left-nav">
@@ -922,10 +1015,12 @@
                 <ul class="nav-links">
                     <li><a href="#" onclick="showSection('overview'); return false;" class="active"><i class="fas fa-info-circle"></i> 概述</a></li>
                     <li><a href="#" onclick="showSection('features'); return false;"><i class="fas fa-star"></i> 服务器特色</a></li>
+                    <li><a href="#" onclick="showSection('admin'); return false;"><i class="fas fa-users"></i> 管理组</a></li>
                     <li><a href="#" onclick="showSection('atmosphere'); return false;"><i class="fas fa-users"></i> 玩家氛围</a></li>
                     <li><a href="#" onclick="showSection('events'); return false;"><i class="fas fa-calendar-alt"></i> 活动</a></li>
                     <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 制作人介绍</a></li>
                     <li><a href="#" onclick="showSection('qq'); return false;"><i class="fab fa-qq"></i> QQ群信息</a></li>
+                    <li><a href="#" onclick="showSection('misc'); return false;"><i class="fas fa-random"></i> 杂项</a></li>
                     <li><a href="#" onclick="showSection('other'); return false;"><i class="fas fa-question"></i> 不知道写啥</a></li>
                 </ul>
             </div>
@@ -964,7 +1059,7 @@
                 <h1>Site-114514服务器</h1>
             </div>
             
-            <!-- 信息框 - 只在概述页面显示 -->
+            <!-- 信息框 -->
             <aside class="infobox" id="infobox">
                 <div class="infobox-title">Site-114514</div>
                 
@@ -1013,7 +1108,7 @@
                 </div>
             </aside>
             
-            <!-- 内容分区 - 默认显示第一个 -->
+            <!-- === 概述分区 === -->
             <section class="content-section active" id="overview">
                 <h2 class="section-title">概述</h2>
                 <div class="section-content">
@@ -1049,6 +1144,7 @@
                 </div>
             </section>
             
+            <!-- === 服务器特色分区 === -->
             <section class="content-section" id="features">
                 <h2 class="section-title">服务器特色</h2>
                 <div class="section-content">
@@ -1102,6 +1198,164 @@
                 </div>
             </section>
             
+            <!-- === 管理组分区（新增）=== -->
+            <section class="content-section" id="admin">
+                <h2 class="section-title">管理组</h2>
+                <div class="section-content">
+                    <div class="content-text">
+                        <h3>服务器管理团队</h3>
+                        <p>以下是Site-114514服务器的管理组成员列表：</p>
+                    </div>
+                    
+                    <div class="admin-list">
+                        <div class="admin-card">
+                            <div class="admin-name">0. 白喵&lt;前任服主■#*#@￥%&gt;</div>
+                            <div class="admin-role">前任服主</div>
+                            <div class="admin-note">《免费可悦~》</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">1. TouKuChaZi_CN</div>
+                            <div class="admin-role">现任服主及监督</div>
+                            <div class="admin-note">服务器主要负责人</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">2. 614956qa</div>
+                            <div class="admin-role">管理兼技术支持</div>
+                            <div class="admin-note">技术问题解决</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">3. jntmnmjjd</div>
+                            <div class="admin-role">管理兼技术支持</div>
+                            <div class="admin-note">技术问题解决</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">4. XXKK51</div>
+                            <div class="admin-role">管理兼技术支持</div>
+                            <div class="admin-note">技术问题解决</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">5. z1z2z3343</div>
+                            <div class="admin-role">管理兼枪械平衡</div>
+                            <div class="admin-note">《平衡》</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">6. wbt059</div>
+                            <div class="admin-role">管理兼技术支持及地图创作</div>
+                            <div class="admin-note">地图制作负责人</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">7. nixiang</div>
+                            <div class="admin-role">管理兼技术支持及服务器提供者</div>
+                            <div class="admin-note">服务器硬件支持</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">8. TZBDxiaoV</div>
+                            <div class="admin-role">管理（CO）</div>
+                            <div class="admin-note">社区运营</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">9. ccpe01</div>
+                            <div class="admin-role">管理兼文本支持</div>
+                            <div class="admin-note">文档和内容支持</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">10. KAWAYI_SHIROKO</div>
+                            <div class="admin-role">管理兼网站提供</div>
+                            <div class="admin-note">网站技术支持</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">11. CN_CN666</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">12. CN_bzxyl</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">13. CN_guycloud</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">14. Ha1Bao0o</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">15. zz10225</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">16. CN_ngam</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">17. kards7878</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">18. jntmngm542</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">19. maser8ry</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">20. qingxinuwu</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">21. ldMsdd6</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                        
+                        <div class="admin-card">
+                            <div class="admin-name">22. 114514nnnj</div>
+                            <div class="admin-role">管理</div>
+                            <div class="admin-note">日常管理</div>
+                        </div>
+                    </div>
+                    
+                    <div class="warning-box" style="margin-top: 20px;">
+                        <h3><i class="fas fa-exclamation-triangle"></i> 重要说明</h3>
+                        <p>[以上管理全为骚货，wbt是最大的那个]</p>
+                        <p><i>（哈基米要求的，有事别找我）</i></p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- === 玩家氛围分区 === -->
             <section class="content-section" id="atmosphere">
                 <h2 class="section-title">玩家氛围</h2>
                 <div class="section-content">
@@ -1122,6 +1376,7 @@
                 </div>
             </section>
             
+            <!-- === 活动分区 === -->
             <section class="content-section" id="events">
                 <h2 class="section-title">活动</h2>
                 <div class="section-content">
@@ -1151,6 +1406,7 @@
                 </div>
             </section>
             
+            <!-- === 制作人介绍分区 === -->
             <section class="content-section" id="creator">
                 <h2 class="section-title">制作人介绍</h2>
                 <div class="section-content">
@@ -1172,9 +1428,21 @@
                             <p><strong>服务器贡献</strong>：为服务器早期发展做出了重要贡献，奠定了服务器的基础架构。</p>
                         </div>
                     </div>
+                    
+                    <!-- 新增ccpe01说明部分 -->
+                    <div class="ccpe01-special">
+                        <h3><i class="fas fa-pen-alt"></i> 特别鸣谢：文本支持</h3>
+                        <p>本页面由 <span style="color: #ffcc00; font-weight: bold; font-size: 1.2em;">ccpe01</span> 提供文本支持 <small><i>嗯，是吧，大概</i></small></p>
+                        
+                        <!-- 这里需要您替换为实际的图片路径 -->
+                        <img src="IMG_1491.jpeg" alt="ccpe01相关图片" class="ccpe01-img" onerror="this.style.display='none'">
+                        
+                        <p style="margin-top: 15px;">感谢ccpe01为服务器文档和内容支持做出的贡献！</p>
+                    </div>
                 </div>
             </section>
             
+            <!-- === QQ群信息分区 === -->
             <section class="content-section" id="qq">
                 <h2 class="section-title">QQ群信息</h2>
                 <div class="section-content">
@@ -1208,6 +1476,45 @@
                 </div>
             </section>
             
+            <!-- === 杂项分区（新增）=== -->
+            <section class="content-section" id="misc">
+                <h2 class="section-title">杂项</h2>
+                <div class="section-content">
+                    <div class="misc-items">
+                        <div class="misc-item">
+                            <strong>1.</strong> 这个区域主要是为了承担某些消息太过于成分复杂所存在的，以及用来整活😎
+                        </div>
+                        <div class="misc-item">
+                            <strong>2.</strong> 同时这个区域我会留下一些彩蛋<自己分辨哦~>
+                        </div>
+                        <div class="misc-item">
+                            <strong>3.</strong> <span class="misc-easter-egg">■■■@*@21#%%25*#@</span> <small><i>被偷走了呢~</i></small>
+                        </div>
+                        <div class="misc-item">
+                            <strong>4.</strong> 七印七环七新娘，献给深红之王！<small><i>wbt最喜欢的一集</i></small>
+                        </div>
+                        <div class="misc-item">
+                            <strong>5.</strong> 我是一台烤面包机<span style="color: #ffcc00; font-size: 1.2em;">ꉂ(ˊᗜˋ*)</span>
+                        </div>
+                        <div class="misc-item">
+                            <strong>6.</strong> wbt是最骚的[反复重复]<span style="color: #ff99cc;">(´∇ﾉ｀*)ノ</span>
+                        </div>
+                        <div class="misc-item">
+                            <strong>7.</strong> <span class="misc-easter-egg">#%*@死者%%￥#赴死者致敬</span><span style="color: #ff6b6b;">(⌯︎¤̴̶̷̀ω¤̴̶̷́)✧︎</span>
+                        </div>
+                        <div class="misc-item">
+                            <strong>9.</strong> 免费可约<small><i>你知道想加什么</i></small>
+                        </div>
+                    </div>
+                    
+                    <div class="info-box">
+                        <h3><i class="fas fa-info-circle"></i> 关于杂项区</h3>
+                        <p>这个区域包含了一些随意的想法、内部梗、彩蛋和有趣的内容。如果你看懂了什么...嗯，就当没看见吧~</p>
+                    </div>
+                </div>
+            </section>
+            
+            <!-- === 不知道写啥分区 === -->
             <section class="content-section" id="other">
                 <h2 class="section-title">不知道写啥</h2>
                 <div class="section-content">
@@ -1236,6 +1543,7 @@
                 </div>
             </section>
             
+            <!-- === 玩家开发区分区 === -->
             <section class="content-section" id="development">
                 <div class="section-title">
                     <i class="fas fa-code"></i> 玩家开发区
@@ -1243,14 +1551,18 @@
                 
                 <div id="guestbook" class="development-tab">
                     <div class="section-title" style="margin-top:20px; font-size:1.3rem;">
-                        <i class="fas fa-comment-dots"></i> 访客留言板
+                        <i class="fas fa-comment-dots"></i> 访客留言板（新版通行证系统）
                     </div>
                     <div class="section-content">
-                        <p class="subtitle">欢迎在这里留下您的想法、建议或仅仅是打个招呼。</p>
+                        <p class="subtitle">现在需要使用通行证才能留言。如果您还没有通行证，请联系管理获取。</p>
                         
+                        <!-- 留言表单 -->
                         <div class="gb-form">
                             <div class="gb-form-row">
-                                <input type="text" id="gb-username" class="gb-input" placeholder="您的昵称 (可选)" maxlength="20">
+                                <input type="text" id="gb-passcode" class="gb-input" placeholder="输入您的通行证（必填）" maxlength="100" required>
+                                <div class="gb-form-note" style="text-align: left; margin-top: 5px;">
+                                    <i class="fas fa-info-circle"></i> 通行证是您留言的唯一凭证
+                                </div>
                             </div>
                             <div class="gb-form-row">
                                 <textarea id="gb-message" class="gb-input" placeholder="请在此输入您的留言...（内容将在提交后公开显示）" rows="4" required maxlength="500"></textarea>
@@ -1260,9 +1572,12 @@
                                 <span class="btn-text"><i class="fas fa-paper-plane"></i> 发布留言</span>
                                 <span class="btn-loading" style="display:none;"><i class="fas fa-spinner fa-spin"></i> 发送中...</span>
                             </button>
-                            <p class="gb-form-note"><i class="fas fa-info-circle"></i> 请文明发言，留言将公开显示。</p>
+                            <p class="gb-form-note">
+                                <i class="fas fa-info-circle"></i> 请文明发言，留言将公开显示。系统会自动验证通行证并关联您的玩家信息。
+                            </p>
                         </div>
                         
+                        <!-- 留言列表 -->
                         <div class="gb-messages" id="gb-messages">
                             <div class="gb-loading-state" id="gb-loading">
                                 <div class="gb-spinner"></div>
@@ -1288,6 +1603,7 @@
                 </div>
             </section>
             
+            <!-- === 外部链接分区 === -->
             <section class="content-section" id="links">
                 <h2 class="section-title">外部链接</h2>
                 <div class="section-content">
@@ -1324,7 +1640,6 @@
     <!-- 页脚 -->
     <footer class="wiki-footer">
         <div class="footer-container">
-            <!-- 免责声明 -->
             <div class="disclaimer">
                 <h3><i class="fas fa-exclamation-triangle"></i> 免责声明</h3>
                 <p>本维基页面为Site-114514服务器的官方介绍页面，所有信息由哈基米大人提供和维护。哈基米大人对本页面内容的准确性你猜做不做保证。玩家在服务器中的行为应遵守服务器规则及相关法律法规。</p>
@@ -1350,6 +1665,10 @@
     <div id="gb-toast" class="gb-toast"></div>
 
     <script>
+        // ==================== Supabase 配置 ====================
+        const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
+
         // ==================== 页面导航功能 ====================
         let currentSection = 'overview';
         let currentDevTab = 'guestbook';
@@ -1470,9 +1789,7 @@
             }
         };
 
-        // ==================== 留言板功能 ====================
-        const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
+        // ==================== 留言板功能（新版通行证系统） ====================
 
         function showToast(message, type = 'success') {
             const toast = document.getElementById('gb-toast');
@@ -1493,6 +1810,7 @@
             return date.toLocaleString('zh-CN', { year: 'numeric', month: '2-digit', day: '2-digit', hour: '2-digit', minute: '2-digit' });
         }
 
+        // 加载留言
         async function loadGuestbookMessages() {
             const container = document.getElementById('gb-messages');
             const loading = document.getElementById('gb-loading');
@@ -1503,65 +1821,105 @@
                 const response = await fetch(`${SUPABASE_URL}/rest/v1/messages?select=*&approved=eq.true&order=created_at.desc&limit=50`, {
                     headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}` }
                 });
+                
                 if (!response.ok) throw new Error(`HTTP ${response.status}`);
                 const messages = await response.json();
+                
                 loading.style.display = 'none';
+                
                 if (messages.length === 0) {
                     container.innerHTML = '<div class="gb-empty-state"><i class="fas fa-inbox"></i><p>还没有留言，快来第一个发言吧！</p></div>';
                     return;
                 }
+                
                 container.innerHTML = messages.map(msg => `
                     <div class="gb-item">
                         <div class="gb-item-header">
-                            <span class="gb-user"><i class="fas fa-user"></i> ${escapeHtml(msg.username || '匿名用户')}</span>
+                            <span class="gb-user"><i class="fas fa-user"></i> ${escapeHtml(msg.player_name || '匿名用户')}</span>
                             <span class="gb-time"><i class="far fa-clock"></i> ${formatTime(msg.created_at)}</span>
                         </div>
                         <div class="gb-content">${escapeHtml(msg.content)}</div>
                     </div>
                 `).join('');
+                
             } catch (error) {
                 console.error('加载留言失败:', error);
                 loading.innerHTML = '<p class="error"><i class="fas fa-exclamation-triangle"></i> 加载失败，请刷新页面重试</p>';
             }
         }
 
+        // 提交留言（使用通行证）
         async function submitGuestbookMessage() {
+            const passcodeInput = document.getElementById('gb-passcode');
             const messageInput = document.getElementById('gb-message');
-            const usernameInput = document.getElementById('gb-username');
             const submitBtn = document.getElementById('gb-submit-btn');
             const btnText = submitBtn.querySelector('.btn-text');
             const btnLoading = submitBtn.querySelector('.btn-loading');
             const charCount = document.getElementById('gb-char-count');
+            
+            const passcode = passcodeInput.value.trim();
             const content = messageInput.value.trim();
-            const username = usernameInput.value.trim();
 
-            if (content.length < 2) { showToast('留言内容太短啦', 'error'); return; }
-            if (content.length > 500) { showToast('留言不能超过500字符', 'error'); return; }
+            // 验证输入
+            if (!passcode) {
+                showToast('请输入通行证', 'error');
+                return;
+            }
+            
+            if (content.length < 2) {
+                showToast('留言内容太短啦', 'error');
+                return;
+            }
+            
+            if (content.length > 500) {
+                showToast('留言不能超过500字符', 'error');
+                return;
+            }
 
+            // 禁用按钮，显示加载状态
             submitBtn.disabled = true;
             btnText.style.display = 'none';
             btnLoading.style.display = 'inline';
+
             try {
-                const response = await fetch(`${SUPABASE_URL}/rest/v1/messages`, {
+                // 调用RPC函数提交留言
+                const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_message_auto`, {
                     method: 'POST',
-                    headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json' },
+                    headers: { 
+                        'apikey': SUPABASE_KEY, 
+                        'Authorization': `Bearer ${SUPABASE_KEY}`, 
+                        'Content-Type': 'application/json',
+                        'Prefer': 'return=representation'
+                    },
                     body: JSON.stringify({ 
-                        content, 
-                        username: username || '匿名用户', 
-                        created_at: new Date().toISOString(), 
-                        approved: true 
+                        p_passcode: passcode,
+                        p_content: content
                     })
                 });
-                if (!response.ok) throw new Error(`HTTP ${response.status}`);
-                showToast('留言发布成功！', 'success');
-                messageInput.value = '';
-                usernameInput.value = '';
-                charCount.textContent = '0';
-                setTimeout(loadGuestbookMessages, 800);
+                
+                if (!response.ok) {
+                    const error = await response.text();
+                    throw new Error(error);
+                }
+                
+                const result = await response.json();
+                
+                if (result.success) {
+                    showToast('留言发布成功！', 'success');
+                    messageInput.value = '';
+                    charCount.textContent = '0';
+                    
+                    // 重新加载留言
+                    setTimeout(loadGuestbookMessages, 800);
+                } else {
+                    showToast(result.error || '发布失败，通行证可能无效', 'error');
+                }
+                
             } catch (error) {
                 console.error('提交失败:', error);
                 showToast('发布失败，网络似乎出了点问题', 'error');
             } finally {
+                // 恢复按钮状态
                 submitBtn.disabled = false;
                 btnText.style.display = 'inline';
                 btnLoading.style.display = 'none';
