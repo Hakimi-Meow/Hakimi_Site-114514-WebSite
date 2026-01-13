@@ -1805,16 +1805,6 @@
             }
         };
 
-function showToast(message, type = 'success') {
-    const toast = document.getElementById('gb-toast');
-    if (!toast) return;
-    
-    toast.textContent = message;
-    toast.className = `gb-toast ${type}`;
-    toast.style.display = 'block';
-    setTimeout(() => { toast.style.display = 'none'; }, 4000);
-}
-
  // ==================== 留言板功能（新版通行证系统） ====================
 
         function showToast(message, type = 'success') {
@@ -1874,87 +1864,41 @@ function showToast(message, type = 'success') {
             }
         }
 
+// 简洁的生产版本
 async function submitGuestbookMessage() {
     const passcodeInput = document.getElementById('gb-passcode');
     const messageInput = document.getElementById('gb-message');
     const submitBtn = document.getElementById('gb-submit-btn');
+    const btnText = submitBtn.querySelector('.btn-text');
+    const btnLoading = submitBtn.querySelector('.btn-loading');
     const charCount = document.getElementById('gb-char-count');
     
     const passcode = passcodeInput.value.trim();
     const content = messageInput.value.trim();
-    
-    // 清除旧的调试信息
-    const debugDiv = document.getElementById('debug-output');
-    if (debugDiv) {
-        debugDiv.innerHTML = '<div class="debug-header">调试信息</div>';
-    }
-    
-    // 添加调试信息函数
-    function addDebugMessage(message, type = 'info') {
-        let debugDiv = document.getElementById('debug-output');
-        if (!debugDiv) {
-            debugDiv = document.createElement('div');
-            debugDiv.id = 'debug-output';
-            debugDiv.innerHTML = '<div class="debug-header">调试信息</div>';
-            const form = document.querySelector('.gb-form');
-            if (form) {
-                form.parentNode.insertBefore(debugDiv, form.nextSibling);
-            }
-        }
-        
-        const time = new Date().toLocaleTimeString();
-        const typeClass = `debug-${type}`;
-        const typeIcon = type === 'error' ? '❌' : 
-                         type === 'success' ? '✅' : 
-                         type === 'warning' ? '⚠️' : 'ℹ️';
-        
-        debugDiv.innerHTML += `
-            <div class="${typeClass}">
-                ${typeIcon} [${time}] ${message}
-            </div>
-        `;
-        
-        debugDiv.scrollTop = debugDiv.scrollHeight;
-    }
-    
-    addDebugMessage(`开始提交: 通行证="${passcode}", 内容长度=${content.length}`, 'info');
-    
+
     // 验证输入
     if (!passcode) {
-        addDebugMessage('通行证为空', 'error');
         showToast('请输入通行证', 'error');
         return;
     }
     
-    if (!content) {
-        addDebugMessage('留言内容为空', 'error');
-        showToast('请输入留言内容', 'error');
-        return;
-    }
-    
     if (content.length < 2) {
-        addDebugMessage('留言内容太短（至少2字符）', 'error');
-        showToast('留言内容太短', 'error');
+        showToast('留言内容太短啦', 'error');
         return;
     }
     
     if (content.length > 500) {
-        addDebugMessage('留言内容过长（超过500字符）', 'error');
         showToast('留言不能超过500字符', 'error');
         return;
     }
-    
-    // 禁用按钮
+
+    // 禁用按钮，显示加载状态
     submitBtn.disabled = true;
-    const originalText = submitBtn.innerHTML;
-    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 发送中...';
-    
+    btnText.style.display = 'none';
+    btnLoading.style.display = 'inline';
+
     try {
-        addDebugMessage('正在发送请求到Supabase...', 'info');
-        addDebugMessage(`URL: ${SUPABASE_URL}/rest/v1/rpc/submit_message_auto`, 'info');
-        addDebugMessage(`请求数据: {"p_passcode":"${passcode}","p_content":"${content.substring(0, 50)}..."}`, 'info');
-        
-        const startTime = Date.now();
+        // 调用RPC函数提交留言
         const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_message_auto`, {
             method: 'POST',
             headers: { 
@@ -1969,49 +1913,34 @@ async function submitGuestbookMessage() {
             })
         });
         
-        const responseTime = Date.now() - startTime;
-        addDebugMessage(`响应时间: ${responseTime}ms, 状态码: ${response.status}`, 'info');
-        
         if (!response.ok) {
-            const errorText = await response.text();
-            addDebugMessage(`HTTP错误: ${response.status} ${response.statusText}`, 'error');
-            addDebugMessage(`错误详情: ${errorText}`, 'error');
-            throw new Error(`HTTP ${response.status}: ${errorText}`);
+            const error = await response.text();
+            throw new Error(error);
         }
         
         const result = await response.json();
-        addDebugMessage(`服务器响应: ${JSON.stringify(result)}`, 'info');
         
         if (result.success) {
-            addDebugMessage(`✅ 留言成功！玩家: ${result.player_name}`, 'success');
             showToast('留言发布成功！', 'success');
-            
-            // 清空表单
             messageInput.value = '';
             charCount.textContent = '0';
             
             // 重新加载留言
-            setTimeout(loadGuestbookMessages, 1000);
+            setTimeout(loadGuestbookMessages, 800);
         } else {
-            addDebugMessage(`❌ 失败: ${result.error}`, 'error');
-            showToast(result.error || '发布失败', 'error');
+            showToast(result.error || '发布失败，通行证可能无效', 'error');
         }
         
     } catch (error) {
-        addDebugMessage(`❌ 请求异常: ${error.message}`, 'error');
-        addDebugMessage(`详细错误: ${error}`, 'error');
-        showToast('网络错误: ' + error.message, 'error');
-        
-        console.error('详细错误信息:', error);
-        
+        console.error('提交失败:', error);
+        showToast('发布失败，网络似乎出了点问题', 'error');
     } finally {
-        // 恢复按钮
+        // 恢复按钮状态
         submitBtn.disabled = false;
-        submitBtn.innerHTML = originalText;
-        addDebugMessage('--- 本次请求结束 ---', 'info');
+        btnText.style.display = 'inline';
+        btnLoading.style.display = 'none';
     }
-}  
-
+}
         // 页面初始化
         document.addEventListener('DOMContentLoaded', function() {
             // 默认显示概述页面
