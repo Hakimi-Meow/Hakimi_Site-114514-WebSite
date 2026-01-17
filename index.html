@@ -141,44 +141,6 @@
     }
     
     
-    async function loadGuestbookMessages() {
-        try {
-            const loadingEl = document.getElementById('gb-loading');
-            const messagesEl = document.getElementById('gb-messages');
-            
-            if (!loadingEl || !messagesEl) return;
-            
-            messagesEl.innerHTML = '<div class="gb-empty-state">留言板功能正在开发中...</div>';
-            loadingEl.style.display = 'none';
-            
-        } catch (error) {
-            console.error('加载留言失败:', error);
-            const messagesEl = document.getElementById('gb-messages');
-            if (messagesEl) {
-                messagesEl.innerHTML = '<div class="gb-empty-state">加载留言失败，请稍后重试</div>';
-            }
-        }
-    }
-    
-    async function loadSubmissions() {
-        try {
-            const loadingEl = document.getElementById('submission-loading');
-            const submissionsEl = document.getElementById('submission-list');
-            
-            if (!loadingEl || !submissionsEl) return;
-            
-            submissionsEl.innerHTML = '<div class="submission-empty-state">投稿区功能正在开发中...</div>';
-            loadingEl.style.display = 'none';
-            
-        } catch (error) {
-            console.error('加载投稿失败:', error);
-            const submissionsEl = document.getElementById('submission-list');
-            if (submissionsEl) {
-                submissionsEl.innerHTML = '<div class="submission-empty-state">加载投稿失败，请稍后重试</div>';
-            }
-        }
-    }
-    
     async function submitGuestbookMessage() {
         const passcodeInput = document.getElementById('gb-passcode');
         const messageInput = document.getElementById('gb-message');
@@ -236,7 +198,7 @@
                 const charCount = document.getElementById('gb-char-count');
                 if (charCount) charCount.textContent = '0';
                 
-                loadGuestbookMessages();
+                
             }
             
         } catch (error) {
@@ -309,7 +271,6 @@
                 const charCount = document.getElementById('submission-char-count');
                 if (charCount) charCount.textContent = '0';
                 
-                loadSubmissions();
             }
             
         } catch (error) {
@@ -2661,10 +2622,6 @@
                         </div>
                         
                         <div class="gb-messages" id="gb-messages">
-                            <div class="gb-loading-state" id="gb-loading">
-                                <div class="gb-spinner"></div>
-                                <p>正在加载留言...</p>
-                            </div>
                         </div>
                     </div>
                 </div>
@@ -2724,10 +2681,6 @@
                         </div>
                         
                         <div class="submission-list" id="submission-list">
-                            <div class="submission-loading-state" id="submission-loading">
-                                <div class="submission-spinner"></div>
-                                <p>正在加载投稿...</p>
-                            </div>
                         </div>
                     </div>
                 </div>
