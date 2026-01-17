@@ -32,6 +32,7 @@
                 }
             }
             
+            // 更新桌面导航激活状态
             document.querySelectorAll('.nav-links a').forEach(link => {
                 link.classList.remove('active');
             });
@@ -41,6 +42,7 @@
                 activeLink.classList.add('active');
             }
             
+            // 更新移动导航激活状态
             document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
                 link.classList.remove('active');
             });
@@ -48,6 +50,16 @@
             const mobileActiveLink = document.querySelector(`.mobile-quick-nav a[data-section="${sectionId}"]`);
             if (mobileActiveLink) {
                 mobileActiveLink.classList.add('active');
+            }
+            
+            // 更新顶部导航激活状态（移动端）
+            document.querySelectorAll('.wiki-nav a').forEach(link => {
+                link.classList.remove('active');
+            });
+            
+            const topNavLink = document.querySelector(`.wiki-nav a[onclick*="${sectionId}"]`);
+            if (topNavLink) {
+                topNavLink.classList.add('active');
             }
             
             const infobox = document.getElementById('infobox');
@@ -59,7 +71,22 @@
                 }
             }
             
-            window.scrollTo({ top: 0, behavior: 'smooth' });
+            // 关闭移动端菜单（如果打开的话）
+            const mobileNav = document.getElementById('main-nav');
+            if (mobileNav && mobileNav.classList.contains('active')) {
+                mobileNav.classList.remove('active');
+            }
+            
+            // 移动端：滚动到内容区域顶部
+            if (window.innerWidth <= 992) {
+                const mainContent = document.querySelector('.main-content');
+                if (mainContent) {
+                    const offsetTop = mainContent.getBoundingClientRect().top + window.pageYOffset - 80;
+                    window.scrollTo({ top: offsetTop, behavior: 'smooth' });
+                }
+            } else {
+                window.scrollTo({ top: 0, behavior: 'smooth' });
+            }
             
             return false;
         } catch (error) {
@@ -168,6 +195,189 @@
         }
     }
     
+    // 媒体文件相关函数
+    let uploadedMediaFiles = [];
+    
+    // 初始化媒体上传
+    function initMediaUpload() {
+        const uploadInput = document.getElementById('media-upload-input');
+        const uploadArea = document.getElementById('media-upload-area');
+        
+        if (!uploadInput || !uploadArea) return;
+        
+        // 点击上传区域触发文件选择
+        uploadArea.addEventListener('click', (e) => {
+            if (e.target !== uploadInput && e.target.tagName !== 'BUTTON') {
+                uploadInput.click();
+            }
+        });
+        
+        // 拖拽上传
+        uploadArea.addEventListener('dragover', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#4a9eff';
+            uploadArea.style.backgroundColor = 'rgba(74, 158, 255, 0.05)';
+        });
+        
+        uploadArea.addEventListener('dragleave', () => {
+            uploadArea.style.borderColor = '#3a506b';
+            uploadArea.style.backgroundColor = 'rgba(255,255,255,0.03)';
+        });
+        
+        uploadArea.addEventListener('drop', (e) => {
+            e.preventDefault();
+            uploadArea.style.borderColor = '#3a506b';
+            uploadArea.style.backgroundColor = 'rgba(255,255,255,0.03)';
+            
+            if (e.dataTransfer.files.length > 0) {
+                handleMediaFiles(e.dataTransfer.files);
+            }
+        });
+        
+        // 文件选择变化
+        uploadInput.addEventListener('change', (e) => {
+            if (e.target.files.length > 0) {
+                handleMediaFiles(e.target.files);
+            }
+        });
+    }
+    
+    // 处理上传的文件
+    function handleMediaFiles(files) {
+        const maxFiles = 5;
+        const maxSize = 10 * 1024 * 1024; // 10MB
+        
+        // 检查文件数量
+        if (uploadedMediaFiles.length + files.length > maxFiles) {
+            showToast(`最多只能上传${maxFiles}个文件`, 'error');
+            return;
+        }
+        
+        // 处理每个文件
+        Array.from(files).forEach(file => {
+            // 检查文件大小
+            if (file.size > maxSize) {
+                showToast(`文件 ${file.name} 超过10MB限制`, 'error');
+                return;
+            }
+            
+            // 检查文件类型
+            const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
+            if (!validTypes.includes(file.type)) {
+                showToast(`文件 ${file.name} 格式不支持，请上传图片或视频`, 'error');
+                return;
+            }
+            
+            // 添加到上传列表
+            uploadedMediaFiles.push(file);
+            
+            // 创建预览
+            createMediaPreview(file);
+        });
+    }
+    
+    // 创建媒体预览
+    function createMediaPreview(file) {
+        const previewArea = document.getElementById('media-preview');
+        if (!previewArea) return;
+        
+        const previewItem = document.createElement('div');
+        previewItem.className = 'media-preview-item';
+        previewItem.dataset.fileName = file.name;
+        
+        const removeBtn = document.createElement('button');
+        removeBtn.className = 'media-remove-btn';
+        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
+        removeBtn.onclick = () => removeMediaFile(file.name);
+        
+        const reader = new FileReader();
+        
+        reader.onload = function(e) {
+            let mediaElement;
+            
+            if (file.type.startsWith('image/')) {
+                mediaElement = document.createElement('img');
+                mediaElement.src = e.target.result;
+                mediaElement.alt = file.name;
+                mediaElement.style.objectFit = 'cover';
+            } else if (file.type.startsWith('video/')) {
+                mediaElement = document.createElement('video');
+                mediaElement.src = e.target.result;
+                mediaElement.controls = true;
+                mediaElement.style.objectFit = 'cover';
+            }
+            
+            previewItem.appendChild(mediaElement);
+            previewItem.appendChild(removeBtn);
+            previewArea.appendChild(previewItem);
+        };
+        
+        reader.readAsDataURL(file);
+    }
+    
+    // 移除文件
+    function removeMediaFile(fileName) {
+        uploadedMediaFiles = uploadedMediaFiles.filter(file => file.name !== fileName);
+        
+        const previewItem = document.querySelector(`.media-preview-item[data-file-name="${fileName}"]`);
+        if (previewItem) {
+            previewItem.remove();
+        }
+    }
+    
+    // 清空所有媒体文件
+    function clearMediaFiles() {
+        uploadedMediaFiles = [];
+        const previewArea = document.getElementById('media-preview');
+        if (previewArea) {
+            previewArea.innerHTML = '';
+        }
+    }
+    
+    // 上传媒体文件到Supabase存储
+    async function uploadMediaFiles(passcode) {
+        const mediaUrls = [];
+        
+        for (const file of uploadedMediaFiles) {
+            try {
+                // 生成唯一文件名
+                const fileExt = file.name.split('.').pop();
+                const fileName = `${passcode}_${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+                const filePath = `submissions/${fileName}`;
+                
+                // 上传到Supabase存储桶
+                const { data, error } = await supabase
+                    .storage
+                    .from('media') // 存储桶名称，您需要先创建
+                    .upload(filePath, file);
+                
+                if (error) throw error;
+                
+                // 获取公开URL
+                const { data: urlData } = supabase
+                    .storage
+                    .from('media')
+                    .getPublicUrl(filePath);
+                
+                if (urlData?.publicUrl) {
+                    mediaUrls.push({
+                        url: urlData.publicUrl,
+                        type: file.type.startsWith('image/') ? 'image' : 'video',
+                        name: file.name
+                    });
+                }
+            } catch (error) {
+                console.error('上传文件失败:', error);
+                throw new Error(`上传文件 ${file.name} 失败: ${error.message}`);
+            }
+        }
+        
+        return mediaUrls;
+    }
+    
+    // 初始化Supabase客户端
+    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    
     async function submitSubmission() {
         const passcode = document.getElementById('submission-passcode')?.value.trim();
         const title = document.getElementById('submission-title')?.value.trim();
@@ -200,6 +410,27 @@
         submitBtn.disabled = true;
         
         try {
+            let mediaUrls = [];
+            
+            // 如果有上传的文件，先上传
+            if (uploadedMediaFiles.length > 0) {
+                showToast('正在上传媒体文件...', 'success');
+                mediaUrls = await uploadMediaFiles(passcode);
+            }
+            
+            // 提交投稿数据
+            const submissionData = {
+                p_passcode: passcode,
+                p_title: title,
+                p_content: content,
+                p_category: category
+            };
+            
+            // 如果有媒体URL，添加到数据中
+            if (mediaUrls.length > 0) {
+                submissionData.p_media_urls = JSON.stringify(mediaUrls);
+            }
+            
             const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_submission_final`, {
                 method: 'POST',
                 headers: { 
@@ -207,12 +438,7 @@
                     'Authorization': `Bearer ${SUPABASE_KEY}`, 
                     'Content-Type': 'application/json'
                 },
-                body: JSON.stringify({ 
-                    p_passcode: passcode,
-                    p_title: title,
-                    p_content: content,
-                    p_category: category
-                })
+                body: JSON.stringify(submissionData)
             });
             
             const result = await response.json();
@@ -222,17 +448,20 @@
                 showToast(errorMsg, 'error');
             } else {
                 showToast('投稿提交成功！刷新页面查看', 'success');
+                // 清空表单
                 document.getElementById('submission-passcode').value = '';
                 document.getElementById('submission-title').value = '';
                 document.getElementById('submission-content').value = '';
                 document.getElementById('submission-category').value = '';
+                clearMediaFiles();
+                
                 const charCount = document.getElementById('submission-char-count');
                 if (charCount) charCount.textContent = '0';
             }
             
         } catch (error) {
             console.error('提交失败:', error);
-            showToast('投稿提交失败，网络似乎出了点问题', 'error');
+            showToast(error.message || '投稿提交失败，网络似乎出了点问题', 'error');
         } finally {
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
@@ -313,7 +542,7 @@
             const submissionList = document.getElementById('submission-list');
             if (!submissionList) return;
             
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/submissions?select=player_name,player_note,title,content,category&order=created_at.desc&limit=20`, {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/submissions?select=player_name,player_note,title,content,category,media_urls,is_featured&order=created_at.desc&limit=20`, {
                 headers: {
                     'apikey': SUPABASE_KEY,
                     'Authorization': `Bearer ${SUPABASE_KEY}`
@@ -348,6 +577,7 @@
                 const title = escapeHtml(sub.title || '无标题');
                 const content = escapeHtml(sub.content || '');
                 const category = escapeHtml(sub.category || 'other');
+                const isFeatured = sub.is_featured ? '<span class="submission-featured-badge"><i class="fas fa-star"></i> 精选投稿</span>' : '';
                 
                 const categoryNames = {
                     'screenshot': '游戏截图',
@@ -362,8 +592,29 @@
                 
                 const categoryName = categoryNames[category] || '其他';
                 
+                // 处理媒体URLs
+                let mediaHtml = '';
+                try {
+                    if (sub.media_urls) {
+                        const mediaUrls = JSON.parse(sub.media_urls);
+                        if (Array.isArray(mediaUrls) && mediaUrls.length > 0) {
+                            mediaHtml = '<div class="submission-media-attachments">';
+                            mediaUrls.forEach(media => {
+                                if (media.type === 'image') {
+                                    mediaHtml += `<img src="${escapeHtml(media.url)}" alt="${escapeHtml(media.name || '附件')}" class="submission-media-attachment">`;
+                                } else if (media.type === 'video') {
+                                    mediaHtml += `<video src="${escapeHtml(media.url)}" controls class="submission-media-attachment"></video>`;
+                                }
+                            });
+                            mediaHtml += '</div>';
+                        }
+                    }
+                } catch (e) {
+                    console.error('解析媒体URL失败:', e);
+                }
+                
                 html += `
-                    <div class="submission-item">
+                    <div class="submission-item ${sub.is_featured ? 'featured' : ''}">
                         <div class="submission-item-header">
                             <div class="submission-user">${playerName}</div>
                             <div class="submission-meta">
@@ -373,6 +624,7 @@
                         </div>
                         <div class="submission-title">${title}</div>
                         <div class="submission-content">${content}</div>
+                        ${mediaHtml}
                     </div>
                 `;
             });
@@ -393,149 +645,10 @@
         }
     }
 
-        // 添加这个全局变量
-let uploadedMediaFiles = [];
-
-// 添加这些函数：
-
-// 初始化媒体上传
-function initMediaUpload() {
-    const uploadInput = document.getElementById('media-upload-input');
-    const uploadArea = document.getElementById('media-upload-area');
-    const previewArea = document.getElementById('media-preview');
-    
-    if (!uploadInput || !uploadArea || !previewArea) return;
-    
-    // 点击上传区域触发文件选择
-    uploadArea.addEventListener('click', (e) => {
-        if (e.target !== uploadInput && e.target.tagName !== 'BUTTON') {
-            uploadInput.click();
-        }
-    });
-    
-    // 拖拽上传
-    uploadArea.addEventListener('dragover', (e) => {
-        e.preventDefault();
-        uploadArea.style.borderColor = '#4a9eff';
-        uploadArea.style.backgroundColor = 'rgba(74, 158, 255, 0.05)';
-    });
-    
-    uploadArea.addEventListener('dragleave', () => {
-        uploadArea.style.borderColor = '#3a506b';
-        uploadArea.style.backgroundColor = 'rgba(255,255,255,0.03)';
-    });
-    
-    uploadArea.addEventListener('drop', (e) => {
-        e.preventDefault();
-        uploadArea.style.borderColor = '#3a506b';
-        uploadArea.style.backgroundColor = 'rgba(255,255,255,0.03)';
-        
-        if (e.dataTransfer.files.length > 0) {
-            handleMediaFiles(e.dataTransfer.files);
-        }
-    });
-    
-    // 文件选择变化
-    uploadInput.addEventListener('change', (e) => {
-        if (e.target.files.length > 0) {
-            handleMediaFiles(e.target.files);
-        }
-    });
-}
-
-// 处理上传的文件
-function handleMediaFiles(files) {
-    const maxFiles = 5;
-    const maxSize = 10 * 1024 * 1024; // 10MB
-    
-    // 检查文件数量
-    if (uploadedMediaFiles.length + files.length > maxFiles) {
-        showToast(`最多只能上传${maxFiles}个文件`, 'error');
-        return;
-    }
-    
-    // 处理每个文件
-    Array.from(files).forEach(file => {
-        // 检查文件大小
-        if (file.size > maxSize) {
-            showToast(`文件 ${file.name} 超过10MB限制`, 'error');
-            return;
-        }
-        
-        // 检查文件类型
-        const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'video/mp4'];
-        if (!validTypes.includes(file.type)) {
-            showToast(`文件 ${file.name} 格式不支持`, 'error');
-            return;
-        }
-        
-        // 添加到上传列表
-        uploadedMediaFiles.push(file);
-        
-        // 创建预览
-        createMediaPreview(file);
-    });
-}
-
-// 创建媒体预览
-function createMediaPreview(file) {
-    const previewArea = document.getElementById('media-preview');
-    if (!previewArea) return;
-    
-    const previewItem = document.createElement('div');
-    previewItem.className = 'media-preview-item';
-    previewItem.dataset.fileName = file.name;
-    
-    const removeBtn = document.createElement('button');
-    removeBtn.className = 'media-remove-btn';
-    removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-    removeBtn.onclick = () => removeMediaFile(file.name);
-    
-    const reader = new FileReader();
-    
-    reader.onload = function(e) {
-        let mediaElement;
-        
-        if (file.type.startsWith('image/')) {
-            mediaElement = document.createElement('img');
-            mediaElement.src = e.target.result;
-            mediaElement.alt = file.name;
-        } else if (file.type.startsWith('video/')) {
-            mediaElement = document.createElement('video');
-            mediaElement.src = e.target.result;
-            mediaElement.controls = true;
-        }
-        
-        previewItem.appendChild(mediaElement);
-        previewItem.appendChild(removeBtn);
-        previewArea.appendChild(previewItem);
-    };
-    
-    reader.readAsDataURL(file);
-}
-
-// 移除文件
-function removeMediaFile(fileName) {
-    uploadedMediaFiles = uploadedMediaFiles.filter(file => file.name !== fileName);
-    
-    const previewItem = document.querySelector(`.media-preview-item[data-file-name="${fileName}"]`);
-    if (previewItem) {
-        previewItem.remove();
-    }
-}
-
-// 清空所有媒体文件
-function clearMediaFiles() {
-    uploadedMediaFiles = [];
-    const previewArea = document.getElementById('media-preview');
-    if (previewArea) {
-        previewArea.innerHTML = '';
-    }
-}
-        
     function initPage() {
         showSection('overview');
         
+        // 初始化字符计数
         const gbMessage = document.getElementById('gb-message');
         const gbCharCount = document.getElementById('gb-char-count');
         if (gbMessage && gbCharCount) {
@@ -552,6 +665,7 @@ function clearMediaFiles() {
             });
         }
         
+        // 移动端菜单切换
         const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
         if (mobileMenuToggle) {
             mobileMenuToggle.addEventListener('click', function() {
@@ -560,6 +674,7 @@ function clearMediaFiles() {
             });
         }
         
+        // 返回顶部按钮显示/隐藏
         window.onscroll = function() {
             const backToTop = document.getElementById('back-to-top');
             if (backToTop) {
@@ -571,6 +686,7 @@ function clearMediaFiles() {
             }
         };
         
+        // 移动端快速导航点击事件
         document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -580,7 +696,10 @@ function clearMediaFiles() {
                 }
             });
         });
+        
+        // 初始化媒体上传
         initMediaUpload();
+        
         console.log('页面初始化完成');
     }
     
@@ -677,11 +796,23 @@ function clearMediaFiles() {
         text-decoration: none;
         font-size: 0.95rem;
         transition: color 0.2s;
+        padding: 5px 0;
+        position: relative;
     }
     
-    .wiki-nav a:hover {
+    .wiki-nav a:hover,
+    .wiki-nav a.active {
         color: #4a9eff;
-        text-decoration: underline;
+    }
+    
+    .wiki-nav a.active::after {
+        content: '';
+        position: absolute;
+        bottom: -5px;
+        left: 0;
+        width: 100%;
+        height: 2px;
+        background-color: #4a9eff;
     }
     
     .search-box {
@@ -892,6 +1023,12 @@ function clearMediaFiles() {
     
     .content-section.active {
         display: block;
+        animation: fadeIn 0.3s ease;
+    }
+    
+    @keyframes fadeIn {
+        from { opacity: 0; }
+        to { opacity: 1; }
     }
     
     .section-title {
@@ -1353,70 +1490,94 @@ function clearMediaFiles() {
         margin-top: 5px;
     }
 
-        /* 媒体上传和预览样式 */
-.submission-media-upload {
-    background-color: rgba(255,255,255,0.03);
-    border: 2px dashed #3a506b;
-    border-radius: 10px;
-    padding: 25px;
-    text-align: center;
-    margin-bottom: 1.2rem;
-    transition: all 0.3s ease;
-    cursor: pointer;
-}
+    /* 媒体上传和预览样式 */
+    .submission-media-upload {
+        background-color: rgba(255,255,255,0.03);
+        border: 2px dashed #3a506b;
+        border-radius: 10px;
+        padding: 25px;
+        text-align: center;
+        margin-bottom: 1.2rem;
+        transition: all 0.3s ease;
+        cursor: pointer;
+    }
 
-.submission-media-upload:hover {
-    border-color: #4a9eff;
-    background-color: rgba(255,255,255,0.05);
-}
+    .submission-media-upload:hover {
+        border-color: #4a9eff;
+        background-color: rgba(255,255,255,0.05);
+    }
 
-.submission-media-upload i {
-    font-size: 3rem;
-    color: #4a9eff;
-    margin-bottom: 15px;
-    opacity: 0.7;
-}
+    .submission-media-upload i {
+        font-size: 3rem;
+        color: #4a9eff;
+        margin-bottom: 15px;
+        opacity: 0.7;
+    }
 
-.submission-media-preview {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 10px;
-    margin-top: 15px;
-}
+    .submission-media-preview {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+        min-height: 50px;
+    }
 
-.media-preview-item {
-    position: relative;
-    width: 100px;
-    height: 100px;
-    border-radius: 8px;
-    overflow: hidden;
-    border: 2px solid #3a506b;
-}
+    .media-preview-item {
+        position: relative;
+        width: 100px;
+        height: 100px;
+        border-radius: 8px;
+        overflow: hidden;
+        border: 2px solid #3a506b;
+        background-color: #2a2a2a;
+    }
 
-.media-preview-item img, 
-.media-preview-item video {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
+    .media-preview-item img, 
+    .media-preview-item video {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+    }
 
-.media-remove-btn {
-    position: absolute;
-    top: 5px;
-    right: 5px;
-    background-color: rgba(255, 0, 0, 0.8);
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 24px;
-    height: 24px;
-    cursor: pointer;
-    font-size: 12px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-}
+    .media-remove-btn {
+        position: absolute;
+        top: 5px;
+        right: 5px;
+        background-color: rgba(255, 0, 0, 0.8);
+        color: white;
+        border: none;
+        border-radius: 50%;
+        width: 24px;
+        height: 24px;
+        cursor: pointer;
+        font-size: 12px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: all 0.2s ease;
+    }
 
+    .media-remove-btn:hover {
+        background-color: rgba(255, 0, 0, 1);
+        transform: scale(1.1);
+    }
+
+    /* 投稿中的媒体附件样式 */
+    .submission-media-attachments {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 10px;
+        margin-top: 15px;
+    }
+
+    .submission-media-attachment {
+        max-width: 200px;
+        max-height: 200px;
+        border-radius: 8px;
+        border: 1px solid #3a506b;
+        object-fit: cover;
+    }
+    
     .submission-button {
         display: block;
         width: 100%;
@@ -1748,7 +1909,14 @@ function clearMediaFiles() {
         z-index: 10000;
         display: none;
         max-width: 350px;
+        animation: toastSlideIn 0.3s ease;
     }
+    
+    @keyframes toastSlideIn {
+        from { transform: translateX(100%); opacity: 0; }
+        to { transform: translateX(0); opacity: 1; }
+    }
+    
     .gb-toast.success {
         background: linear-gradient(90deg, #20c997, #12b886);
         border-left: 5px solid #0ca678;
@@ -1793,10 +1961,6 @@ function clearMediaFiles() {
         
         .wiki-nav {
             display: none;
-        }
-        
-        .wiki-nav.active {
-            display: block;
             position: absolute;
             top: 100%;
             left: 0;
@@ -1804,6 +1968,11 @@ function clearMediaFiles() {
             background-color: #0d0d0d;
             padding: 20px;
             border-bottom: 1px solid #333;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+        }
+        
+        .wiki-nav.active {
+            display: block;
         }
         
         .wiki-nav.active ul {
@@ -1849,6 +2018,16 @@ function clearMediaFiles() {
             align-items: flex-start;
             gap: 5px;
         }
+        
+        .media-preview-item {
+            width: 80px;
+            height: 80px;
+        }
+        
+        .submission-media-attachment {
+            max-width: 150px;
+            max-height: 150px;
+        }
     }
     
     @media (max-width: 768px) {
@@ -1879,6 +2058,10 @@ function clearMediaFiles() {
         
         .admin-list {
             grid-template-columns: 1fr;
+        }
+        
+        .music-placeholder h3 {
+            font-size: 1.5rem;
         }
     }
     
@@ -1914,8 +2097,16 @@ function clearMediaFiles() {
             font-size: 1rem;
         }
         
+        .music-placeholder {
+            padding: 40px 15px;
+        }
+        
         .music-placeholder h3 {
-            font-size: 1.5rem;
+            font-size: 1.3rem;
+        }
+        
+        .music-placeholder i {
+            font-size: 3rem;
         }
     }
     </style>
@@ -1931,8 +2122,9 @@ function clearMediaFiles() {
             <li><a href="#" onclick="showSection('features'); return false;" data-section="features"><i class="fas fa-star"></i> 特色</a></li>
             <li><a href="#" onclick="showSection('items'); return false;" data-section="items"><i class="fas fa-box"></i> 物品</a></li>
             <li><a href="#" onclick="showSection('admin'); return false;" data-section="admin"><i class="fas fa-users"></i> 管理组</a></li>
-            <li><a href="#" onclick="showSection('music-entrance'); return false;" data-section="music-entrance"><i class="fas fa-music"></i> 入场音乐</a></li>
-            <li><a href="#" onclick="showSection('guestbook'); return false;" data-section="guestbook"><i class="fas fa-comment-dots"></i> 留言板</a></li>
+            <li><a href="#" onclick="showSection('character-intro'); return false;" data-section="character-intro"><i class="fas fa-user"></i> 角色</a></li>
+            <li><a href="#" onclick="showSection('music-entrance'); return false;" data-section="music-entrance"><i class="fas fa-music"></i> 音乐</a></li>
+            <li><a href="#" onclick="showSection('guestbook'); return false;" data-section="guestbook"><i class="fas fa-comment-dots"></i> 留言</a></li>
         </ul>
     </nav>
     
@@ -1953,6 +2145,7 @@ function clearMediaFiles() {
                     <li><a href="#" onclick="showSection('features'); return false;">服务器特色</a></li>
                     <li><a href="#" onclick="showSection('items'); return false;">物品介绍</a></li>
                     <li><a href="#" onclick="showSection('admin'); return false;">管理组</a></li>
+                    <li><a href="#" onclick="showSection('character-intro'); return false;">角色简介</a></li>
                     <li><a href="#" onclick="showSection('creator'); return false;">制作人介绍</a></li>
                     <li><a href="#" onclick="showSection('guestbook'); return false;">留言板</a></li>
                     <li><a href="#" onclick="showSection('submissions'); return false;">投稿区</a></li>
@@ -1977,12 +2170,19 @@ function clearMediaFiles() {
                     <li><a href="#" onclick="showSection('features'); return false;"><i class="fas fa-star"></i> 服务器特色</a></li>
                     <li><a href="#" onclick="showSection('items'); return false;"><i class="fas fa-box"></i> 物品介绍</a></li>
                     <li><a href="#" onclick="showSection('admin'); return false;"><i class="fas fa-users"></i> 管理组</a></li>
-                    <li><a href="#" onclick="showSection('atmosphere'); return false;"><i class="fas fa-users"></i> 玩家氛围</a></li>
+                    <li><a href="#" onclick="showSection('atmosphere'); return false;"><i class="fas fa-comments"></i> 玩家氛围</a></li>
                     <li><a href="#" onclick="showSection('events'); return false;"><i class="fas fa-calendar-alt"></i> 活动</a></li>
                     <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 制作人介绍</a></li>
                     <li><a href="#" onclick="showSection('qq'); return false;"><i class="fab fa-qq"></i> QQ群信息</a></li>
                     <li><a href="#" onclick="showSection('misc'); return false;"><i class="fas fa-random"></i> 杂项</a></li>
                     <li><a href="#" onclick="showSection('other'); return false;"><i class="fas fa-question"></i> 不知道写啥</a></li>
+                </ul>
+            </div>
+            
+            <div class="nav-section">
+                <h3>服务器角色</h3>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="showSection('character-intro'); return false;"><i class="fas fa-user"></i> 角色简介</a></li>
                 </ul>
             </div>
             
@@ -2704,6 +2904,21 @@ function clearMediaFiles() {
                 </div>
             </section>
             
+            <!-- 新增的角色简介部分 -->
+            <section class="content-section" id="character-intro">
+                <h2 class="section-title">角色简介</h2>
+                <div class="section-content">
+                    <div class="music-section">
+                        <div class="music-placeholder">
+                            <i class="fas fa-user-circle"></i>
+                            <h3>角色简介</h3>
+                            <p>正在开发中...敬请期待！</p>
+                            <p>这里将展示服务器中各阵营角色的详细资料。</p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
             <section class="content-section" id="music-entrance">
                 <h2 class="section-title">服务器入场音乐</h2>
                 <div class="section-content">
@@ -2772,6 +2987,7 @@ function clearMediaFiles() {
                         <ul>
                             <li>最多上传5个图片或视频文件</li>
                             <li>每个文件大小不超过10MB</li>
+                            <li>支持格式：JPG, PNG, GIF, WebP, MP4, WebM</li>
                             <li>请勿上传违规内容</li>
                             <li>投稿后需要管理审核</li>
                         </ul>
@@ -2806,24 +3022,25 @@ function clearMediaFiles() {
                         </div>
 
                         <div class="submission-form-row">
-  <div class="submission-media-upload" id="media-upload-area">
-        <i class="fas fa-cloud-upload-alt"></i>
-        <p>点击或拖拽上传图片/视频</p>
-        <p style="font-size: 0.9em; color: #8a9bba; margin-top: 5px;">
-            支持 JPG, PNG, GIF, MP4 格式，单个文件不超过10MB
-        </p>
-        <input type="file" id="media-upload-input" multiple accept="image/*,video/*" style="display: none;">
-        <button type="button" onclick="document.getElementById('media-upload-input').click()" 
-                style="margin-top: 15px; padding: 8px 20px; background: #3a506b; color: white; border: none; border-radius: 5px; cursor: pointer;">
-            选择文件
-        </button>
-    </div>
-    
-    <!-- 预览区域 -->
-    <div class="submission-media-preview" id="media-preview">
-        <!-- 上传的文件会在这里预览 -->
-    </div>
-</div>
+                            <div class="submission-media-upload" id="media-upload-area">
+                                <i class="fas fa-cloud-upload-alt"></i>
+                                <p>点击或拖拽上传图片/视频</p>
+                                <p style="font-size: 0.9em; color: #8a9bba; margin-top: 5px;">
+                                    支持 JPG, PNG, GIF, WebP, MP4, WebM 格式<br>
+                                    单个文件不超过10MB，最多5个文件
+                                </p>
+                                <input type="file" id="media-upload-input" multiple accept="image/*,video/*" style="display: none;">
+                                <button type="button" onclick="document.getElementById('media-upload-input').click()" 
+                                        style="margin-top: 15px; padding: 8px 20px; background: #3a506b; color: white; border: none; border-radius: 5px; cursor: pointer;">
+                                    选择文件
+                                </button>
+                            </div>
+                            
+                            <!-- 预览区域 -->
+                            <div class="submission-media-preview" id="media-preview">
+                                <!-- 上传的文件会在这里预览 -->
+                            </div>
+                        </div>
                         
                         <button id="submission-submit-btn" class="submission-button" onclick="submitSubmission()">
                             <i class="fas fa-paper-plane"></i> 提交投稿
@@ -2898,5 +3115,12 @@ function clearMediaFiles() {
     </footer>
     
     <div id="gb-toast" class="gb-toast"></div>
+    
+    <!-- Supabase客户端库 -->
+    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+    <script>
+        // 初始化Supabase客户端
+        window.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    </script>
 </body>
 </html>
