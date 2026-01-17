@@ -9,22 +9,21 @@
     <!-- ==================== 备用网址安全冗余 ==================== -->
     <link rel="preconnect" href="https://jdjeylqdfqsorzjgueom.supabase.co">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
+
     <!-- ==================== 核心JavaScript前置加载 ==================== -->
     <script>
-    // Supabase配置（必须最前）
-    const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
-    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
+    // Supabase配置 - 防止重复声明
+    if (typeof SUPABASE_URL === 'undefined') {
+        const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
+        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
+    }
     
-    // 全局变量
-    let supabase;
-    let currentSection = 'overview';
-    let currentDevTab = 'guestbook';
-    
-    // 核心：showSection函数（必须在前）
-    function showSection(sectionId) {
+    // 核心：showSection函数
+    window.showSection = function(sectionId) {
         try {
-            if (currentSection === sectionId) return;
+            // 获取当前活动分区
+            const currentActive = document.querySelector('.content-section.active');
+            if (currentActive && currentActive.id === sectionId) return;
             
             // 隐藏所有内容分区
             document.querySelectorAll('.content-section').forEach(section => {
@@ -42,7 +41,8 @@
                 link.classList.remove('active');
             });
             
-            const activeLink = document.querySelector(`.nav-links a[onclick*="${sectionId}"]`);
+            // 找到并激活对应链接
+            const activeLink = document.querySelector(`a[onclick*="${sectionId}"]`);
             if (activeLink) {
                 activeLink.classList.add('active');
             }
@@ -57,8 +57,6 @@
                 mobileActiveLink.classList.add('active');
             }
             
-            currentSection = sectionId;
-            
             // 控制信息框的显示（只在概述页面显示）
             const infobox = document.getElementById('infobox');
             if (infobox) {
@@ -69,21 +67,16 @@
                 }
             }
             
-            // 处理玩家开发区的标签页
-            if (sectionId === 'development') {
-                showDevelopmentTab(currentDevTab);
-            }
+            // 滚动到顶部
+            window.scrollTo({ top: 0, behavior: 'smooth' });
             
-            // 移动端关闭菜单
-            if (window.innerWidth <= 992) {
-                const mainNav = document.getElementById('main-nav');
-                if (mainNav) mainNav.classList.remove('active');
-            }
-            
+            return false;
         } catch (error) {
             console.error('切换分区失败:', error);
+            return false;
         }
-    }
+    };
+
     
     // 开发标签页切换
     function showDevelopmentTab(tabId) {
