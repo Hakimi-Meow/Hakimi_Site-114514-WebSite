@@ -1349,6 +1349,7 @@
         }
     </style>
 </head>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <body>
     <!-- 返回顶部按钮 -->
     <div id="back-to-top" title="返回顶部" onclick="scrollToTop()">
@@ -2354,10 +2355,24 @@
 
     <!-- JavaScript -->
     <script>
-        // ==================== Supabase 配置 ====================
-        const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
-        
+// 修复后的安全初始化代码
+const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
+
+// 安全初始化
+let supabaseClient;
+try {
+    if (window.supabase && window.supabase.createClient) {
+        supabaseClient = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log('Supabase初始化成功');
+    } else {
+        console.error('Supabase库未加载');
+        supabaseClient = null;
+    }
+} catch (error) {
+    console.error('Supabase初始化失败:', error);
+    supabaseClient = null;
+}       
         // 初始化Supabase客户端
         const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
 
