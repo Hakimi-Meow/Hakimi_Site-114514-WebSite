@@ -6,14 +6,11 @@
     <title>P:SCP CN Site-114514 官网</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <link rel="preconnect" href="https://jdjeylqdfqsorzjgueom.supabase.co">
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
     const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
     
-    let supabase;
     
     window.showSection = function(sectionId) {
         try {
@@ -143,18 +140,6 @@
         }
     }
     
-    function initSupabase() {
-        try {
-            if (window.supabase && window.supabase.createClient) {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-                console.log('Supabase初始化完成');
-            } else {
-                console.error('Supabase JS库未加载');
-            }
-        } catch (error) {
-            console.error('Supabase初始化异常:', error);
-        }
-    }
     
     async function loadGuestbookMessages() {
         try {
