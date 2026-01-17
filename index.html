@@ -6,355 +6,15 @@
     <title>P:SCP CN Site-114514 官网</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- ==================== 备用网址安全冗余 ==================== -->
-    <link rel="preconnect" href="https://jdjeylqdfqsorzjgueom.supabase.co">
+    <!-- Supabase配置（修复重复问题） -->
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
     <script>
-    // ===== 放在这里（所有函数的最前面） =====
+    // Supabase配置 - 只保留一份
     const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
     </script>
-    <script>
-    if (typeof SUPABASE_URL === 'undefined') {
-        const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
-        const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
-    }
-    
-    
-    window.showSection = function(sectionId) {
-        try {
-            // 获取当前活动分区
-            const currentActive = document.querySelector('.content-section.active');
-            if (currentActive && currentActive.id === sectionId) return;
-            
-            // 隐藏所有内容分区
-            document.querySelectorAll('.content-section').forEach(section => {
-                section.classList.remove('active');
-            });
-            
-            // 显示目标分区
-            const targetSection = document.getElementById(sectionId);
-            if (targetSection) {
-                targetSection.classList.add('active');
-            }
-            
-            // 更新左侧导航激活状态
-            document.querySelectorAll('.nav-links a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            // 找到并激活对应链接
-            const activeLink = document.querySelector(`a[onclick*="${sectionId}"]`);
-            if (activeLink) {
-                activeLink.classList.add('active');
-            }
-            
-            // 更新移动端导航激活状态
-            document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
-                link.classList.remove('active');
-            });
-            
-            const mobileActiveLink = document.querySelector(`.mobile-quick-nav a[data-section="${sectionId}"]`);
-            if (mobileActiveLink) {
-                mobileActiveLink.classList.add('active');
-            }
-            
-            // 控制信息框的显示（只在概述页面显示）
-            const infobox = document.getElementById('infobox');
-            if (infobox) {
-                if (sectionId === 'overview') {
-                    infobox.classList.remove('hidden');
-                } else {
-                    infobox.classList.add('hidden');
-                }
-            }
-            
-            // 滚动到顶部
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-            
-            return false;
-        } catch (error) {
-            console.error('切换分区失败:', error);
-            return false;
-        }
-    };
-
-    
-    // 开发标签页切换
-    function showDevelopmentTab(tabId) {
-        try {
-            // 隐藏所有开发标签页
-            document.querySelectorAll('.development-tab').forEach(tab => {
-                tab.style.display = 'none';
-            });
-            
-            // 显示选中的标签页
-            const targetTab = document.getElementById(tabId);
-            if (targetTab) {
-                targetTab.style.display = 'block';
-                currentDevTab = tabId;
-            }
-        } catch (error) {
-            console.error('切换标签页失败:', error);
-        }
-    }
-    
-    // 基础工具函数
-    function scrollToTop() {
-        window.scrollTo({top: 0, behavior: 'smooth'});
-    }
-    
-    function scrollToBottom() {
-        window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
-    }
-    
-    // Toast提示
-    function showToast(message, type = 'success') {
-        try {
-            const toast = document.getElementById('gb-toast');
-            if (!toast) return;
-            
-            toast.textContent = message;
-            toast.className = `gb-toast ${type}`;
-            toast.style.display = 'block';
-            
-            setTimeout(() => { 
-                if (toast.parentNode) {
-                    toast.style.display = 'none';
-                }
-            }, 4000);
-        } catch (error) {
-            console.error('显示Toast失败:', error);
-        }
-    }
-    
-    // HTML转义
-    function escapeHtml(text) {
-        const div = document.createElement('div');
-        div.textContent = text;
-        return div.innerHTML;
-    }
-    
-    // 时间格式化
-    function formatTime(isoString) {
-        try {
-            const date = new Date(isoString);
-            return date.toLocaleString('zh-CN', { 
-                year: 'numeric', 
-                month: '2-digit', 
-                day: '2-digit', 
-                hour: '2-digit', 
-                minute: '2-digit' 
-            });
-        } catch (error) {
-            return '未知时间';
-        }
-    }
-    
-    // 初始化Supabase
-    function initSupabase() {
-        try {
-            if (window.supabase && window.supabase.createClient) {
-                supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-                console.log('Supabase初始化完成');
-            } else {
-                console.error('Supabase JS库未加载');
-            }
-        } catch (error) {
-            console.error('Supabase初始化异常:', error);
-        }
-    }
-    
-    // 留言板提交（只提交，不处理返回）
-    async function submitGuestbookMessage() {
-        const passcodeInput = document.getElementById('gb-passcode');
-        const messageInput = document.getElementById('gb-message');
-        const submitBtn = document.getElementById('gb-submit-btn');
-        
-        if (!passcodeInput || !messageInput || !submitBtn) {
-            showToast('表单元素未找到', 'error');
-            return;
-        }
-        
-        const passcode = passcodeInput.value.trim();
-        const content = messageInput.value.trim();
-        
-        // 验证输入
-        if (!passcode) {
-            showToast('请输入通行证', 'error');
-            return;
-        }
-        
-        if (content.length < 2) {
-            showToast('留言内容太短啦', 'error');
-            return;
-        }
-        
-        if (content.length > 500) {
-            showToast('留言不能超过500字符', 'error');
-            return;
-        }
-        
-        // 显示加载状态
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 发送中...';
-        submitBtn.disabled = true;
-        
-        try {
-            // 直接提交到Supabase RPC函数
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_message_auto`, {
-                method: 'POST',
-                headers: { 
-                    'apikey': SUPABASE_KEY, 
-                    'Authorization': `Bearer ${SUPABASE_KEY}`, 
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ 
-                    p_passcode: passcode,
-                    p_content: content
-                })
-            });
-            
-            if (!response.ok) {
-                const error = await response.text();
-                console.error('提交失败:', error);
-                showToast('发布失败，请检查通行证', 'error');
-            } else {
-                showToast('留言发布成功！', 'success');
-                messageInput.value = '';
-                const charCount = document.getElementById('gb-char-count');
-                if (charCount) charCount.textContent = '0';
-            }
-            
-        } catch (error) {
-            console.error('提交失败:', error);
-            showToast('发布失败，网络似乎出了点问题', 'error');
-        } finally {
-            // 恢复按钮状态
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
-    }
-    
-    // 投稿提交（只提交，不处理返回）
-    async function submitSubmission() {
-        const passcode = document.getElementById('submission-passcode')?.value.trim();
-        const title = document.getElementById('submission-title')?.value.trim();
-        const content = document.getElementById('submission-content')?.value.trim();
-        const category = document.getElementById('submission-category')?.value;
-        const submitBtn = document.getElementById('submission-submit-btn');
-        
-        // 验证输入
-        if (!passcode || !title || !content || !category) {
-            showToast('请填写所有必填项', 'error');
-            return;
-        }
-        
-        // 显示加载状态
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 提交中...';
-        submitBtn.disabled = true;
-        
-        try {
-            // 直接提交到Supabase RPC函数
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_submission_auto`, {
-                method: 'POST',
-                headers: { 
-                    'apikey': SUPABASE_KEY, 
-                    'Authorization': `Bearer ${SUPABASE_KEY}`, 
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({ 
-                    p_passcode: passcode,
-                    p_title: title,
-                    p_content: content,
-                    p_category: category
-                })
-            });
-            
-            if (!response.ok) {
-                const error = await response.text();
-                console.error('提交失败:', error);
-                showToast('投稿失败，请检查通行证', 'error');
-            } else {
-                showToast('投稿提交成功！等待审核', 'success');
-                // 清空表单
-                document.getElementById('submission-passcode').value = '';
-                document.getElementById('submission-title').value = '';
-                document.getElementById('submission-content').value = '';
-                document.getElementById('submission-category').value = '';
-                const charCount = document.getElementById('submission-char-count');
-                if (charCount) charCount.textContent = '0';
-                const mediaPreview = document.getElementById('media-preview');
-                if (mediaPreview) mediaPreview.innerHTML = '';
-            }
-            
-        } catch (error) {
-            console.error('提交失败:', error);
-            showToast('投稿提交失败，网络似乎出了点问题', 'error');
-        } finally {
-            // 恢复按钮状态
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
-    }
-    
-    // 页面初始化（DOM加载完成后执行）
-    function initPage() {
-        // 1. 初始化Supabase
-        initSupabase();
-        
-        // 2. 默认显示概述页面
-        showSection('overview');
-        
-        // 3. 字符计数
-        const gbMessage = document.getElementById('gb-message');
-        const gbCharCount = document.getElementById('gb-char-count');
-        if (gbMessage && gbCharCount) {
-            gbMessage.addEventListener('input', function() {
-                gbCharCount.textContent = this.value.length;
-            });
-        }
-        
-        const submissionContent = document.getElementById('submission-content');
-        const submissionCharCount = document.getElementById('submission-char-count');
-        if (submissionContent && submissionCharCount) {
-            submissionContent.addEventListener('input', function() {
-                submissionCharCount.textContent = this.value.length;
-            });
-        }
-        
-        // 4. 移动端菜单切换
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', function() {
-                const nav = document.getElementById('main-nav');
-                if (nav) nav.classList.toggle('active');
-            });
-        }
-        
-        // 5. 返回顶部按钮显示控制
-        window.onscroll = function() {
-            const backToTop = document.getElementById('back-to-top');
-            if (backToTop) {
-                if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                    backToTop.style.display = 'flex';
-                } else {
-                    backToTop.style.display = 'none';
-                }
-            }
-        };
-        
-        console.log('页面初始化完成');
-    }
-    
-    // 当DOM加载完成后初始化
-    document.addEventListener('DOMContentLoaded', initPage);
-    </script>
-    
     <style>
-    /* 原有CSS样式保持不变 */
+    /* ==================== 基础样式 ==================== */
     * {
         margin: 0;
         padding: 0;
@@ -369,7 +29,6 @@
         min-height: 100vh;
     }
     
-    /* ==================== 完整CSS样式 ==================== */
     /* 返回顶部按钮 */
     #back-to-top {
         position: fixed;
@@ -480,7 +139,7 @@
         cursor: pointer;
     }
     
-    /* 主要内容区域 - 修改为左右布局 */
+    /* 主要内容区域 */
     .wiki-container {
         max-width: 1200px;
         margin: 0 auto;
@@ -505,7 +164,6 @@
         max-height: calc(100vh - 100px);
     }
     
-    /* 电脑端滚动条样式 */
     .left-nav::-webkit-scrollbar {
         width: 8px;
     }
@@ -609,7 +267,7 @@
         object-fit: cover;
     }
     
-    /* 信息框 - 只在概述页面显示 */
+    /* 信息框 */
     .infobox {
         background-color: #2a2a2a;
         border: 1px solid #444;
@@ -723,6 +381,18 @@
         display: flex;
         align-items: center;
         gap: 10px;
+    }
+    
+    /* 服务器特色概述 - 修复出格问题 */
+    .content-text ul,
+    .content-text ol {
+        margin-left: 20px;
+        padding-left: 0;
+    }
+    
+    .content-text li {
+        margin-bottom: 8px;
+        word-wrap: break-word;
     }
     
     /* 物品介绍样式 */
@@ -851,7 +521,7 @@
         margin-bottom: 10px;
     }
     
-    /* 管理组样式 */
+    /* 管理组样式 - 修复排序问题 */
     .admin-list {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -1041,7 +711,6 @@
         margin-bottom: 0.8rem;
     }
     
-    /* =============== 新增：留言板备注样式 =============== */
     .gb-user-info {
         display: flex;
         align-items: center;
@@ -1098,7 +767,7 @@
         border-left: 5px solid #c92a2a;
     }
     
-    /* =============== 新增：投稿区样式 =============== */
+    /* 投稿区样式 */
     .submission-form { margin-bottom: 2.5rem; }
     .submission-form-row { margin-bottom: 1.2rem; }
     
@@ -1137,67 +806,6 @@
         font-size: 0.9em;
         color: #6c8bc7;
         margin-top: 5px;
-    }
-    
-    .submission-media-upload {
-        background-color: rgba(255,255,255,0.03);
-        border: 2px dashed #3a506b;
-        border-radius: 10px;
-        padding: 25px;
-        text-align: center;
-        margin-bottom: 1.2rem;
-        transition: all 0.3s ease;
-    }
-    
-    .submission-media-upload:hover {
-        border-color: #4a9eff;
-        background-color: rgba(255,255,255,0.05);
-    }
-    
-    .submission-media-upload i {
-        font-size: 3rem;
-        color: #4a9eff;
-        margin-bottom: 15px;
-        opacity: 0.7;
-    }
-    
-    .submission-media-preview {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 15px;
-    }
-    
-    .media-preview-item {
-        position: relative;
-        width: 100px;
-        height: 100px;
-        border-radius: 8px;
-        overflow: hidden;
-        border: 2px solid #3a506b;
-    }
-    
-    .media-preview-item img, .media-preview-item video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-    
-    .media-remove-btn {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: rgba(255, 0, 0, 0.8);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
     }
     
     .submission-button {
@@ -1305,31 +913,6 @@
         margin-bottom: 1.2rem;
     }
     
-    .submission-media-container {
-        display: grid;
-        grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-        gap: 15px;
-        margin: 1.2rem 0;
-    }
-    
-    .submission-media-item {
-        border-radius: 8px;
-        overflow: hidden;
-        border: 2px solid #3a506b;
-        transition: transform 0.3s ease;
-    }
-    
-    .submission-media-item:hover {
-        transform: scale(1.03);
-        border-color: #4a9eff;
-    }
-    
-    .submission-media-item img, .submission-media-item video {
-        width: 100%;
-        height: auto;
-        display: block;
-    }
-    
     .submission-stats {
         display: flex;
         gap: 20px;
@@ -1367,6 +950,44 @@
         height: 40px;
         animation: spin 1s linear infinite;
         margin: 0 auto 1rem;
+    }
+    
+    /* 服务器音乐OST页面 */
+    .ost-tab {
+        display: none;
+    }
+    
+    .ost-tab.active {
+        display: block;
+    }
+    
+    .ost-placeholder {
+        text-align: center;
+        padding: 60px 20px;
+        background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+        border-radius: 15px;
+        border: 2px dashed #4a9eff;
+        margin-top: 20px;
+    }
+    
+    .ost-placeholder i {
+        font-size: 4rem;
+        color: #4a9eff;
+        margin-bottom: 20px;
+        opacity: 0.7;
+    }
+    
+    .ost-placeholder h3 {
+        font-size: 2rem;
+        color: #fff;
+        margin-bottom: 15px;
+    }
+    
+    .ost-placeholder p {
+        color: #8a9bba;
+        max-width: 500px;
+        margin: 0 auto;
+        line-height: 1.8;
     }
     
     /* 投稿区样式 */
@@ -1615,14 +1236,17 @@
             flex-wrap: wrap;
         }
         
-        .submission-media-container {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
-        }
-        
         .gb-item-header {
             flex-direction: column;
             align-items: flex-start;
             gap: 5px;
+        }
+        
+        /* 修复移动端点击跳转 */
+        .nav-links a,
+        .mobile-quick-nav a,
+        .wiki-nav a {
+            cursor: pointer;
         }
     }
     
@@ -1706,6 +1330,7 @@
             <li><a href="#" onclick="showSection('admin'); return false;" data-section="admin"><i class="fas fa-users"></i> 管理组</a></li>
             <li><a href="#" onclick="showSection('creator'); return false;" data-section="creator"><i class="fas fa-user"></i> 制作人</a></li>
             <li><a href="#" onclick="showSection('qq'); return false;" data-section="qq"><i class="fab fa-qq"></i> QQ群</a></li>
+            <li><a href="#" onclick="showSection('music'); showOstTab('entry-music'); return false;" data-section="music"><i class="fas fa-music"></i> 音乐</a></li>
             <li><a href="#" onclick="showSection('development'); showDevelopmentTab('guestbook'); return false;" data-section="development"><i class="fas fa-comment-dots"></i> 留言板</a></li>
         </ul>
     </nav>
@@ -1756,6 +1381,7 @@
                     <li><a href="#" onclick="showSection('events'); return false;"><i class="fas fa-calendar-alt"></i> 活动</a></li>
                     <li><a href="#" onclick="showSection('creator'); return false;"><i class="fas fa-user"></i> 制作人介绍</a></li>
                     <li><a href="#" onclick="showSection('qq'); return false;"><i class="fab fa-qq"></i> QQ群信息</a></li>
+                    <li><a href="#" onclick="showSection('music'); return false;"><i class="fas fa-music"></i> 服务器音乐OST</a></li>
                     <li><a href="#" onclick="showSection('misc'); return false;"><i class="fas fa-random"></i> 杂项</a></li>
                     <li><a href="#" onclick="showSection('other'); return false;"><i class="fas fa-question"></i> 不知道写啥</a></li>
                 </ul>
@@ -2158,7 +1784,7 @@
                 </div>
             </section>
             
-            <!-- === 管理组分区 === -->
+            <!-- === 管理组分区 - 已修复排序 === -->
             <section class="content-section" id="admin">
                 <h2 class="section-title">管理组</h2>
                 <div class="section-content">
@@ -2168,11 +1794,18 @@
                     </div>
                     
                     <div class="admin-list">
-                        <!-- 管理组成员列表 -->
+                        <!-- 哈基米编号0 -->
                         <div class="admin-card">
-                            <div class="admin-name">1. TouKuChaZi_CN</div>
+                            <div class="admin-name">0. TouKuChaZi_CN</div>
                             <div class="admin-role">现任服主及监督</div>
                             <div class="admin-note">服务器主要负责人</div>
+                        </div>
+                        
+                        <!-- 白喵编号1 -->
+                        <div class="admin-card">
+                            <div class="admin-name">1. 白喵<前任服主■#*#@￥%></div>
+                            <div class="admin-role">前任服主</div>
+                            <div class="admin-note">《免费可悦~》</div>
                         </div>
                         
                         <div class="admin-card">
@@ -2300,12 +1933,6 @@
                             <div class="admin-role">管理</div>
                             <div class="admin-note">日常管理</div>
                         </div>
-                        
-                        <div class="admin-card">
-                            <div class="admin-name">0. 白喵&lt;前任服主■#*#@￥%&gt;</div>
-                            <div class="admin-role">前任服主</div>
-                            <div class="admin-note">《免费可悦~》</div>
-                        </div>
                     </div>
                     
                     <div class="warning-box" style="margin-top: 20px;">
@@ -2316,7 +1943,7 @@
                 </div>
             </section>
             
-            <!-- === 玩家氛围分区 === -->
+            <!-- === 玩家氛围分区 - 修复出格问题 === -->
             <section class="content-section" id="atmosphere">
                 <h2 class="section-title">玩家氛围</h2>
                 <div class="section-content">
@@ -2337,7 +1964,7 @@
                 </div>
             </section>
             
-            <!-- === 活动分区 === -->
+            <!-- === 活动分区 - 修复出格问题 === -->
             <section class="content-section" id="events">
                 <h2 class="section-title">活动</h2>
                 <div class="section-content">
@@ -2435,6 +2062,42 @@
                 </div>
             </section>
             
+            <!-- === 服务器音乐OST分区 === -->
+            <section class="content-section" id="music">
+                <h2 class="section-title">服务器音乐OST</h2>
+                <div class="section-content">
+                    <!-- OST标签页导航 -->
+                    <div class="nav-links" style="margin-bottom: 20px; display: flex; gap: 10px;">
+                        <a href="#" onclick="showOstTab('entry-music'); return false;" style="padding: 10px 20px;" class="active">
+                            <i class="fas fa-play-circle"></i> 入场音乐OST
+                        </a>
+                        <a href="#" onclick="showOstTab('sound-effects'); return false;" style="padding: 10px 20px;">
+                            <i class="fas fa-volume-up"></i> 音效OST
+                        </a>
+                    </div>
+                    
+                    <!-- 入场音乐OST标签页 -->
+                    <div id="entry-music" class="ost-tab active">
+                        <div class="ost-placeholder">
+                            <i class="fas fa-music"></i>
+                            <h3>入场音乐OST - 开发中</h3>
+                            <p>服务器入场音乐库正在制作中，请耐心等待！</p>
+                            <p><small><i>哈基米大人正在精心挑选适合服务器氛围的音乐~</i></small></p>
+                        </div>
+                    </div>
+                    
+                    <!-- 音效OST标签页 -->
+                    <div id="sound-effects" class="ost-tab">
+                        <div class="ost-placeholder">
+                            <i class="fas fa-headphones"></i>
+                            <h3>音效OST - 开发中</h3>
+                            <p>服务器音效库正在制作中，请耐心等待！</p>
+                            <p><small><i>包含各种SCP音效、武器音效和环境音效~</i></small></p>
+                        </div>
+                    </div>
+                </div>
+            </section>
+            
             <!-- === 杂项分区 === -->
             <section class="content-section" id="misc">
                 <h2 class="section-title">杂项</h2>
@@ -2473,7 +2136,7 @@
                 </div>
             </section>
             
-            <!-- === 不知道写啥分区 === -->
+            <!-- === 不知道写啥分区 - 修复出格问题 === -->
             <section class="content-section" id="other">
                 <h2 class="section-title">不知道写啥</h2>
                 <div class="section-content">
@@ -2508,12 +2171,20 @@
                     <i class="fas fa-code"></i> 玩家开发区
                 </div>
                 
+                <!-- 开发标签页导航 -->
+                <div class="nav-links" style="margin-bottom: 20px; display: flex; gap: 10px;">
+                    <a href="#" onclick="showDevelopmentTab('guestbook'); return false;" style="padding: 10px 20px;" class="active">
+                        <i class="fas fa-comment-dots"></i> 访客留言板
+                    </a>
+                    <a href="#" onclick="showDevelopmentTab('submission'); return false;" style="padding: 10px 20px;">
+                        <i class="fas fa-paper-plane"></i> 投稿区
+                    </a>
+                </div>
+                
                 <!-- 留言板标签页 -->
                 <div id="guestbook" class="development-tab">
-                    <div class="section-title" style="margin-top:20px; font-size:1.3rem;">
-                        <i class="fas fa-comment-dots"></i> 访客留言板（新版通行证系统）
-                    </div>
                     <div class="section-content">
+                        <h3 style="margin-bottom: 20px; color: #4a9eff;">访客留言板（新版通行证系统）</h3>
                         <p class="subtitle">现在需要使用通行证才能留言。如果您还没有通行证，请联系管理获取。</p>
                         
                         <!-- 留言表单 -->
@@ -2538,9 +2209,10 @@
                         
                         <!-- 留言列表 -->
                         <div class="gb-messages" id="gb-messages">
-                            <div class="gb-loading-state" id="gb-loading">
-                                <div class="gb-spinner"></div>
-                                <p>正在加载留言...</p>
+                            <!-- 留言会动态加载到这里 -->
+                            <div class="gb-empty-state" id="gb-empty">
+                                <i class="fas fa-comments" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                <p>还没有留言，快来留下第一条吧！</p>
                             </div>
                         </div>
                     </div>
@@ -2548,10 +2220,8 @@
 
                 <!-- 投稿区标签页 -->
                 <div id="submission" class="development-tab" style="display:none;">
-                    <div class="section-title" style="margin-top:20px; font-size:1.3rem;">
-                        <i class="fas fa-paper-plane"></i> 玩家投稿区
-                    </div>
                     <div class="section-content">
+                        <h3 style="margin-bottom: 20px; color: #4a9eff;">玩家投稿区</h3>
                         <div class="info-box">
                             <h3><i class="fas fa-info-circle"></i> 投稿说明</h3>
                             <p>欢迎投稿！您可以分享游戏截图、原创故事、插件建议等内容。投稿需要审核通过后才会显示。</p>
@@ -2593,22 +2263,6 @@
                                 <div class="submission-char-count"><span id="submission-char-count">0</span> / 2000</div>
                             </div>
                             
-                            <div class="submission-form-row">
-                                <div class="submission-media-upload" id="media-upload-area">
-                                    <i class="fas fa-cloud-upload-alt"></i>
-                                    <h4>上传图片/视频（可选）</h4>
-                                    <p>点击或拖拽文件到此区域上传，最多5个文件，每个不超过10MB</p>
-                                    <input type="file" id="media-upload-input" multiple accept="image/*,video/*" style="display:none;">
-                                    <button onclick="document.getElementById('media-upload-input').click()" class="gb-button" style="margin-top:15px; width:auto; padding:10px 20px;">
-                                        <i class="fas fa-upload"></i> 选择文件
-                                    </button>
-                                </div>
-                                
-                                <div class="submission-media-preview" id="media-preview">
-                                    <!-- 文件预览会动态添加到这里 -->
-                                </div>
-                            </div>
-                            
                             <button id="submission-submit-btn" class="submission-button" onclick="submitSubmission()">
                                 <i class="fas fa-paper-plane"></i> 提交投稿
                             </button>
@@ -2620,9 +2274,10 @@
                         
                         <!-- 投稿列表 -->
                         <div class="submission-list" id="submission-list">
-                            <div class="submission-loading-state" id="submission-loading">
-                                <div class="submission-spinner"></div>
-                                <p>正在加载投稿...</p>
+                            <!-- 投稿会动态加载到这里 -->
+                            <div class="submission-empty-state" id="submission-empty">
+                                <i class="fas fa-newspaper" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                                <p>还没有投稿，快来分享你的创意吧！</p>
                             </div>
                         </div>
                     </div>
@@ -2690,5 +2345,591 @@
     
     <!-- 消息提示框 -->
     <div id="gb-toast" class="gb-toast"></div>
+
+<script>
+// ==================== JavaScript 代码 ====================
+let supabase = null;
+let currentDevTab = 'guestbook';
+let currentOstTab = 'entry-music';
+
+// 全局Supabase配置（已修复重复问题）
+const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
+const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
+
+// 页面切换函数
+window.showSection = function(sectionId) {
+    try {
+        // 获取当前活动分区
+        const currentActive = document.querySelector('.content-section.active');
+        if (currentActive && currentActive.id === sectionId) return;
+        
+        // 隐藏所有内容分区
+        document.querySelectorAll('.content-section').forEach(section => {
+            section.classList.remove('active');
+        });
+        
+        // 显示目标分区
+        const targetSection = document.getElementById(sectionId);
+        if (targetSection) {
+            targetSection.classList.add('active');
+        }
+        
+        // 更新左侧导航激活状态
+        document.querySelectorAll('.nav-links a').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        // 找到并激活对应链接
+        const activeLink = document.querySelector(`a[onclick*="${sectionId}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+        
+        // 更新移动端导航激活状态
+        document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        const mobileActiveLink = document.querySelector(`.mobile-quick-nav a[data-section="${sectionId}"]`);
+        if (mobileActiveLink) {
+            mobileActiveLink.classList.add('active');
+        }
+        
+        // 控制信息框的显示（只在概述页面显示）
+        const infobox = document.getElementById('infobox');
+        if (infobox) {
+            if (sectionId === 'overview') {
+                infobox.classList.remove('hidden');
+            } else {
+                infobox.classList.add('hidden');
+            }
+        }
+        
+        // 滚动到顶部
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+        
+        // 如果是开发区，显示默认标签页
+        if (sectionId === 'development') {
+            showDevelopmentTab(currentDevTab);
+        }
+        
+        // 如果是音乐区，显示默认标签页
+        if (sectionId === 'music') {
+            showOstTab(currentOstTab);
+        }
+        
+        return false;
+    } catch (error) {
+        console.error('切换分区失败:', error);
+        return false;
+    }
+};
+
+// 开发标签页切换
+function showDevelopmentTab(tabId) {
+    try {
+        // 更新当前标签页
+        currentDevTab = tabId;
+        
+        // 隐藏所有开发标签页
+        document.querySelectorAll('.development-tab').forEach(tab => {
+            tab.style.display = 'none';
+        });
+        
+        // 显示选中的标签页
+        const targetTab = document.getElementById(tabId);
+        if (targetTab) {
+            targetTab.style.display = 'block';
+        }
+        
+        // 更新标签页导航激活状态
+        document.querySelectorAll('#development .nav-links a').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        const activeLink = document.querySelector(`#development a[onclick*="${tabId}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+        
+        // 如果是留言板标签页，加载留言
+        if (tabId === 'guestbook') {
+            setTimeout(loadGuestbookMessages, 100);
+        }
+        // 如果是投稿标签页，加载投稿
+        else if (tabId === 'submission') {
+            setTimeout(loadSubmissions, 100);
+        }
+    } catch (error) {
+        console.error('切换标签页失败:', error);
+    }
+}
+
+// OST标签页切换
+function showOstTab(tabId) {
+    try {
+        // 更新当前标签页
+        currentOstTab = tabId;
+        
+        // 隐藏所有OST标签页
+        document.querySelectorAll('.ost-tab').forEach(tab => {
+            tab.classList.remove('active');
+        });
+        
+        // 显示选中的标签页
+        const targetTab = document.getElementById(tabId);
+        if (targetTab) {
+            targetTab.classList.add('active');
+        }
+        
+        // 更新标签页导航激活状态
+        document.querySelectorAll('#music .nav-links a').forEach(link => {
+            link.classList.remove('active');
+        });
+        
+        const activeLink = document.querySelector(`#music a[onclick*="${tabId}"]`);
+        if (activeLink) {
+            activeLink.classList.add('active');
+        }
+    } catch (error) {
+        console.error('切换OST标签页失败:', error);
+    }
+}
+
+// 基础工具函数
+function scrollToTop() {
+    window.scrollTo({top: 0, behavior: 'smooth'});
+}
+
+function scrollToBottom() {
+    window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
+}
+
+// Toast提示
+function showToast(message, type = 'success') {
+    try {
+        const toast = document.getElementById('gb-toast');
+        if (!toast) return;
+        
+        toast.textContent = message;
+        toast.className = `gb-toast ${type}`;
+        toast.style.display = 'block';
+        
+        setTimeout(() => { 
+            if (toast.parentNode) {
+                toast.style.display = 'none';
+            }
+        }, 4000);
+    } catch (error) {
+        console.error('显示Toast失败:', error);
+    }
+}
+
+// 时间格式化
+function formatTime(isoString) {
+    try {
+        const date = new Date(isoString);
+        return date.toLocaleString('zh-CN', { 
+            year: 'numeric', 
+            month: '2-digit', 
+            day: '2-digit', 
+            hour: '2-digit', 
+            minute: '2-digit' 
+        });
+    } catch (error) {
+        return '未知时间';
+    }
+}
+
+// 初始化Supabase
+function initSupabase() {
+    try {
+        if (window.supabase && window.supabase.createClient) {
+            supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+            console.log('Supabase初始化完成');
+            return supabase;
+        } else {
+            console.error('Supabase JS库未加载');
+            return null;
+        }
+    } catch (error) {
+        console.error('Supabase初始化异常:', error);
+        return null;
+    }
+}
+
+// 加载留言板消息
+async function loadGuestbookMessages() {
+    const messagesContainer = document.getElementById('gb-messages');
+    if (!messagesContainer) return;
+    
+    try {
+        // 显示加载状态
+        messagesContainer.innerHTML = `
+            <div class="gb-loading-state">
+                <div class="gb-spinner"></div>
+                <p>正在加载留言...</p>
+            </div>
+        `;
+        
+        const db = initSupabase();
+        if (!db) {
+            throw new Error('数据库连接失败');
+        }
+        
+        // 从Supabase获取留言数据
+        const { data, error } = await db
+            .from('messages')
+            .select('*')
+            .eq('status', 'approved')  // 只显示已审核的留言
+            .order('created_at', { ascending: false })
+            .limit(50);
+        
+        if (error) {
+            throw error;
+        }
+        
+        // 清空容器
+        messagesContainer.innerHTML = '';
+        
+        if (!data || data.length === 0) {
+            messagesContainer.innerHTML = `
+                <div class="gb-empty-state" id="gb-empty">
+                    <i class="fas fa-comments" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <p>还没有留言，快来留下第一条吧！</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // 渲染留言
+        data.forEach(message => {
+            const messageElement = document.createElement('div');
+            messageElement.className = 'gb-item';
+            messageElement.innerHTML = `
+                <div class="gb-item-header">
+                    <div class="gb-user-info">
+                        <span class="gb-user">${escapeHtml(message.player_name || '匿名玩家')}</span>
+                        <span class="gb-user-note">${escapeHtml(message.player_note || '')}</span>
+                    </div>
+                    <div class="gb-time">${formatTime(message.created_at)}</div>
+                </div>
+                <div class="gb-content">${escapeHtml(message.content)}</div>
+            `;
+            messagesContainer.appendChild(messageElement);
+        });
+        
+    } catch (error) {
+        console.error('加载留言失败:', error);
+        messagesContainer.innerHTML = `
+            <div class="gb-empty-state">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>加载留言失败，请稍后重试</p>
+            </div>
+        `;
+    }
+}
+
+// 加载投稿
+async function loadSubmissions() {
+    const submissionsContainer = document.getElementById('submission-list');
+    if (!submissionsContainer) return;
+    
+    try {
+        // 显示加载状态
+        submissionsContainer.innerHTML = `
+            <div class="submission-loading-state">
+                <div class="submission-spinner"></div>
+                <p>正在加载投稿...</p>
+            </div>
+        `;
+        
+        const db = initSupabase();
+        if (!db) {
+            throw new Error('数据库连接失败');
+        }
+        
+        // 从Supabase获取投稿数据
+        const { data, error } = await db
+            .from('submissions')
+            .select('*')
+            .eq('status', 'approved')  // 只显示已审核的投稿
+            .order('created_at', { ascending: false })
+            .limit(50);
+        
+        if (error) {
+            throw error;
+        }
+        
+        // 清空容器
+        submissionsContainer.innerHTML = '';
+        
+        if (!data || data.length === 0) {
+            submissionsContainer.innerHTML = `
+                <div class="submission-empty-state" id="submission-empty">
+                    <i class="fas fa-newspaper" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                    <p>还没有投稿，快来分享你的创意吧！</p>
+                </div>
+            `;
+            return;
+        }
+        
+        // 渲染投稿
+        data.forEach(submission => {
+            const submissionElement = document.createElement('div');
+            submissionElement.className = 'submission-item';
+            if (submission.featured) {
+                submissionElement.classList.add('featured');
+            }
+            
+            submissionElement.innerHTML = `
+                <div class="submission-item-header">
+                    <div class="gb-user-info">
+                        <span class="submission-user">${escapeHtml(submission.player_name || '匿名玩家')}</span>
+                        <span class="submission-user-note">${escapeHtml(submission.player_note || '')}</span>
+                    </div>
+                    <div class="submission-meta">
+                        <span class="submission-category">${escapeHtml(submission.category)}</span>
+                        <span class="submission-time">${formatTime(submission.created_at)}</span>
+                    </div>
+                </div>
+                <h4 class="submission-title">${escapeHtml(submission.title)}</h4>
+                <div class="submission-content">${escapeHtml(submission.content)}</div>
+                <div class="submission-stats">
+                    <div class="submission-stat">
+                        <i class="fas fa-eye"></i>
+                        <span>${submission.view_count || 0} 浏览</span>
+                    </div>
+                </div>
+            `;
+            submissionsContainer.appendChild(submissionElement);
+        });
+        
+    } catch (error) {
+        console.error('加载投稿失败:', error);
+        submissionsContainer.innerHTML = `
+            <div class="submission-empty-state">
+                <i class="fas fa-exclamation-triangle" style="font-size: 3rem; margin-bottom: 1rem;"></i>
+                <p>加载投稿失败，请稍后重试</p>
+            </div>
+        `;
+    }
+}
+
+// HTML转义
+function escapeHtml(text) {
+    if (!text) return '';
+    const div = document.createElement('div');
+    div.textContent = text;
+    return div.innerHTML;
+}
+
+// 留言板提交
+async function submitGuestbookMessage() {
+    const passcodeInput = document.getElementById('gb-passcode');
+    const messageInput = document.getElementById('gb-message');
+    const submitBtn = document.getElementById('gb-submit-btn');
+    
+    if (!passcodeInput || !messageInput || !submitBtn) {
+        showToast('表单元素未找到', 'error');
+        return;
+    }
+    
+    const passcode = passcodeInput.value.trim();
+    const content = messageInput.value.trim();
+    
+    // 验证输入
+    if (!passcode) {
+        showToast('请输入通行证', 'error');
+        return;
+    }
+    
+    if (content.length < 2) {
+        showToast('留言内容太短啦', 'error');
+        return;
+    }
+    
+    if (content.length > 500) {
+        showToast('留言不能超过500字符', 'error');
+        return;
+    }
+    
+    // 显示加载状态
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 发送中...';
+    submitBtn.disabled = true;
+    
+    try {
+        // 直接提交到Supabase RPC函数
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_message_auto`, {
+            method: 'POST',
+            headers: { 
+                'apikey': SUPABASE_KEY, 
+                'Authorization': `Bearer ${SUPABASE_KEY}`, 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                p_passcode: passcode,
+                p_content: content
+            })
+        });
+        
+        if (!response.ok) {
+            const error = await response.text();
+            console.error('提交失败:', error);
+            showToast('发布失败，请检查通行证', 'error');
+        } else {
+            showToast('留言发布成功！', 'success');
+            messageInput.value = '';
+            const charCount = document.getElementById('gb-char-count');
+            if (charCount) charCount.textContent = '0';
+            
+            // 重新加载留言
+            setTimeout(loadGuestbookMessages, 500);
+        }
+        
+    } catch (error) {
+        console.error('提交失败:', error);
+        showToast('发布失败，网络似乎出了点问题', 'error');
+    } finally {
+        // 恢复按钮状态
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+// 投稿提交
+async function submitSubmission() {
+    const passcode = document.getElementById('submission-passcode')?.value.trim();
+    const title = document.getElementById('submission-title')?.value.trim();
+    const content = document.getElementById('submission-content')?.value.trim();
+    const category = document.getElementById('submission-category')?.value;
+    const submitBtn = document.getElementById('submission-submit-btn');
+    
+    // 验证输入
+    if (!passcode || !title || !content || !category) {
+        showToast('请填写所有必填项', 'error');
+        return;
+    }
+    
+    if (content.length < 10) {
+        showToast('投稿内容太短啦', 'error');
+        return;
+    }
+    
+    if (content.length > 2000) {
+        showToast('投稿内容不能超过2000字符', 'error');
+        return;
+    }
+    
+    // 显示加载状态
+    const originalText = submitBtn.innerHTML;
+    submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 提交中...';
+    submitBtn.disabled = true;
+    
+    try {
+        // 直接提交到Supabase RPC函数
+        const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_submission_auto`, {
+            method: 'POST',
+            headers: { 
+                'apikey': SUPABASE_KEY, 
+                'Authorization': `Bearer ${SUPABASE_KEY}`, 
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({ 
+                p_passcode: passcode,
+                p_title: title,
+                p_content: content,
+                p_category: category
+            })
+        });
+        
+        if (!response.ok) {
+            const error = await response.text();
+            console.error('提交失败:', error);
+            showToast('投稿失败，请检查通行证', 'error');
+        } else {
+            showToast('投稿提交成功！等待审核', 'success');
+            // 清空表单
+            document.getElementById('submission-passcode').value = '';
+            document.getElementById('submission-title').value = '';
+            document.getElementById('submission-content').value = '';
+            document.getElementById('submission-category').value = '';
+            const charCount = document.getElementById('submission-char-count');
+            if (charCount) charCount.textContent = '0';
+            
+            // 重新加载投稿
+            setTimeout(loadSubmissions, 500);
+        }
+        
+    } catch (error) {
+        console.error('提交失败:', error);
+        showToast('投稿提交失败，网络似乎出了点问题', 'error');
+    } finally {
+        // 恢复按钮状态
+        submitBtn.innerHTML = originalText;
+        submitBtn.disabled = false;
+    }
+}
+
+// 页面初始化（DOM加载完成后执行）
+function initPage() {
+    // 1. 初始化Supabase
+    initSupabase();
+    
+    // 2. 默认显示概述页面
+    showSection('overview');
+    
+    // 3. 字符计数
+    const gbMessage = document.getElementById('gb-message');
+    const gbCharCount = document.getElementById('gb-char-count');
+    if (gbMessage && gbCharCount) {
+        gbMessage.addEventListener('input', function() {
+            gbCharCount.textContent = this.value.length;
+        });
+    }
+    
+    const submissionContent = document.getElementById('submission-content');
+    const submissionCharCount = document.getElementById('submission-char-count');
+    if (submissionContent && submissionCharCount) {
+        submissionContent.addEventListener('input', function() {
+            submissionCharCount.textContent = this.value.length;
+        });
+    }
+    
+    // 4. 移动端菜单切换
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', function() {
+            const nav = document.getElementById('main-nav');
+            if (nav) nav.classList.toggle('active');
+        });
+    }
+    
+    // 5. 返回顶部按钮显示控制
+    window.onscroll = function() {
+        const backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        }
+    };
+    
+    // 6. 修复移动端点击跳转
+    document.addEventListener('click', function(e) {
+        if (e.target.tagName === 'A' && e.target.getAttribute('href') === '#') {
+            e.preventDefault();
+        }
+    });
+    
+    console.log('页面初始化完成');
+}
+
+// 当DOM加载完成后初始化
+document.addEventListener('DOMContentLoaded', initPage);
+</script>
 </body>
 </html>
