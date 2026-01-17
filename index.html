@@ -6,47 +6,38 @@
     <title>P:SCP CN Site-114514 官网</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     
-    <!-- ==================== 备用网址安全冗余 ==================== -->
     <link rel="preconnect" href="https://jdjeylqdfqsorzjgueom.supabase.co">
     <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
     <script>
-    // ===== 放在这里（所有函数的最前面） =====
     const SUPABASE_URL = 'https://jdjeylqdfqsorzjgueom.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImpkamV5bHFkZnFzb3J6amd1ZW9tIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjgyMjI2NDUsImV4cCI6MjA4Mzc5ODY0NX0.-DQdNPWGdEasxd4CcFcX-7jmNyZZCjgTpyIkoBasZDE';
     
-    // Supabase客户端
     let supabase;
     
     window.showSection = function(sectionId) {
         try {
-            // 获取当前活动分区
             const currentActive = document.querySelector('.content-section.active');
             if (currentActive && currentActive.id === sectionId) return;
             
-            // 隐藏所有内容分区
             document.querySelectorAll('.content-section').forEach(section => {
                 section.classList.remove('active');
             });
             
-            // 显示目标分区
             const targetSection = document.getElementById(sectionId);
             if (targetSection) {
                 targetSection.classList.add('active');
             }
             
-            // 更新左侧导航激活状态
             document.querySelectorAll('.nav-links a').forEach(link => {
                 link.classList.remove('active');
             });
             
-            // 找到并激活对应链接
             const activeLink = document.querySelector(`a[onclick*="${sectionId}"]`);
             if (activeLink) {
                 activeLink.classList.add('active');
             }
             
-            // 更新移动端导航激活状态
             document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
                 link.classList.remove('active');
             });
@@ -56,7 +47,6 @@
                 mobileActiveLink.classList.add('active');
             }
             
-            // 控制信息框的显示（只在概述页面显示）
             const infobox = document.getElementById('infobox');
             if (infobox) {
                 if (sectionId === 'overview') {
@@ -66,17 +56,6 @@
                 }
             }
             
-            // 如果是留言板或投稿区，加载数据
-            if (sectionId === 'development') {
-                const currentTab = document.querySelector('.development-tab:not([style*="display: none"])')?.id;
-                if (currentTab === 'guestbook') {
-                    loadGuestbookMessages();
-                } else if (currentTab === 'submission') {
-                    loadSubmissions();
-                }
-            }
-            
-            // 滚动到顶部
             window.scrollTo({ top: 0, behavior: 'smooth' });
             
             return false;
@@ -85,42 +64,28 @@
             return false;
         }
     };
-
     
-    // 开发标签页切换
     function showDevelopmentTab(tabId) {
         try {
-            // 隐藏所有开发标签页
             document.querySelectorAll('.development-tab').forEach(tab => {
                 tab.style.display = 'none';
             });
             
-            // 显示选中的标签页
             const targetTab = document.getElementById(tabId);
             if (targetTab) {
                 targetTab.style.display = 'block';
-                
-                // 加载数据
-                if (tabId === 'guestbook') {
-                    loadGuestbookMessages();
-                } else if (tabId === 'submission') {
-                    loadSubmissions();
-                }
             }
         } catch (error) {
             console.error('切换标签页失败:', error);
         }
     }
     
-    // 服务器原声大碟标签页切换
     function showMusicTab(tabId) {
         try {
-            // 隐藏所有音乐标签页
             document.querySelectorAll('.music-tab').forEach(tab => {
                 tab.style.display = 'none';
             });
             
-            // 显示选中的标签页
             const targetTab = document.getElementById(tabId);
             if (targetTab) {
                 targetTab.style.display = 'block';
@@ -130,7 +95,6 @@
         }
     }
     
-    // 基础工具函数
     function scrollToTop() {
         window.scrollTo({top: 0, behavior: 'smooth'});
     }
@@ -139,7 +103,6 @@
         window.scrollTo({top: document.body.scrollHeight, behavior: 'smooth'});
     }
     
-    // Toast提示
     function showToast(message, type = 'success') {
         try {
             const toast = document.getElementById('gb-toast');
@@ -159,14 +122,12 @@
         }
     }
     
-    // HTML转义
     function escapeHtml(text) {
         const div = document.createElement('div');
         div.textContent = text;
         return div.innerHTML;
     }
     
-    // 时间格式化
     function formatTime(isoString) {
         try {
             const date = new Date(isoString);
@@ -182,7 +143,6 @@
         }
     }
     
-    // 初始化Supabase
     function initSupabase() {
         try {
             if (window.supabase && window.supabase.createClient) {
@@ -196,7 +156,6 @@
         }
     }
     
-    // 加载留言板消息
     async function loadGuestbookMessages() {
         try {
             const loadingEl = document.getElementById('gb-loading');
@@ -204,47 +163,7 @@
             
             if (!loadingEl || !messagesEl) return;
             
-            loadingEl.innerHTML = '<div class="gb-spinner"></div><p>正在加载留言...</p>';
-            messagesEl.innerHTML = '';
-            
-            // 直接使用fetch访问Supabase
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/messages?approved=eq.true&order=created_at.desc`, {
-                method: 'GET',
-                headers: { 
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error('加载留言失败');
-            }
-            
-            const messages = await response.json();
-            
-            if (messages.length === 0) {
-                messagesEl.innerHTML = '<div class="gb-empty-state">还没有留言，快来成为第一个留言的人吧！</div>';
-                loadingEl.style.display = 'none';
-                return;
-            }
-            
-            let html = '';
-            messages.forEach(message => {
-                html += `
-                <div class="gb-item">
-                    <div class="gb-item-header">
-                        <div class="gb-user-info">
-                            <span class="gb-user">${escapeHtml(message.player_name || '匿名用户')}</span>
-                            ${message.player_note ? `<span class="gb-user-note">${escapeHtml(message.player_note)}</span>` : ''}
-                        </div>
-                        <div class="gb-time">${formatTime(message.created_at)}</div>
-                    </div>
-                    <div class="gb-content">${escapeHtml(message.content)}</div>
-                </div>
-                `;
-            });
-            
-            messagesEl.innerHTML = html;
+            messagesEl.innerHTML = '<div class="gb-empty-state">留言板功能正在开发中...</div>';
             loadingEl.style.display = 'none';
             
         } catch (error) {
@@ -256,7 +175,6 @@
         }
     }
     
-    // 加载投稿
     async function loadSubmissions() {
         try {
             const loadingEl = document.getElementById('submission-loading');
@@ -264,53 +182,7 @@
             
             if (!loadingEl || !submissionsEl) return;
             
-            loadingEl.innerHTML = '<div class="submission-spinner"></div><p>正在加载投稿...</p>';
-            submissionsEl.innerHTML = '';
-            
-            // 直接使用fetch访问Supabase
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/submissions?status=in.(approved,featured)&order=created_at.desc`, {
-                method: 'GET',
-                headers: { 
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`
-                }
-            });
-            
-            if (!response.ok) {
-                throw new Error('加载投稿失败');
-            }
-            
-            const submissions = await response.json();
-            
-            if (submissions.length === 0) {
-                submissionsEl.innerHTML = '<div class="submission-empty-state">还没有投稿，快来分享你的作品吧！</div>';
-                loadingEl.style.display = 'none';
-                return;
-            }
-            
-            let html = '';
-            submissions.forEach(submission => {
-                const isFeatured = submission.status === 'featured';
-                html += `
-                <div class="submission-item ${isFeatured ? 'featured' : ''}">
-                    <div class="submission-item-header">
-                        <div class="submission-user-info">
-                            <span class="submission-user">${escapeHtml(submission.player_name || '匿名用户')}</span>
-                            ${submission.player_note ? `<span class="submission-user-note">${escapeHtml(submission.player_note)}</span>` : ''}
-                        </div>
-                        <div class="submission-meta">
-                            <span class="submission-category">${escapeHtml(submission.category)}</span>
-                            <span class="submission-time">${formatTime(submission.created_at)}</span>
-                        </div>
-                    </div>
-                    <h3 class="submission-title">${escapeHtml(submission.title)}</h3>
-                    <div class="submission-content">${escapeHtml(submission.content.replace(/\n/g, '<br>'))}</div>
-                    ${isFeatured ? '<div class="submission-featured-badge"><i class="fas fa-star"></i> 推荐投稿</div>' : ''}
-                </div>
-                `;
-            });
-            
-            submissionsEl.innerHTML = html;
+            submissionsEl.innerHTML = '<div class="submission-empty-state">投稿区功能正在开发中...</div>';
             loadingEl.style.display = 'none';
             
         } catch (error) {
@@ -322,7 +194,6 @@
         }
     }
     
-    // 留言板提交
     async function submitGuestbookMessage() {
         const passcodeInput = document.getElementById('gb-passcode');
         const messageInput = document.getElementById('gb-message');
@@ -336,7 +207,6 @@
         const passcode = passcodeInput.value.trim();
         const content = messageInput.value.trim();
         
-        // 验证输入
         if (!passcode) {
             showToast('请输入通行证', 'error');
             return;
@@ -352,13 +222,11 @@
             return;
         }
         
-        // 显示加载状态
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 发送中...';
         submitBtn.disabled = true;
         
         try {
-            // 直接提交到Supabase RPC函数
             const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_message_auto`, {
                 method: 'POST',
                 headers: { 
@@ -376,7 +244,6 @@
             
             if (!response.ok || (result && result.error)) {
                 const errorMsg = result?.error || '提交失败';
-                console.error('提交失败:', errorMsg);
                 showToast(errorMsg, 'error');
             } else {
                 showToast('留言发布成功！', 'success');
@@ -384,7 +251,6 @@
                 const charCount = document.getElementById('gb-char-count');
                 if (charCount) charCount.textContent = '0';
                 
-                // 重新加载留言
                 loadGuestbookMessages();
             }
             
@@ -392,13 +258,11 @@
             console.error('提交失败:', error);
             showToast('发布失败，网络似乎出了点问题', 'error');
         } finally {
-            // 恢复按钮状态
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         }
     }
     
-    // 投稿提交
     async function submitSubmission() {
         const passcode = document.getElementById('submission-passcode')?.value.trim();
         const title = document.getElementById('submission-title')?.value.trim();
@@ -406,7 +270,6 @@
         const category = document.getElementById('submission-category')?.value;
         const submitBtn = document.getElementById('submission-submit-btn');
         
-        // 验证输入
         if (!passcode) {
             showToast('请输入通行证', 'error');
             return;
@@ -427,13 +290,11 @@
             return;
         }
         
-        // 显示加载状态
         const originalText = submitBtn.innerHTML;
         submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 提交中...';
         submitBtn.disabled = true;
         
         try {
-            // 直接提交到Supabase RPC函数
             const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_submission_auto`, {
                 method: 'POST',
                 headers: { 
@@ -453,11 +314,9 @@
             
             if (!response.ok || (result && result.error)) {
                 const errorMsg = result?.error || '提交失败';
-                console.error('提交失败:', errorMsg);
                 showToast(errorMsg, 'error');
             } else {
                 showToast('投稿提交成功！等待审核', 'success');
-                // 清空表单
                 document.getElementById('submission-passcode').value = '';
                 document.getElementById('submission-title').value = '';
                 document.getElementById('submission-content').value = '';
@@ -465,7 +324,6 @@
                 const charCount = document.getElementById('submission-char-count');
                 if (charCount) charCount.textContent = '0';
                 
-                // 重新加载投稿
                 loadSubmissions();
             }
             
@@ -473,21 +331,15 @@
             console.error('提交失败:', error);
             showToast('投稿提交失败，网络似乎出了点问题', 'error');
         } finally {
-            // 恢复按钮状态
             submitBtn.innerHTML = originalText;
             submitBtn.disabled = false;
         }
     }
     
-    // 页面初始化（DOM加载完成后执行）
     function initPage() {
-        // 1. 初始化Supabase
         initSupabase();
-        
-        // 2. 默认显示概述页面
         showSection('overview');
         
-        // 3. 字符计数
         const gbMessage = document.getElementById('gb-message');
         const gbCharCount = document.getElementById('gb-char-count');
         if (gbMessage && gbCharCount) {
@@ -504,7 +356,6 @@
             });
         }
         
-        // 4. 移动端菜单切换
         const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
         if (mobileMenuToggle) {
             mobileMenuToggle.addEventListener('click', function() {
@@ -513,7 +364,6 @@
             });
         }
         
-        // 5. 返回顶部按钮显示控制
         window.onscroll = function() {
             const backToTop = document.getElementById('back-to-top');
             if (backToTop) {
@@ -525,7 +375,6 @@
             }
         };
         
-        // 6. 移动端点击修复
         document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
             link.addEventListener('click', function(e) {
                 e.preventDefault();
@@ -539,12 +388,10 @@
         console.log('页面初始化完成');
     }
     
-    // 当DOM加载完成后初始化
     document.addEventListener('DOMContentLoaded', initPage);
     </script>
     
     <style>
-    /* 原有CSS样式保持不变 */
     * {
         margin: 0;
         padding: 0;
@@ -559,8 +406,6 @@
         min-height: 100vh;
     }
     
-    /* ==================== 完整CSS样式 ==================== */
-    /* 返回顶部按钮 */
     #back-to-top {
         position: fixed;
         bottom: 30px;
@@ -585,7 +430,6 @@
         transform: translateY(-3px);
     }
     
-    /* 移动端菜单按钮 */
     .mobile-menu-btn {
         display: none;
         background: none;
@@ -595,7 +439,6 @@
         cursor: pointer;
     }
     
-    /* 维基百科风格头部 */
     .wiki-header {
         background-color: #0d0d0d;
         border-bottom: 1px solid #333;
@@ -670,7 +513,6 @@
         cursor: pointer;
     }
     
-    /* 主要内容区域 - 修改为左右布局 */
     .wiki-container {
         max-width: 1200px;
         margin: 0 auto;
@@ -679,7 +521,6 @@
         gap: 30px;
     }
     
-    /* 左侧导航栏 */
     .left-nav {
         width: 250px;
         background-color: #222;
@@ -695,7 +536,6 @@
         max-height: calc(100vh - 100px);
     }
     
-    /* 电脑端滚动条样式 */
     .left-nav::-webkit-scrollbar {
         width: 8px;
     }
@@ -766,7 +606,6 @@
         border-left: 3px solid #4a9eff;
     }
     
-    /* 右侧主要内容 */
     .main-content {
         flex: 1;
         background-color: #222;
@@ -799,7 +638,6 @@
         object-fit: cover;
     }
     
-    /* 信息框 - 只在概述页面显示 */
     .infobox {
         background-color: #2a2a2a;
         border: 1px solid #444;
@@ -851,7 +689,6 @@
         border: 1px solid #555;
     }
     
-    /* 内容分区 */
     .content-section {
         margin-bottom: 40px;
         display: none;
@@ -924,7 +761,6 @@
         gap: 10px;
     }
     
-    /* 物品介绍样式 */
     .item-list {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
@@ -1059,7 +895,6 @@
         margin-bottom: 10px;
     }
     
-    /* 管理组样式 */
     .admin-list {
         display: grid;
         grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
@@ -1102,7 +937,6 @@
         font-style: italic;
     }
     
-    /* ccpe01 特殊样式 */
     .ccpe01-special {
         background: linear-gradient(135deg, #1a3a5a, #2a4a6a);
         border-left: 4px solid #ffcc00;
@@ -1127,7 +961,6 @@
         margin: 15px 0;
     }
     
-    /* 杂项样式 */
     .misc-items {
         background-color: #2a2a2a;
         padding: 20px;
@@ -1164,7 +997,6 @@
         cursor: help;
     }
     
-    /* 留言板样式 */
     .gb-form { margin-bottom: 2.5rem; }
     .gb-form-row { margin-bottom: 1.2rem; }
     .gb-input {
@@ -1266,7 +1098,6 @@
         gap: 10px;
     }
     
-    /* =============== 新增：留言板备注样式 =============== */
     .gb-user-info {
         display: flex;
         align-items: center;
@@ -1326,7 +1157,6 @@
         border-left: 5px solid #c92a2a;
     }
     
-    /* =============== 新增：投稿区样式 =============== */
     .submission-form { margin-bottom: 2.5rem; }
     .submission-form-row { margin-bottom: 1.2rem; }
     
@@ -1460,7 +1290,6 @@
         font-size: 0.9em;
     }
     
-    /* 投稿列表样式 */
     .submission-list { margin-top: 1rem; }
     
     .submission-item {
@@ -1621,7 +1450,6 @@
         margin-top: 10px;
     }
     
-    /* 服务器原声大碟样式 */
     .music-tab {
         display: none;
     }
@@ -1693,7 +1521,6 @@
         color: white;
     }
     
-    /* 移动端快速导航 */
     .mobile-quick-nav {
         display: none;
         position: fixed;
@@ -1739,7 +1566,6 @@
         font-size: 1.2rem;
     }
     
-    /* 外部链接样式 */
     .external-links-grid {
         display: flex;
         flex-direction: column;
@@ -1790,7 +1616,6 @@
         text-decoration: underline;
     }
     
-    /* 页脚 */
     .wiki-footer {
         background-color: #0d0d0d;
         border-top: 1px solid #333;
@@ -1829,7 +1654,6 @@
         margin-top: 20px;
     }
     
-    /* 响应式设计 */
     @media (max-width: 992px) {
         .wiki-container {
             flex-direction: column;
@@ -1859,7 +1683,6 @@
             text-align: center;
         }
         
-        /* 移动端导航栏 */
         .mobile-menu-btn {
             display: block;
         }
@@ -1893,18 +1716,15 @@
             width: 100%;
         }
         
-        /* 移动端快速导航 */
         .mobile-quick-nav {
             display: block;
         }
         
-        /* 移动端内容区域额外padding */
         .main-content {
             padding: 20px 15px;
-            margin-bottom: 70px; /* 为底部快速导航留出空间 */
+            margin-bottom: 70px;
         }
         
-        /* 返回顶部按钮位置调整 */
         #back-to-top {
             bottom: 80px;
             right: 20px;
@@ -2005,12 +1825,10 @@
     </style>
 </head>
 <body>
-    <!-- 返回顶部按钮 -->
     <div id="back-to-top" title="返回顶部" onclick="scrollToTop()">
         <i class="fas fa-arrow-up"></i>
     </div>
     
-    <!-- 移动端快速导航 -->
     <nav class="mobile-quick-nav">
         <ul>
             <li><a href="#" onclick="showSection('overview'); return false;" data-section="overview"><i class="fas fa-home"></i> 概述</a></li>
@@ -2022,7 +1840,6 @@
         </ul>
     </nav>
     
-    <!-- 维基百科风格头部 -->
     <header class="wiki-header">
         <div class="header-container">
             <div class="wiki-logo">
@@ -2051,9 +1868,7 @@
         </div>
     </header>
     
-    <!-- 主要内容区域 -->
     <div class="wiki-container">
-        <!-- 左侧导航栏 -->
         <aside class="left-nav" id="left-nav">
             <div class="nav-title">页面导航</div>
             
@@ -2106,15 +1921,12 @@
             </div>
         </aside>
         
-        <!-- 右侧主要内容 -->
         <main class="main-content">
-            <!-- 页面标题 -->
             <div class="page-title">
                 <img src="81DFBC14331A0B21C5B3C20246F25AFA.png" alt="Site-114514服务器头像" class="server-avatar">
                 <h1>Site-114514服务器</h1>
             </div>
             
-            <!-- 信息框 -->
             <aside class="infobox" id="infobox">
                 <div class="infobox-title">Site-114514</div>
                 
@@ -2163,7 +1975,6 @@
                 </div>
             </aside>
             
-            <!-- === 概述分区 === -->
             <section class="content-section active" id="overview">
                 <h2 class="section-title">概述</h2>
                 <div class="section-content">
@@ -2199,7 +2010,6 @@
                 </div>
             </section>
             
-            <!-- === 服务器特色分区 === -->
             <section class="content-section" id="features">
                 <h2 class="section-title">服务器特色</h2>
                 <div class="section-content">
@@ -2253,7 +2063,6 @@
                 </div>
             </section>
             
-            <!-- === 物品介绍分区 === -->
             <section class="content-section" id="items">
                 <h2 class="section-title">物品介绍</h2>
                 <div class="section-content">
@@ -2263,7 +2072,6 @@
                     </div>
                     
                     <div class="item-list">
-                        <!-- 物品1 -->
                         <div class="item-card">
                             <div class="item-number">1</div>
                             <div class="item-title">盾牌</div>
@@ -2275,7 +2083,6 @@
                             <span class="item-tag">战术装备</span>
                         </div>
                         
-                        <!-- 物品2 -->
                         <div class="item-card">
                             <div class="item-number">2</div>
                             <div class="item-title">035</div>
@@ -2287,7 +2094,6 @@
                             <span class="item-tag">多形态</span>
                         </div>
                         
-                        <!-- 物品3 -->
                         <div class="item-card">
                             <div class="item-number">3</div>
                             <div class="item-title">磁带播放器</div>
@@ -2299,7 +2105,6 @@
                             <span class="item-tag">变形</span>
                         </div>
                         
-                        <!-- 物品4 -->
                         <div class="item-card">
                             <div class="item-number">4</div>
                             <div class="item-title">红色小瓶子</div>
@@ -2311,7 +2116,6 @@
                             <span class="item-tag">加速</span>
                         </div>
                         
-                        <!-- 物品5 -->
                         <div class="item-card">
                             <div class="item-number">5</div>
                             <div class="item-title">蓝色小瓶子</div>
@@ -2322,7 +2126,6 @@
                             <span class="item-tag">仪式道具</span>
                         </div>
                         
-                        <!-- 物品6 -->
                         <div class="item-card">
                             <div class="item-number">6</div>
                             <div class="item-title">渡鸦召唤器</div>
@@ -2334,7 +2137,6 @@
                             <span class="item-tag">变身道具</span>
                         </div>
                         
-                        <!-- 物品7 -->
                         <div class="item-card">
                             <div class="item-number">7</div>
                             <div class="item-title">格赫罗斯召唤器</div>
@@ -2346,7 +2148,6 @@
                             <span class="item-tag">神话生物</span>
                         </div>
                         
-                        <!-- 物品8 -->
                         <div class="item-card">
                             <div class="item-number">8</div>
                             <div class="item-title">268</div>
@@ -2359,7 +2160,6 @@
                             <span class="item-tag">合成道具</span>
                         </div>
                         
-                        <!-- 物品9 -->
                         <div class="item-card">
                             <div class="item-number">9</div>
                             <div class="item-title">电击枪</div>
@@ -2371,7 +2171,6 @@
                             <span class="item-tag">战术装备</span>
                         </div>
                         
-                        <!-- 物品10 -->
                         <div class="item-card">
                             <div class="item-number">10</div>
                             <div class="item-title">127</div>
@@ -2383,7 +2182,6 @@
                             <span class="item-tag">防御</span>
                         </div>
                         
-                        <!-- 物品11-14 -->
                         <div class="item-card">
                             <div class="item-number">11-14</div>
                             <div class="item-title">MCD支持物品</div>
@@ -2395,7 +2193,6 @@
                             <span class="item-tag">阵营支援</span>
                         </div>
                         
-                        <!-- 物品12 -->
                         <div class="item-card">
                             <div class="item-number">12</div>
                             <div class="item-title">005</div>
@@ -2407,7 +2204,6 @@
                             <span class="item-tag">工具</span>
                         </div>
                         
-                        <!-- 物品13 -->
                         <div class="item-card">
                             <div class="item-number">13</div>
                             <div class="item-title">034</div>
@@ -2419,7 +2215,6 @@
                             <span class="item-tag">致命</span>
                         </div>
                         
-                        <!-- 物品14 -->
                         <div class="item-card">
                             <div class="item-number">14</div>
                             <div class="item-title">714</div>
@@ -2431,7 +2226,6 @@
                             <span class="item-tag">免疫</span>
                         </div>
                         
-                        <!-- 物品15 -->
                         <div class="item-card">
                             <div class="item-number">15</div>
                             <div class="item-title">钥匙卡</div>
@@ -2442,7 +2236,6 @@
                             <span class="item-tag">分类系统</span>
                         </div>
                         
-                        <!-- 物品16 -->
                         <div class="item-card">
                             <div class="item-number">16</div>
                             <div class="item-title">330</div>
@@ -2454,7 +2247,6 @@
                             <span class="item-tag">消耗品</span>
                         </div>
                         
-                        <!-- 物品17 -->
                         <div class="item-card">
                             <div class="item-number">17</div>
                             <div class="item-title">294</div>
@@ -2477,7 +2269,6 @@
                 </div>
             </section>
             
-            <!-- === 管理组分区 === -->
             <section class="content-section" id="admin">
                 <h2 class="section-title">管理组</h2>
                 <div class="section-content">
@@ -2487,7 +2278,6 @@
                     </div>
                     
                     <div class="admin-list">
-                        <!-- 管理组成员列表 - 修复排序 -->
                         <div class="admin-card">
                             <div class="admin-name">0. TouKuChaZi_CN</div>
                             <div class="admin-role">现任服主及监督</div>
@@ -2635,7 +2425,6 @@
                 </div>
             </section>
             
-            <!-- === 玩家氛围分区 === -->
             <section class="content-section" id="atmosphere">
                 <h2 class="section-title">玩家氛围</h2>
                 <div class="section-content">
@@ -2656,7 +2445,6 @@
                 </div>
             </section>
             
-            <!-- === 活动分区 === -->
             <section class="content-section" id="events">
                 <h2 class="section-title">活动</h2>
                 <div class="section-content">
@@ -2686,7 +2474,6 @@
                 </div>
             </section>
             
-            <!-- === 制作人介绍分区 === -->
             <section class="content-section" id="creator">
                 <h2 class="section-title">制作人介绍</h2>
                 <div class="section-content">
@@ -2720,7 +2507,6 @@
                 </div>
             </section>
             
-            <!-- === QQ群信息分区 === -->
             <section class="content-section" id="qq">
                 <h2 class="section-title">QQ群信息</h2>
                 <div class="section-content">
@@ -2754,7 +2540,6 @@
                 </div>
             </section>
             
-            <!-- === 杂项分区 === -->
             <section class="content-section" id="misc">
                 <h2 class="section-title">杂项</h2>
                 <div class="section-content">
@@ -2792,7 +2577,6 @@
                 </div>
             </section>
             
-            <!-- === 不知道写啥分区 === -->
             <section class="content-section" id="other">
                 <h2 class="section-title">不知道写啥</h2>
                 <div class="section-content">
@@ -2821,7 +2605,6 @@
                 </div>
             </section>
             
-            <!-- === 服务器原声大碟分区 === -->
             <section class="content-section" id="music">
                 <div class="section-title">
                     <i class="fas fa-music"></i> 服务器原声大碟
@@ -2832,7 +2615,6 @@
                         <button class="music-nav-btn" onclick="showMusicTab('sound-ost')">音效OST</button>
                     </div>
                     
-                    <!-- 入场音乐OST -->
                     <div id="entrance-ost" class="music-tab" style="display: block;">
                         <div class="music-section">
                             <div class="music-placeholder">
@@ -2844,7 +2626,6 @@
                         </div>
                     </div>
                     
-                    <!-- 音效OST -->
                     <div id="sound-ost" class="music-tab" style="display: none;">
                         <div class="music-section">
                             <div class="music-placeholder">
@@ -2858,19 +2639,16 @@
                 </div>
             </section>
             
-            <!-- === 玩家开发区分区 === -->
             <section class="content-section" id="development">
                 <div class="section-title">
                     <i class="fas fa-code"></i> 玩家开发区
                 </div>
                 
-                <!-- 开发标签页导航 -->
                 <div class="music-nav" style="margin-top: 20px;">
                     <button class="music-nav-btn active" onclick="showDevelopmentTab('guestbook')">访客留言板</button>
                     <button class="music-nav-btn" onclick="showDevelopmentTab('submission')">投稿区</button>
                 </div>
                 
-                <!-- 留言板标签页 -->
                 <div id="guestbook" class="development-tab">
                     <div class="section-title" style="margin-top:20px; font-size:1.3rem;">
                         <i class="fas fa-comment-dots"></i> 访客留言板（新版通行证系统）
@@ -2878,7 +2656,6 @@
                     <div class="section-content">
                         <p class="subtitle">现在需要使用通行证才能留言。如果您还没有通行证，请联系管理获取。</p>
                         
-                        <!-- 留言表单 -->
                         <div class="gb-form">
                             <div class="gb-form-row">
                                 <input type="text" id="gb-passcode" class="gb-input" placeholder="输入您的通行证（必填）" maxlength="100" required>
@@ -2898,7 +2675,6 @@
                             </p>
                         </div>
                         
-                        <!-- 留言列表 -->
                         <div class="gb-messages" id="gb-messages">
                             <div class="gb-loading-state" id="gb-loading">
                                 <div class="gb-spinner"></div>
@@ -2908,7 +2684,6 @@
                     </div>
                 </div>
 
-                <!-- 投稿区标签页 -->
                 <div id="submission" class="development-tab" style="display:none;">
                     <div class="section-title" style="margin-top:20px; font-size:1.3rem;">
                         <i class="fas fa-paper-plane"></i> 玩家投稿区
@@ -2926,7 +2701,6 @@
                             </ul>
                         </div>
                         
-                        <!-- 投稿表单 -->
                         <div class="submission-form">
                             <div class="submission-form-row">
                                 <input type="text" id="submission-passcode" class="submission-input" placeholder="输入您的通行证（必填）" maxlength="100" required>
@@ -2964,7 +2738,6 @@
                             </p>
                         </div>
                         
-                        <!-- 投稿列表 -->
                         <div class="submission-list" id="submission-list">
                             <div class="submission-loading-state" id="submission-loading">
                                 <div class="submission-spinner"></div>
@@ -2975,7 +2748,6 @@
                 </div>
             </section>
             
-            <!-- === 外部链接分区 === -->
             <section class="content-section" id="links">
                 <h2 class="section-title">外部链接</h2>
                 <div class="section-content">
@@ -3009,7 +2781,6 @@
         </main>
     </div>
     
-    <!-- 页脚 -->
     <footer class="wiki-footer">
         <div class="footer-container">
             <div class="disclaimer">
@@ -3034,7 +2805,6 @@
         </div>
     </footer>
     
-    <!-- 消息提示框 -->
     <div id="gb-toast" class="gb-toast"></div>
 </body>
 </html>
