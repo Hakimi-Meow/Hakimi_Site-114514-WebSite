@@ -2426,12 +2426,7 @@
             if (targetSection) {
                 targetSection.classList.add('active');
                 
-                // 滚动到该section（移动端优化）
-                if (window.innerWidth <= 768) {
-                    setTimeout(() => {
-                        targetSection.scrollIntoView({ behavior: 'smooth', block: 'start' });
-                    }, 100);
-                }
+              
             }
             
             // 更新左侧导航激活状态
@@ -2466,16 +2461,7 @@
                 document.getElementById('main-nav').classList.remove('active');
             }
             
-            // 如果是留言板，加载消息
-            if (sectionId === 'development' && currentDevTab === 'guestbook') {
-                setTimeout(loadGuestbookMessages, 300);
-            }
-            
-            // 如果是投稿区，加载投稿
-            if (sectionId === 'development' && currentDevTab === 'submission') {
-                setTimeout(loadSubmissions, 300);
-            }
-            
+           
             console.log(`📌 切换到分区: ${sectionId}`);
             
         } catch (error) {
@@ -2717,8 +2703,7 @@
                 messageInput.value = '';
                 if (charCount) charCount.textContent = '0';
                 
-                // 重新加载留言
-                setTimeout(loadGuestbookMessages, 800);
+                
             } else {
                 showToast(result.error || '发布失败，通行证可能无效', 'error');
             }
@@ -2964,8 +2949,7 @@
                 document.getElementById('media-preview').innerHTML = '';
                 mediaFiles = [];
                 
-                // 重新加载投稿列表
-                setTimeout(loadSubmissions, 1000);
+                
             } else {
                 showToast(result.error || '投稿提交失败', 'error');
             }
@@ -3098,7 +3082,7 @@
         }
         
         // 5. 初始加载留言
-        setTimeout(loadGuestbookMessages, 1000);
+        
         
         // 6. 搜索功能
         const searchButton = document.getElementById('search-button');
