@@ -542,7 +542,7 @@
             const submissionList = document.getElementById('submission-list');
             if (!submissionList) return;
             
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/submissions?select=player_name,player_note,title,content,category,media_urls_json,is_featured&order=created_at.desc&limit=20`, {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/submissions?select=player_name,player_note,title,content,category,is_featured,create_at,media_urls_json&order=created_at.desc&limit=20`, {
                 headers: {
                     'apikey': SUPABASE_KEY,
                     'Authorization': `Bearer ${SUPABASE_KEY}`
@@ -592,58 +592,81 @@
                 
                 const categoryName = categoryNames[category] || '其他';
                 
-                // 处理媒体URLs
-                let mediaHtml = '';
+            
+            let mediaHtml = '';
+            console.log('media_urls_json数据:', sub.media_urls_json, '类型:', typeof sub.media_urls_json);
+            
+            if (sub.media_urls_json) {
                 try {
-                    if (sub.media_urls) {
-                        const mediaUrls = JSON.parse(sub.media_urls);
-                        if (Array.isArray(mediaUrls) && mediaUrls.length > 0) {
-                            mediaHtml = '<div class="submission-media-attachments">';
-                            mediaUrls.forEach(media => {
-                                if (media.type === 'image') {
-                                    mediaHtml += `<img src="${escapeHtml(media.url)}" alt="${escapeHtml(media.name || '附件')}" class="submission-media-attachment">`;
-                                } else if (media.type === 'video') {
+                    let mediaUrls;
+                    
+                    
+                    if (Array.isArray(sub.media_urls_json)) {
+                        mediaUrls = sub.media_urls_json;
+                    }
+                    
+                    else if (typeof sub.media_urls_json === 'string') {
+                        mediaUrls = JSON.parse(sub.media_urls_json);
+                    }
+                    
+                    else if (typeof sub.media_urls_json === 'object') {
+                        
+                        mediaUrls = [sub.media_urls_json];
+                    }
+                    
+                    if (Array.isArray(mediaUrls) && mediaUrls.length > 0) {
+                        mediaHtml = '<div class="submission-media-attachments">';
+                        mediaUrls.forEach(media => {
+                            if (media && media.url) {
+                                const type = media.type || (media.url.match(/\.(mp4|webm|avi|mov)$/i) ? 'video' : 'image');
+                                const name = media.name || '附件';
+                                
+                                if (type === 'image') {
+                                    mediaHtml += `<img src="${escapeHtml(media.url)}" alt="${escapeHtml(name)}" class="submission-media-attachment">`;
+                                } else if (type === 'video') {
                                     mediaHtml += `<video src="${escapeHtml(media.url)}" controls class="submission-media-attachment"></video>`;
                                 }
-                            });
-                            mediaHtml += '</div>';
-                        }
+                            }
+                        });
+                        mediaHtml += '</div>';
                     }
                 } catch (e) {
-                    console.error('解析媒体URL失败:', e);
+                    console.error('解析media_urls_json失败:', e);
                 }
-                
-                html += `
-                    <div class="submission-item ${sub.is_featured ? 'featured' : ''}">
-                        <div class="submission-item-header">
-                            <div class="submission-user">${playerName}</div>
-                            <div class="submission-meta">
-                                <span class="submission-category">${categoryName}</span>
-                                ${isFeatured}
-                            </div>
-                        </div>
-                        <div class="submission-title">${title}</div>
-                        <div class="submission-content">${content}</div>
-                        ${mediaHtml}
-                    </div>
-                `;
-            });
-            
-            submissionList.innerHTML = html;
-            
-        } catch (error) {
-            console.error('加载投稿失败:', error);
-            const submissionList = document.getElementById('submission-list');
-            if (submissionList) {
-                submissionList.innerHTML = `
-                    <div class="submission-empty-state">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>加载失败，请刷新重试</p>
-                    </div>
-                `;
             }
+            
+            html += `
+                <div class="submission-item ${sub.is_featured ? 'featured' : ''}">
+                    <div class="submission-item-header">
+                        <div class="submission-user">${playerName}</div>
+                        <div class="submission-meta">
+                            <span class="submission-category">${categoryName}</span>
+                            ${isFeatured}
+                        </div>
+                    </div>
+                    <div class="submission-title">${title}</div>
+                    <div class="submission-content">${content}</div>
+                    ${mediaHtml}
+                </div>
+            `;
+        });
+        
+        submissionList.innerHTML = html;
+        console.log('=== 投稿加载完成 ===');
+        
+    } catch (error) {
+        console.error('加载投稿失败:', error);
+        const submissionList = document.getElementById('submission-list');
+        if (submissionList) {
+            submissionList.innerHTML = `
+                <div class="submission-empty-state">
+                    <i class="fas fa-exclamation-triangle"></i>
+                    <p>加载失败，请刷新重试</p>
+                </div>
+            `;
         }
     }
+}
 
     function initPage() {
         showSection('overview');
