@@ -3360,6 +3360,44 @@
     </div>
 </div>
 
+<!-- 在调试区域添加这个 -->
+<button onclick="testSubmitFunction()" style="
+    background: #20c997;
+    color: white;
+    border: none;
+    padding: 10px 20px;
+    border-radius: 5px;
+    cursor: pointer;
+    margin-top: 10px;
+">
+    <i class="fas fa-code"></i> 测试submitSubmission函数
+</button>
+
+<script>
+function testSubmitFunction() {
+    const debugOutput = document.getElementById('debug-output');
+    if (debugOutput) debugOutput.innerHTML = '';
+    
+    debugLog('🔍 测试submitSubmission函数...', 'info');
+    
+    // 检查函数是否存在
+    if (typeof submitSubmission === 'function') {
+        debugLog('✅ submitSubmission函数存在', 'success');
+        debugLog('函数内容前100字符: ' + submitSubmission.toString().substring(0, 100), 'info');
+    } else {
+        debugLog('❌ submitSubmission函数未定义！', 'error');
+    }
+    
+    // 检查是否有语法错误
+    try {
+        submitSubmission;
+        debugLog('✅ 函数引用正常', 'success');
+    } catch (e) {
+        debugLog(`❌ 函数引用错误: ${e.message}`, 'error');
+    }
+}
+</script>
+                    
 <script>
 // 调试工具函数
 function debugLog(message, type = 'info') {
