@@ -333,50 +333,53 @@
             previewArea.innerHTML = '';
         }
     }
+
+        async function uploadMediaFiles(passcode) {
+    const mediaUrls = [];
     
-    // 上传媒体文件到Supabase存储
-    async function uploadMediaFiles(passcode) {
-        const mediaUrls = [];
-        
-        for (const file of uploadedMediaFiles) {
-            try {
-                // 生成唯一文件名
-                const fileExt = file.name.split('.').pop();
-                const fileName = `${passcode}_${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
-                const filePath = `submissions/${fileName}`;
-                
-                // 上传到Supabase存储桶
-                const { data, error } = await supabase
-                    .storage
-                    .from('media') // 存储桶名称，您需要先创建
-                    .upload(filePath, file);
-                
-                if (error) throw error;
-                
-                // 获取公开URL
-                const { data: urlData } = supabase
-                    .storage
-                    .from('media')
-                    .getPublicUrl(filePath);
-                
-                if (urlData?.publicUrl) {
-                    mediaUrls.push({
-                        url: urlData.publicUrl,
-                        type: file.type.startsWith('image/') ? 'image' : 'video',
-                        name: file.name
-                    });
-                }
-            } catch (error) {
-                console.error('上传文件失败:', error);
-                throw new Error(`上传文件 ${file.name} 失败: ${error.message}`);
+    for (const file of uploadedMediaFiles) {
+        try {
+            // 生成唯一文件名
+            const fileExt = file.name.split('.').pop();
+            const fileName = `${passcode}_${Date.now()}_${Math.random().toString(36).substring(7)}.${fileExt}`;
+            const filePath = `submissions/${fileName}`;
+            
+            // 直接使用fetch API上传，避免依赖未初始化的supabase变量
+            const formData = new FormData();
+            formData.append('file', file);
+            
+            // 这里需要使用Supabase Storage API
+            // 注意：需要设置正确的认证头
+            const response = await fetch(`${SUPABASE_URL}/storage/v1/object/media/${filePath}`, {
+                method: 'POST',
+                headers: {
+                    'Authorization': `Bearer ${SUPABASE_KEY}`,
+                    'apikey': SUPABASE_KEY
+                },
+                body: file
+            });
+            
+            if (!response.ok) {
+                throw new Error(`上传失败: ${response.status}`);
             }
+            
+            // 获取公开URL
+            const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/media/${filePath}`;
+            
+            mediaUrls.push({
+                url: publicUrl,
+                type: file.type.startsWith('image/') ? 'image' : 'video',
+                name: file.name
+            });
+            
+        } catch (error) {
+            console.error('上传文件失败:', error);
+            throw new Error(`上传文件 ${file.name} 失败: ${error.message}`);
         }
-        
-        return mediaUrls;
     }
     
-    // 初始化Supabase客户端
-    const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+    return mediaUrls;
+}
     
     async function submitSubmission() {
         const passcode = document.getElementById('submission-passcode')?.value.trim();
@@ -544,7 +547,7 @@
             const submissionList = document.getElementById('submission-list');
             if (!submissionList) return;
             
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/submissions?select=player_name,player_note,title,content,category,is_featured,create_at,media_urls_json&order=created_at.desc&limit=20`, {
+            const response = await fetch(`${SUPABASE_URL}/rest/v1/submissions?select=id,player_name,player_note,title,content,category,is_featured,created_at,media_urls_json&order=created_at.desc&limit=20`, {
                 headers: {
                     'apikey': SUPABASE_KEY,
                     'Authorization': `Bearer ${SUPABASE_KEY}`
@@ -3289,11 +3292,16 @@
     
     <div id="gb-toast" class="gb-toast"></div>
     
-    <!-- Supabase客户端库 -->
-    <script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-    <script>
-        // 初始化Supabase客户端
+   <!-- Supabase客户端库 -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+    // 确保Supabase库加载完成后再初始化
+    if (typeof window.supabase !== 'undefined') {
         window.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-    </script>
+        console.log('Supabase客户端初始化成功');
+    } else {
+        console.error('Supabase库未加载');
+    }
+</script>
 </body>
 </html>
