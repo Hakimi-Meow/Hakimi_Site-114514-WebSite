@@ -27,8 +27,6 @@
                 // 自动加载对应内容
                 if (sectionId === 'guestbook') {
                     loadGuestbookMessages();
-                } else if (sectionId === 'submissions') {
-                    loadSubmissions();
                 }
             }
             
@@ -195,363 +193,6 @@
         }
     }
     
-    // 媒体文件相关函数
-    let uploadedMediaFiles = [];
-    
-    // 初始化媒体上传
-    function initMediaUpload() {
-        const uploadInput = document.getElementById('media-upload-input');
-        const uploadArea = document.getElementById('media-upload-area');
-        
-        if (!uploadInput || !uploadArea) return;
-        
-        // 点击上传区域触发文件选择
-        uploadArea.addEventListener('click', (e) => {
-            if (e.target !== uploadInput && e.target.tagName !== 'BUTTON') {
-                uploadInput.click();
-            }
-        });
-        
-        // 拖拽上传
-        uploadArea.addEventListener('dragover', (e) => {
-            e.preventDefault();
-            uploadArea.style.borderColor = '#4a9eff';
-            uploadArea.style.backgroundColor = 'rgba(74, 158, 255, 0.05)';
-        });
-        
-        uploadArea.addEventListener('dragleave', () => {
-            uploadArea.style.borderColor = '#3a506b';
-            uploadArea.style.backgroundColor = 'rgba(255,255,255,0.03)';
-        });
-        
-        uploadArea.addEventListener('drop', (e) => {
-            e.preventDefault();
-            uploadArea.style.borderColor = '#3a506b';
-            uploadArea.style.backgroundColor = 'rgba(255,255,255,0.03)';
-            
-            if (e.dataTransfer.files.length > 0) {
-                handleMediaFiles(e.dataTransfer.files);
-            }
-        });
-        
-        // 文件选择变化
-        uploadInput.addEventListener('change', (e) => {
-            if (e.target.files.length > 0) {
-                handleMediaFiles(e.target.files);
-            }
-        });
-    }
-    
-    // 处理上传的文件
-    function handleMediaFiles(files) {
-        const maxFiles = 5;
-        const maxSize = 10 * 1024 * 1024; // 10MB
-        
-        // 检查文件数量
-        if (uploadedMediaFiles.length + files.length > maxFiles) {
-            showToast(`最多只能上传${maxFiles}个文件`, 'error');
-            return;
-        }
-        
-        // 处理每个文件
-        Array.from(files).forEach(file => {
-            // 检查文件大小
-            if (file.size > maxSize) {
-                showToast(`文件 ${file.name} 超过10MB限制`, 'error');
-                return;
-            }
-            
-            // 检查文件类型
-            const validTypes = ['image/jpeg', 'image/png', 'image/gif', 'image/webp', 'video/mp4', 'video/webm'];
-            if (!validTypes.includes(file.type)) {
-                showToast(`文件 ${file.name} 格式不支持，请上传图片或视频`, 'error');
-                return;
-            }
-            
-            // 添加到上传列表
-            uploadedMediaFiles.push(file);
-            
-            // 创建预览
-            createMediaPreview(file);
-        });
-    }
-    
-    // 创建媒体预览
-    function createMediaPreview(file) {
-        const previewArea = document.getElementById('media-preview');
-        if (!previewArea) return;
-        
-        const previewItem = document.createElement('div');
-        previewItem.className = 'media-preview-item';
-        previewItem.dataset.fileName = file.name;
-        
-        const removeBtn = document.createElement('button');
-        removeBtn.className = 'media-remove-btn';
-        removeBtn.innerHTML = '<i class="fas fa-times"></i>';
-        removeBtn.onclick = () => removeMediaFile(file.name);
-        
-        const reader = new FileReader();
-        
-        reader.onload = function(e) {
-            let mediaElement;
-            
-            if (file.type.startsWith('image/')) {
-                mediaElement = document.createElement('img');
-                mediaElement.src = e.target.result;
-                mediaElement.alt = file.name;
-                mediaElement.style.objectFit = 'cover';
-            } else if (file.type.startsWith('video/')) {
-                mediaElement = document.createElement('video');
-                mediaElement.src = e.target.result;
-                mediaElement.controls = true;
-                mediaElement.style.objectFit = 'cover';
-            }
-            
-            previewItem.appendChild(mediaElement);
-            previewItem.appendChild(removeBtn);
-            previewArea.appendChild(previewItem);
-        };
-        
-        reader.readAsDataURL(file);
-    }
-    
-    // 移除文件
-    function removeMediaFile(fileName) {
-        uploadedMediaFiles = uploadedMediaFiles.filter(file => file.name !== fileName);
-        
-        const previewItem = document.querySelector(`.media-preview-item[data-file-name="${fileName}"]`);
-        if (previewItem) {
-            previewItem.remove();
-        }
-    }
-    
-    // 清空所有媒体文件
-    function clearMediaFiles() {
-        uploadedMediaFiles = [];
-        const previewArea = document.getElementById('media-preview');
-        if (previewArea) {
-            previewArea.innerHTML = '';
-        }
-    }
-
-        async function uploadMediaFiles(passcode) {
-    const mediaUrls = [];
-    
-    console.log('📤 开始上传文件到Supabase存储...');
-    
-    for (const file of uploadedMediaFiles) {
-        try {
-            console.log(`正在上传: ${file.name} (${(file.size / 1024).toFixed(2)}KB)`);
-            
-            // 生成安全文件名
-            const fileExt = file.name.split('.').pop().toLowerCase();
-            const safeFileName = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
-            const fileName = `submission_${passcode}_${Date.now()}_${safeFileName}`;
-            const filePath = `submissions/${fileName}`;
-            
-            console.log('📁 文件路径:', filePath);
-            
-            // 方法A：使用Supabase JS客户端（如果可用）
-            try {
-                if (window.supabase) {
-                    console.log('使用Supabase JS客户端上传...');
-                    
-                    const { data, error } = await window.supabase.storage
-                        .from('media')
-                        .upload(filePath, file);
-                    
-                    if (error) throw error;
-                    
-                    console.log('✅ 客户端上传成功');
-                    
-                    // 获取公开URL
-                    const { data: urlData } = window.supabase.storage
-                        .from('media')
-                        .getPublicUrl(filePath);
-                    
-                    if (urlData?.publicUrl) {
-                        mediaUrls.push({
-                            url: urlData.publicUrl,
-                            type: file.type.startsWith('image/') ? 'image' : 'video',
-                            name: file.name
-                        });
-                        console.log('🔗 公开URL:', urlData.publicUrl);
-                        continue; // 成功，继续下一个文件
-                    }
-                }
-            } catch (clientError) {
-                console.warn('客户端上传失败，尝试REST API:', clientError);
-            }
-            
-            // 方法B：使用REST API（备用）
-            console.log('尝试REST API上传...');
-            const uploadUrl = `${SUPABASE_URL}/storage/v1/object/media/${filePath}`;
-            
-            const response = await fetch(uploadUrl, {
-                method: 'POST',
-                headers: {
-                    'Authorization': `Bearer ${SUPABASE_KEY}`,
-                    'x-upsert': 'true', // 允许覆盖
-                    // 不要设置Content-Type，浏览器会自动设置
-                },
-                body: file
-            });
-            
-            console.log('📡 上传响应:', response.status, response.statusText);
-            
-            if (!response.ok) {
-                const errorText = await response.text();
-                console.error('❌ 上传失败详情:', errorText);
-                
-                // 尝试不同的方法
-                if (response.status === 413) {
-                    throw new Error('文件太大（超过上传限制）');
-                } else if (response.status === 415) {
-                    throw new Error('不支持的文件类型');
-                } else {
-                    throw new Error(`上传失败: ${response.status} ${errorText}`);
-                }
-            }
-            
-            // 成功获取公开URL
-            const publicUrl = `${SUPABASE_URL}/storage/v1/object/public/media/${filePath}`;
-            console.log('✅ REST API上传成功');
-            console.log('🔗 公开URL:', publicUrl);
-            
-            mediaUrls.push({
-                url: publicUrl,
-                type: file.type.startsWith('image/') ? 'image' : 'video',
-                name: file.name
-            });
-            
-        } catch (error) {
-            console.error(`文件 ${file.name} 上传失败:`, error);
-            
-            // 对于小文件，可以转为Base64保存到数据库
-            if (file.size < 500 * 1024) { // 小于500KB
-                console.log('尝试转换为Base64存储...');
-                try {
-                    const reader = new FileReader();
-                    const dataUrl = await new Promise((resolve, reject) => {
-                        reader.onload = (e) => resolve(e.target.result);
-                        reader.onerror = reject;
-                        reader.readAsDataURL(file);
-                    });
-                    
-                    mediaUrls.push({
-                        data: dataUrl,
-                        type: file.type.startsWith('image/') ? 'image' : 'video',
-                        name: file.name,
-                        size: file.size,
-                        error: error.message
-                    });
-                    console.log('✅ 已转为Base64存储');
-                    continue;
-                } catch (base64Error) {
-                    console.error('Base64转换失败:', base64Error);
-                }
-            }
-            
-            throw new Error(`上传失败: ${file.name} - ${error.message}`);
-        }
-    }
-    
-    console.log(`🎉 上传完成，成功 ${mediaUrls.length}/${uploadedMediaFiles.length} 个文件`);
-    return mediaUrls;
-}
-    
-    async function submitSubmission() {
-        const passcode = document.getElementById('submission-passcode')?.value.trim();
-        const title = document.getElementById('submission-title')?.value.trim();
-        const content = document.getElementById('submission-content')?.value.trim();
-        const category = document.getElementById('submission-category')?.value;
-        const submitBtn = document.getElementById('submission-submit-btn');
-        
-        if (!passcode) {
-            showToast('请输入通行证', 'error');
-            return;
-        }
-        
-        if (!title || title.length < 2 || title.length > 200) {
-            showToast('标题需要2-200字符', 'error');
-            return;
-        }
-        
-        if (!category) {
-            showToast('请选择分类', 'error');
-            return;
-        }
-        
-        if (!content || content.length < 10) {
-            showToast('内容至少需要10字符', 'error');
-            return;
-        }
-        
-        const originalText = submitBtn.innerHTML;
-        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> 提交中...';
-        submitBtn.disabled = true;
-        
-    try {
-        let mediaUrls = [];
-        
-        
-        if (uploadedMediaFiles.length > 0) {
-            showToast('正在上传媒体文件...', 'success');
-            mediaUrls = await uploadMediaFiles(passcode);
-        }
-        
-      
-        const submissionData = {
-            p_passcode: passcode,
-            p_title: title,
-            p_content: content,
-            p_category: category
-        };
-        
-       
-        if (mediaUrls.length > 0) {
-            submissionData.p_media_urls_json = JSON.stringify(mediaUrls);
-        }
-        
-       
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_submission_final`, {
-            method: 'POST',
-            headers: { 
-                'apikey': SUPABASE_KEY, 
-                'Authorization': `Bearer ${SUPABASE_KEY}`, 
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(submissionData)
-        });
-        
-            
-            const result = await response.json();
-            
-            if (!response.ok || (result && result.error)) {
-                const errorMsg = result?.error || '提交失败';
-                showToast(errorMsg, 'error');
-            } else {
-                showToast('投稿提交成功！刷新页面查看', 'success');
-                // 清空表单
-                document.getElementById('submission-passcode').value = '';
-                document.getElementById('submission-title').value = '';
-                document.getElementById('submission-content').value = '';
-                document.getElementById('submission-category').value = '';
-                clearMediaFiles();
-                
-                const charCount = document.getElementById('submission-char-count');
-                if (charCount) charCount.textContent = '0';
-            }
-            
-        } catch (error) {
-            console.error('提交失败:', error);
-            showToast(error.message || '投稿提交失败，网络似乎出了点问题', 'error');
-        } finally {
-            submitBtn.innerHTML = originalText;
-            submitBtn.disabled = false;
-        }
-    }
-    
     async function loadGuestbookMessages() {
         try {
             const gbMessages = document.getElementById('gb-messages');
@@ -621,137 +262,6 @@
         }
     }
     
-    async function loadSubmissions() {
-        try {
-            const submissionList = document.getElementById('submission-list');
-            if (!submissionList) return;
-            
-            const response = await fetch(`${SUPABASE_URL}/rest/v1/submissions?select=id,player_name,player_note,title,content,category,status,created_at,media_urls_json&order=created_at.desc&limit=20`, {
-                headers: {
-                    'apikey': SUPABASE_KEY,
-                    'Authorization': `Bearer ${SUPABASE_KEY}`
-                }
-            });
-            
-            if (!response.ok) {
-                submissionList.innerHTML = `
-                    <div class="submission-empty-state">
-                        <i class="fas fa-exclamation-triangle"></i>
-                        <p>加载投稿失败</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            const submissions = await response.json();
-            
-            if (!submissions || submissions.length === 0) {
-                submissionList.innerHTML = `
-                    <div class="submission-empty-state">
-                        <i class="fas fa-inbox"></i>
-                        <p>还没有投稿，快来分享你的作品吧！</p>
-                    </div>
-                `;
-                return;
-            }
-            
-            let html = '';
-            submissions.forEach(sub => {
-                const playerName = escapeHtml(sub.player_name || '匿名玩家');
-                const title = escapeHtml(sub.title || '无标题');
-                const content = escapeHtml(sub.content || '');
-                const category = escapeHtml(sub.category || 'other');
-                const isFeatured = sub.status ? '<span class="submission-featured-badge"><i class="fas fa-star"></i> 精选投稿</span>' : '';
-                
-                const categoryNames = {
-                    'screenshot': '游戏截图',
-                    'story': '原创故事',
-                    'suggestion': '建议反馈',
-                    'artwork': '美术作品',
-                    'bug_report': 'BUG报告',
-                    'plugin_suggestion': '插件建议',
-                    'map_feedback': '地图反馈',
-                    'other': '其他'
-                };
-                
-                const categoryName = categoryNames[category] || '其他';
-                
-            
-            let mediaHtml = '';
-            console.log('media_urls_json数据:', sub.media_urls_json, '类型:', typeof sub.media_urls_json);
-            
-            if (sub.media_urls_json) {
-                try {
-                    let mediaUrls;
-                    
-                    
-                    if (Array.isArray(sub.media_urls_json)) {
-                        mediaUrls = sub.media_urls_json;
-                    }
-                    
-                    else if (typeof sub.media_urls_json === 'string') {
-                        mediaUrls = JSON.parse(sub.media_urls_json);
-                    }
-                    
-                    else if (typeof sub.media_urls_json === 'object') {
-                        
-                        mediaUrls = [sub.media_urls_json];
-                    }
-                    
-                    if (Array.isArray(mediaUrls) && mediaUrls.length > 0) {
-                        mediaHtml = '<div class="submission-media-attachments">';
-                        mediaUrls.forEach(media => {
-                            if (media && media.url) {
-                                const type = media.type || (media.url.match(/\.(mp4|webm|avi|mov)$/i) ? 'video' : 'image');
-                                const name = media.name || '附件';
-                                
-                                if (type === 'image') {
-                                    mediaHtml += `<img src="${escapeHtml(media.url)}" alt="${escapeHtml(name)}" class="submission-media-attachment">`;
-                                } else if (type === 'video') {
-                                    mediaHtml += `<video src="${escapeHtml(media.url)}" controls class="submission-media-attachment"></video>`;
-                                }
-                            }
-                        });
-                        mediaHtml += '</div>';
-                    }
-                } catch (e) {
-                    console.error('解析media_urls_json失败:', e);
-                }
-            }
-            
-            html += `
-                <div class="submission-item ${sub.is_featured ? 'featured' : ''}">
-                    <div class="submission-item-header">
-                        <div class="submission-user">${playerName}</div>
-                        <div class="submission-meta">
-                            <span class="submission-category">${categoryName}</span>
-                            ${isFeatured}
-                        </div>
-                    </div>
-                    <div class="submission-title">${title}</div>
-                    <div class="submission-content">${content}</div>
-                    ${mediaHtml}
-                </div>
-            `;
-        });
-        
-        submissionList.innerHTML = html;
-        console.log('=== 投稿加载完成 ===');
-        
-    } catch (error) {
-        console.error('加载投稿失败:', error);
-        const submissionList = document.getElementById('submission-list');
-        if (submissionList) {
-            submissionList.innerHTML = `
-                <div class="submission-empty-state">
-                    <i class="fas fa-exclamation-triangle"></i>
-                    <p>加载失败，请刷新重试</p>
-                </div>
-            `;
-        }
-    }
-}
-
     function initPage() {
         showSection('overview');
         
@@ -761,14 +271,6 @@
         if (gbMessage && gbCharCount) {
             gbMessage.addEventListener('input', function() {
                 gbCharCount.textContent = this.value.length;
-            });
-        }
-        
-        const submissionContent = document.getElementById('submission-content');
-        const submissionCharCount = document.getElementById('submission-char-count');
-        if (submissionContent && submissionCharCount) {
-            submissionContent.addEventListener('input', function() {
-                submissionCharCount.textContent = this.value.length;
             });
         }
         
@@ -803,9 +305,6 @@
                 }
             });
         });
-        
-        // 初始化媒体上传
-        initMediaUpload();
         
         console.log('页面初始化完成');
     }
@@ -1557,440 +1056,6 @@
         font-style: italic;
     }
     
-    .submission-form { margin-bottom: 2.5rem; }
-    .submission-form-row { margin-bottom: 1.2rem; }
-    
-    .submission-input, .submission-select, .submission-textarea {
-        width: 100%;
-        padding: 14px 18px;
-        background-color: rgba(255,255,255,0.05);
-        border: 1px solid #3a506b;
-        border-radius: 10px;
-        color: #e6f0ff;
-        font-size: 16px;
-        box-sizing: border-box;
-        transition: all 0.3s ease;
-    }
-    
-    .submission-input:focus, .submission-select:focus, .submission-textarea:focus {
-        outline: none;
-        border-color: #4a9eff;
-        box-shadow: 0 0 0 3px rgba(74, 158, 255, 0.2);
-        background-color: rgba(255,255,255,0.08);
-    }
-    
-    .submission-textarea {
-        min-height: 150px;
-        resize: vertical;
-        font-family: inherit;
-    }
-    
-    .submission-select option {
-        background-color: #2a2a2a;
-        color: #e6e6e6;
-    }
-    
-    .submission-char-count {
-        text-align: right;
-        font-size: 0.9em;
-        color: #6c8bc7;
-        margin-top: 5px;
-    }
-
-    /* 媒体上传和预览样式 */
-    .submission-media-upload {
-        background-color: rgba(255,255,255,0.03);
-        border: 2px dashed #3a506b;
-        border-radius: 10px;
-        padding: 25px;
-        text-align: center;
-        margin-bottom: 1.2rem;
-        transition: all 0.3s ease;
-        cursor: pointer;
-    }
-
-    .submission-media-upload:hover {
-        border-color: #4a9eff;
-        background-color: rgba(255,255,255,0.05);
-    }
-
-    .submission-media-upload i {
-        font-size: 3rem;
-        color: #4a9eff;
-        margin-bottom: 15px;
-        opacity: 0.7;
-    }
-
-    .submission-media-preview {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 15px;
-        min-height: 50px;
-    }
-
-    .media-preview-item {
-        position: relative;
-        width: 100px;
-        height: 100px;
-        border-radius: 8px;
-        overflow: hidden;
-        border: 2px solid #3a506b;
-        background-color: #2a2a2a;
-    }
-
-    .media-preview-item img, 
-    .media-preview-item video {
-        width: 100%;
-        height: 100%;
-        object-fit: cover;
-    }
-
-    .media-remove-btn {
-        position: absolute;
-        top: 5px;
-        right: 5px;
-        background-color: rgba(255, 0, 0, 0.8);
-        color: white;
-        border: none;
-        border-radius: 50%;
-        width: 24px;
-        height: 24px;
-        cursor: pointer;
-        font-size: 12px;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        transition: all 0.2s ease;
-    }
-
-    .media-remove-btn:hover {
-        background-color: rgba(255, 0, 0, 1);
-        transform: scale(1.1);
-    }
-
-    /* 投稿中的媒体附件样式 */
-    .submission-media-attachments {
-        display: flex;
-        flex-wrap: wrap;
-        gap: 10px;
-        margin-top: 15px;
-    }
-
-    .submission-media-attachment {
-        max-width: 200px;
-        max-height: 200px;
-        border-radius: 8px;
-        border: 1px solid #3a506b;
-        object-fit: cover;
-    }
-    
-    .submission-button {
-        display: block;
-        width: 100%;
-        padding: 15px;
-        background: linear-gradient(90deg, #2d8ef9, #4a9eff);
-        color: white;
-        border: none;
-        border-radius: 10px;
-        font-size: 1.1em;
-        font-weight: bold;
-        cursor: pointer;
-        transition: all 0.3s ease;
-    }
-    
-    .submission-button:hover:not(:disabled) {
-        background: linear-gradient(90deg, #1b7de0, #2d8ef9);
-        transform: translateY(-2px);
-        box-shadow: 0 7px 15px rgba(45, 142, 249, 0.4);
-    }
-    
-    .submission-button:disabled {
-        opacity: 0.7;
-        cursor: not-allowed;
-    }
-    
-    .submission-form-note {
-        text-align: center;
-        margin-top: 1rem;
-        color: #8a9bba;
-        font-size: 0.9em;
-    }
-    
-    .submission-list { margin-top: 1rem; }
-    
-    .submission-item {
-        background: rgba(255,255,255,0.03);
-        border-left: 4px solid #4a9eff;
-        border-radius: 10px;
-        padding: 1.5rem;
-        margin-bottom: 1.2rem;
-        transition: transform 0.2s ease;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
-    
-    .submission-item.featured {
-        border-left: 4px solid #ffcc00;
-        background: linear-gradient(135deg, rgba(255, 204, 0, 0.1), rgba(255, 204, 0, 0.05));
-    }
-    
-    .submission-item:hover {
-        transform: translateX(5px);
-        background: rgba(255,255,255,0.05);
-    }
-    
-    .submission-item-header {
-        display: flex;
-        justify-content: space-between;
-        align-items: center;
-        margin-bottom: 1rem;
-        flex-wrap: wrap;
-        gap: 10px;
-    }
-    
-    .submission-user {
-        font-weight: bold;
-        color: #4a9eff;
-    }
-    
-    .submission-meta {
-        display: flex;
-        gap: 15px;
-        align-items: center;
-        flex-wrap: wrap;
-    }
-    
-    .submission-category {
-        background-color: #2d4a6a;
-        color: #8cc4ff;
-        padding: 4px 10px;
-        border-radius: 20px;
-        font-size: 0.85em;
-    }
-    
-    .submission-title {
-        font-size: 1.4rem;
-        color: #fff;
-        margin-bottom: 0.8rem;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
-    
-    .submission-content {
-        color: #d1e0ff;
-        line-height: 1.6;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        word-break: break-word;
-        margin-bottom: 1.2rem;
-    }
-    
-    .submission-empty-state {
-        text-align: center;
-        padding: 3rem;
-        color: #8a9bba;
-        font-style: italic;
-    }
-    
-    .submission-loading-state {
-        text-align: center;
-        padding: 3rem;
-        color: #8a9bba;
-    }
-    
-    .submission-spinner {
-        border: 4px solid rgba(74, 158, 255, 0.2);
-        border-top: 4px solid #4a9eff;
-        border-radius: 50%;
-        width: 40px;
-        height: 40px;
-        animation: spin 1s linear infinite;
-        margin: 0 auto 1rem;
-    }
-    
-    .submission-featured-badge {
-        background-color: rgba(255, 204, 0, 0.2);
-        color: #ffcc00;
-        padding: 5px 10px;
-        border-radius: 5px;
-        font-size: 0.9em;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-        margin-top: 10px;
-    }
-    
-    .music-section {
-        background-color: #2a2a2a;
-        padding: 20px;
-        border-radius: 10px;
-        margin: 20px 0;
-        text-align: center;
-    }
-    
-    .music-placeholder {
-        padding: 60px 20px;
-        background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
-        border-radius: 15px;
-        border: 2px dashed #4a9eff;
-    }
-    
-    .music-placeholder i {
-        font-size: 4rem;
-        color: #4a9eff;
-        margin-bottom: 20px;
-        opacity: 0.7;
-    }
-    
-    .music-placeholder h3 {
-        font-size: 2rem;
-        color: #fff;
-        margin-bottom: 15px;
-    }
-    
-    .music-placeholder p {
-        color: #8a9bba;
-        max-width: 500px;
-        margin: 0 auto;
-        line-height: 1.8;
-    }
-    
-    .mobile-quick-nav {
-        display: none;
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        background-color: #0d0d0d;
-        border-top: 1px solid #333;
-        padding: 10px 0;
-        z-index: 999;
-    }
-    
-    .mobile-quick-nav ul {
-        display: flex;
-        justify-content: space-around;
-        list-style: none;
-    }
-    
-    .mobile-quick-nav li {
-        text-align: center;
-    }
-    
-    .mobile-quick-nav a {
-        color: #ccc;
-        text-decoration: none;
-        display: flex;
-        flex-direction: column;
-        align-items: center;
-        gap: 5px;
-        font-size: 0.8rem;
-        padding: 5px;
-        border-radius: 5px;
-        transition: all 0.2s;
-    }
-    
-    .mobile-quick-nav a:hover,
-    .mobile-quick-nav a.active {
-        color: #4a9eff;
-        background-color: #2a2a2a;
-    }
-    
-    .mobile-quick-nav i {
-        font-size: 1.2rem;
-    }
-    
-    .external-links-grid {
-        display: flex;
-        flex-direction: column;
-        gap: 15px;
-        margin-top: 20px;
-    }
-    
-    .external-link-block {
-        background-color: #2a2a2a;
-        border: 1px solid #444;
-        border-radius: 5px;
-        padding: 15px;
-        transition: all 0.3s;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
-    
-    .external-link-block:hover {
-        background-color: #333;
-        border-color: #4a9eff;
-        transform: translateY(-2px);
-    }
-    
-    .external-link-block h3 {
-        color: #4a9eff;
-        margin-bottom: 10px;
-        font-size: 1.2rem;
-        display: flex;
-        align-items: center;
-        gap: 10px;
-    }
-    
-    .external-link-block p {
-        color: #ccc;
-        margin-bottom: 10px;
-    }
-    
-    .external-link-block a {
-        color: #4a9eff;
-        text-decoration: none;
-        display: inline-flex;
-        align-items: center;
-        gap: 5px;
-    }
-    
-    .external-link-block a:hover {
-        text-decoration: underline;
-    }
-    
-    .wiki-footer {
-        background-color: #0d0d0d;
-        border-top: 1px solid #333;
-        padding: 30px 0;
-        margin-top: 50px;
-    }
-    
-    .footer-container {
-        max-width: 1200px;
-        margin: 0 auto;
-        padding: 0 20px;
-    }
-    
-    .disclaimer {
-        background-color: #2a2a2a;
-        border: 1px solid #666;
-        padding: 20px;
-        border-radius: 3px;
-        margin-bottom: 20px;
-        word-wrap: break-word;
-        overflow-wrap: break-word;
-        word-break: break-word;
-    }
-    
-    .disclaimer h3 {
-        color: #ff6b6b;
-        margin-bottom: 10px;
-    }
-    
-    .copyright {
-        text-align: center;
-        padding-top: 20px;
-        color: #777;
-        font-size: 0.9rem;
-        border-top: 1px solid #333;
-        margin-top: 20px;
-    }
-    
     .gb-empty-state {
         text-align: center;
         padding: 3rem;
@@ -2033,71 +1098,180 @@
         border-left: 5px solid #c92a2a;
     }
     
-    /* 角色Iframe样式 */
-.character-iframe-container {
+    /* 音乐分区样式 */
+.music-section {
     background-color: #2a2a2a;
-    border-radius: 8px;
-    overflow: hidden;
+    padding: 20px;
+    border-radius: 10px;
+    margin: 20px 0;
+    word-wrap: break-word;
+}
+
+.music-section h3 {
+    color: #4a9eff;
     margin-bottom: 20px;
-    border: 1px solid #3a506b;
-    position: relative;
-    min-height: 700px;
+    border-bottom: 2px solid #4a9eff;
+    padding-bottom: 10px;
 }
 
-.iframe-loading {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    text-align: center;
+.music-list {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+}
+
+.music-item {
+    background-color: #333;
+    border-radius: 8px;
+    padding: 15px;
+    border-left: 4px solid #4a9eff;
+    transition: all 0.3s ease;
+    word-wrap: break-word;
+}
+
+.music-item:hover {
+    background-color: #3a3a3a;
+    transform: translateY(-2px);
+}
+
+.music-item-title {
+    color: #fff;
+    font-weight: bold;
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.music-item-title i {
+    color: #4a9eff;
+}
+
+.music-item-details {
+    color: #ccc;
+    font-size: 0.95em;
+    margin-bottom: 5px;
+}
+
+.music-item-note {
+    color: #ffcc00;
+    font-size: 0.85em;
+    margin-top: 5px;
+    font-style: italic;
+}
+
+.music-category {
+    background: linear-gradient(135deg, #2a4a6a, #1a3a5a);
+    padding: 12px 20px;
+    border-radius: 8px;
+    margin: 25px 0 15px 0;
+    border-left: 5px solid #ffcc00;
+}
+
+.music-category h4 {
+    color: #ffcc00;
+    margin: 0;
+    font-size: 1.2em;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.music-info-box {
+    background-color: #2a2a2a;
+    border: 2px solid #4a9eff;
+    border-radius: 10px;
+    padding: 20px;
+    margin: 20px 0;
+    word-wrap: break-word;
+}
+
+.music-info-box h4 {
+    color: #4a9eff;
+    margin-bottom: 10px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.adm-warning {
+    background-color: rgba(255, 165, 0, 0.1);
+    border: 1px solid #ffa500;
+    border-radius: 5px;
+    padding: 10px;
+    margin-top: 10px;
+    color: #ffa500;
+    font-size: 0.9em;
+}
+
+.adm-warning i {
+    margin-right: 5px;
+}
+
+    /* 角色简介样式增强 */
+.character-content-text {
+    background: none;
+    border-left: none;
+    padding: 0;
+    margin-bottom: 10px;
+}
+
+.character-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.character-title h3 {
+    color: #4a9eff;
+    margin: 0;
+    font-size: 1.3em;
+}
+
+.character-description {
     color: #8a9bba;
-    z-index: 10;
-    background-color: rgba(42, 42, 42, 0.9);
-    padding: 40px;
-    border-radius: 8px;
+    margin-top: 5px;
+    font-size: 0.9em;
 }
 
-.iframe-loading i {
-    font-size: 3rem;
-    margin-bottom: 1rem;
-    opacity: 0.7;
-    display: block;
+.character-info-box {
+    background-color: rgba(255, 255, 255, 0.05);
+    border: 1px solid #3a506b;
+    border-radius: 10px;
+    padding: 15px;
+    margin-bottom: 15px;
+    transition: all 0.3s ease;
 }
 
-#esc-iframe {
-    width: 100%;
-    height: 700px;
-    border: none;
-    border-radius: 8px;
-    display: none;
+.character-info-box:hover {
+    background-color: rgba(255, 255, 255, 0.08);
+    border-color: #4a9eff;
+    transform: translateY(-2px);
 }
 
-#esc-iframe.loaded {
-    display: block;
+.character-info-box h4 {
+    color: #fff;
+    margin-bottom: 8px;
+    font-size: 1.1em;
 }
 
-@media (max-width: 768px) {
-    .character-iframe-container {
-        min-height: 500px;
-    }
-    
-    #esc-iframe {
-        height: 500px;
-    }
-    
-    .iframe-loading {
-        padding: 20px;
-    }
+.character-info-box p {
+    color: #ccc;
+    margin: 5px 0;
+    font-size: 0.95em;
 }
 
-@media (max-width: 480px) {
-    .character-iframe-container {
-        min-height: 400px;
-    }
-    
-    #esc-iframe {
-        height: 400px;
-    }
+.character-info-box a {
+    color: #4a9eff;
+    text-decoration: none;
+    font-weight: bold;
+    display: inline-block;
+    margin-top: 5px;
+}
+
+.character-info-box a:hover {
+    text-decoration: underline;
 }
 
     @media (max-width: 992px) {
@@ -2177,30 +1351,10 @@
             right: 20px;
         }
         
-        .submission-item-header {
-            flex-direction: column;
-            align-items: flex-start;
-            gap: 10px;
-        }
-        
-        .submission-meta {
-            flex-wrap: wrap;
-        }
-        
         .gb-item-header {
             flex-direction: column;
             align-items: flex-start;
             gap: 5px;
-        }
-        
-        .media-preview-item {
-            width: 80px;
-            height: 80px;
-        }
-        
-        .submission-media-attachment {
-            max-width: 150px;
-            max-height: 150px;
         }
     }
     
@@ -2232,10 +1386,6 @@
         
         .admin-list {
             grid-template-columns: 1fr;
-        }
-        
-        .music-placeholder h3 {
-            font-size: 1.5rem;
         }
     }
     
@@ -2269,18 +1419,6 @@
         
         .mobile-quick-nav i {
             font-size: 1rem;
-        }
-        
-        .music-placeholder {
-            padding: 40px 15px;
-        }
-        
-        .music-placeholder h3 {
-            font-size: 1.3rem;
-        }
-        
-        .music-placeholder i {
-            font-size: 3rem;
         }
     }
     </style>
@@ -2321,8 +1459,8 @@
                     <li><a href="#" onclick="showSection('admin'); return false;">管理组</a></li>
                     <li><a href="#" onclick="showSection('character-intro'); return false;">角色简介</a></li>
                     <li><a href="#" onclick="showSection('creator'); return false;">制作人介绍</a></li>
+                    <li><a href="#" onclick="showSection('music-entrance'); return false;">音乐欣赏</a></li>
                     <li><a href="#" onclick="showSection('guestbook'); return false;">留言板</a></li>
-                    <li><a href="#" onclick="showSection('submissions'); return false;">投稿区</a></li>
                 </ul>
                 
                 <div class="search-box">
@@ -2364,17 +1502,17 @@
                 <h3>服务器音乐</h3>
                 <ul class="nav-links">
                     <li><a href="#" onclick="showSection('music-entrance'); return false;"><i class="fas fa-music"></i> 入场音乐</a></li>
-                    <li><a href="#" onclick="showSection('music-sound'); return false;"><i class="fas fa-volume-up"></i> 游戏音效</a></li>
+                    <li><a href="#" onclick="showSection('music-other'); return false;"><i class="fas fa-volume-up"></i> 其他音乐</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-                <h3>玩家互动区</h3>
-                <ul class="nav-links">
-                    <li><a href="#" onclick="showSection('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 访客留言板</a></li>
-                    <li><a href="#" onclick="showSection('submissions'); return false;"><i class="fas fa-paper-plane"></i> 玩家投稿区</a></li>
-                </ul>
-            </div>
+    <h3>玩家互动区</h3>
+    <ul class="nav-links">
+        <li><a href="#" onclick="showSection('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 访客留言板</a></li>
+        <li><a href="#" onclick="showSection('player-development'); return false;"><i class="fas fa-link"></i> 链接投稿区</a></li>
+    </ul>
+</div>
             
             <div class="nav-section">
                 <h3>外部链接</h3>
@@ -3079,210 +2217,636 @@
             </section>
 
             <section class="content-section" id="character-intro">
-    <h2 class="section-title">角色简介</h2>
-    <div class="section-content">
-        
-        <!-- 基金会阵营标题 -->
-        <div class="content-text" style="background: none; border-left: none; padding: 0; margin-bottom: 10px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="Foundation" alt="基金会" style="width: 40px; height: 40px; object-fit: contain;">
-                <h3 style="color: #4a9eff; margin: 0;"><i class="fas fa-shield-alt"></i> Foundation阵营</h3>
-            </div>
-            <p style="color: #8a9bba; margin-top: 5px; font-size: 0.9em;">SCP基金会下属的特殊部队和收容小组</p>
-        </div>
+                <h2 class="section-title">角色简介</h2>
+                <div class="section-content">
+                    
+                    <!-- 基金会阵营标题 -->
+                    <div class="character-content-text">
+                        <div class="character-title">
+                            <img src="Foundation" alt="基金会" style="width: 40px; height: 40px; object-fit: contain;">
+                            <h3><i class="fas fa-shield-alt"></i> Foundation阵营</h3>
+                        </div>
+                        <p class="character-description">SCP基金会下属的特殊部队和收容小组</p>
+                    </div>
 
-        <!-- ALPHA-1 -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> ALPHA-1 "Red Right Hand"</h4>
-            <p>ALPHA-1 红右手</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ALPHA1/index.html" target="_self" 
-               style="color: #ff0000; font-weight: bold; text-decoration: none;">
-                ALPHA-1 "Red Right Hand"
-            </a></p>
-        </div>
+                    <!-- ALPHA-1 -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> ALPHA-1 "Red Right Hand"</h4>
+                        <p>ALPHA-1 红右手</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ALPHA1/index.html" target="_self">
+                            ALPHA-1 "Red Right Hand"
+                        </a></p>
+                    </div>
 
-        <!-- ALPHA-9 -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> ALPHA-9 "Last Hope"</h4>
-            <p>ALPHA-9 最后的希望</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ALPHA9/index.html" target="_self" 
-               style="color: #8e44ad; font-weight: bold; text-decoration: none;">
-                ALPHA-9 "Last Hope"
-            </a></p>
-        </div>
-        
-        <!-- BETA-7 -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> BETA-7 "Maz Hatters"</h4>
-            <p>BETA-7 疯帽商</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/BETA7/index.html" target="_self" 
-               style="color: #ffd700; font-weight: bold; text-decoration: none;">
-                BETA-7 "Maz Hatters"
-            </a></p>
-        </div>
+                    <!-- ALPHA-9 -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> ALPHA-9 "Last Hope"</h4>
+                        <p>ALPHA-9 最后的希望</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ALPHA9/index.html" target="_self">
+                            ALPHA-9 "Last Hope"
+                        </a></p>
+                    </div>
+                    
+                    <!-- BETA-7 -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> BETA-7 "Maz Hatters"</h4>
+                        <p>BETA-7 疯帽商</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/BETA7/index.html" target="_self">
+                            BETA-7 "Maz Hatters"
+                        </a></p>
+                    </div>
 
-        <!-- ETA-10 -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> ETA-10 "No See Evil"</h4>
-            <p>ETA-10 非礼勿视</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ETA10/index.html" target="_self" 
-               style="color: #95a5a6; font-weight: bold; text-decoration: none;">
-                ETA-10
-            </a></p>
-        </div>
+                    <!-- ETA-10 -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> ETA-10 "No See Evil"</h4>
+                        <p>ETA-10 非礼勿视</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ETA10/index.html" target="_self">
+                            ETA-10
+                        </a></p>
+                    </div>
 
-        <!-- MU-0 -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> MU-0 "Maxwell's Demons"</h4>
-            <p>MU-0 麦克斯韦恶魔</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/MU0/index.html" target="_self" 
-               style="color: #9F00C1; font-weight: bold; text-decoration: none;">
-                MU-0
-            </a></p>
-        </div>
+                    <!-- MU-0 -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> MU-0 "Maxwell's Demons"</h4>
+                        <p>MU-0 麦克斯韦恶魔</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/MU0/index.html" target="_self">
+                            MU-0
+                        </a></p>
+                    </div>
 
-        <!-- NU-7 -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> NU-7 "Hammer Down"</h4>
-            <p>NU-7 落锤</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/NU7/index.html" target="_self" 
-               style="color: #8b0000; font-weight: bold; text-decoration: none;">
-                NU-7 "Hammer Down"
-            </a></p>
-        </div>
+                    <!-- NU-7 -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> NU-7 "Hammer Down"</h4>
+                        <p>NU-7 落锤</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/NU7/index.html" target="_self">
+                            NU-7 "Hammer Down"
+                        </a></p>
+                    </div>
 
-        <!-- OMEGA-0 -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> OMEGA-0 "Heaven"</h4>
-            <p>OMEGA-0 天堂</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/OMEGA0/index.html" target="_self" 
-               style="color: #2C97D8; font-weight: bold; text-decoration: none;">
-                OMEGA-0
-            </a></p>
-        </div>
-        
-        <!-- ESCU -->
-        <div class="info-box" style="margin-bottom: 30px;">
-            <h4><i class=""></i> ESCU-Experimental Secure Containment Unit</h4>
-            <p>九尾狐实验性收容小组 (ESCU-Nine-Tailed Fox)</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ESCU/index.html" target="_self" 
-               style="color: #ffd700; background-color: #000000; font-weight: bold; text-decoration: none; padding: 2px 6px; border-radius: 2px;">
-                ESCU-Nine-Tailed Fox
-            </a></p>
-        </div>
-        
-        <!-- 混沌阵营标题 -->
-        <div class="content-text" style="background: none; border-left: none; padding: 0; margin-bottom: 10px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="Chaos" alt="混沌" style="width: 40px; height: 40px; object-fit: cover;">
-                <h3 style="color: #20c997; margin: 0;"><i class="fas fa-skull-crossbones"></i> CI阵营</h3>
-            </div>
-            <p style="color: #8a9bba; margin-top: 5px; font-size: 0.9em;">混沌分裂者下属的部队和特工</p>
-        </div>
+                    <!-- OMEGA-0 -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> OMEGA-0 "Heaven"</h4>
+                        <p>OMEGA-0 天堂</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/OMEGA0/index.html" target="_self">
+                            OMEGA-0
+                        </a></p>
+                    </div>
+                    
+                    <!-- ESCU -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> ESCU-Experimental Secure Containment Unit</h4>
+                        <p>九尾狐实验性收容小组 (ESCU-Nine-Tailed Fox)</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ESCU/index.html" target="_self">
+                            ESCU-Nine-Tailed Fox
+                        </a></p>
+                    </div>
+                    
+                    <!-- 混沌阵营标题 -->
+                    <div class="character-content-text">
+                        <div class="character-title">
+                            <img src="Chaos" alt="混沌" style="width: 40px; height: 40px; object-fit: cover;">
+                            <h3><i class="fas fa-skull-crossbones"></i> CI阵营</h3>
+                        </div>
+                        <p class="character-description">混沌分裂者下属的部队和特工</p>
+                    </div>
 
-        <!-- CIKJ -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> CIKJ</h4>
-            <p>CIKJ-快速空降部队</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIKJ/index.html" target="_self" 
-               style="color: #27ae60; font-weight: bold; text-decoration: none;">
-                CIKJ
-            </a></p>
-        </div>
-        
-            <!-- CIST -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> CIST</h4>
-            <p>CIST-尖刀突袭小组</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIST/index.html" target="_self" 
-               style="color: #c0392b; font-weight: bold; text-decoration: none;">
-                CIST
-            </a></p>
-        </div>
+                    <!-- CIKJ -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> CIKJ</h4>
+                        <p>CIKJ-快速空降部队</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIKJ/index.html" target="_self">
+                            CIKJ
+                        </a></p>
+                    </div>
+                    
+                    <!-- CIST -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> CIST</h4>
+                        <p>CIST-尖刀突袭小组</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIST/index.html" target="_self">
+                            CIST
+                        </a></p>
+                    </div>
 
-            <!-- CIT -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> CIT</h4>
-            <p>CIT-隐蔽渗透小组</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIT/index.html" target="_self" 
-               style="color: #27ae60; font-weight: bold; text-decoration: none;">
-                CIT
-            </a></p>
-        </div>
+                    <!-- CIT -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> CIT</h4>
+                        <p>CIT-隐蔽渗透小组</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIT/index.html" target="_self">
+                            CIT
+                        </a></p>
+                    </div>
 
-            <!-- DELTA -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> DELTA</h4>
-            <p>德尔塔强袭小组</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/DELTA/index.html" target="_self" 
-               style="color: #27ae60; font-weight: bold; text-decoration: none;">
-                DELTA
-            </a></p>
-        </div>
-        
-        <!-- GOC阵营标题 -->
-        <div class="content-text" style="background: none; border-left: none; padding: 0; margin-bottom: 10px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="IMG_1512.png" alt="GOC" style="width: 40px; height: 40px; object-fit: contain;">
-                <h3 style="color: #4a9eff; margin: 0;"><i class="fas fa-globe-americas"></i> GOC阵营</h3>
-            </div>
-            <p style="color: #8a9bba; margin-top: 5px; font-size: 0.9em;">全球超自然联盟下属的部队和特工</p>
-        </div>
-        
-        <!-- GOC阵营内容占位 -->
-        <div class="info-box" style="margin-bottom: 30px;">
-            <h4><i class="fas fa-question-circle"></i> 待添加角色</h4>
-            <p>GOC阵营的角色资料正在整理中...</p>
-            <p style="color: #8a9bba;"><i>敬请期待</i></p>
-        </div>
-        
-        <!-- 其他阵营标题 -->
-        <div class="content-text" style="background: none; border-left: none; padding: 0; margin-bottom: 10px;">
-            <div style="display: flex; align-items: center; gap: 10px;">
-                <img src="DBD61FDA5C2CC37849AB09FF5C3369BB.png" alt="其他" style="width: 53px; height: 40px; object-fit: cover;">
-                <h3 style="margin: 0; background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #00ff00, #00ffff, #0000ff, #9900ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                    <i class="fas fa-random"></i> Known阵营
-                </h3>
-            </div>
-            <p style="color: #8a9bba; margin-top: 5px; font-size: 0.9em;">未归类或其他组织的角色</p>
-        </div>
-        
-        <!-- UIU -->
-        <div class="info-box" style="margin-bottom: 15px;">
-            <h4><i class=""></i> UIU</h4>
-            <p>UIU 美国入</p>
-            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/UIU/index.html" target="_self" 
-               style="color: #ffd700; font-weight: bold; text-decoration: none;">
-                UIU
-            </a></p>
-        </div>
-        
-    
-</section>
+                    <!-- DELTA -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> DELTA</h4>
+                        <p>德尔塔强袭小组</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/DELTA/index.html" target="_self">
+                            DELTA
+                        </a></p>
+                    </div>
+                    
+                    <!-- GOC阵营标题 -->
+                    <div class="character-content-text">
+                        <div class="character-title">
+                            <img src="IMG_1512.png" alt="GOC" style="width: 40px; height: 40px; object-fit: contain;">
+                            <h3><i class="fas fa-globe-americas"></i> GOC阵营</h3>
+                        </div>
+                        <p class="character-description">全球超自然联盟下属的部队和特工</p>
+                    </div>
+                    <!-- AT735 -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> AT735 "Sparkplug"</h4>
+                        <p>AT735 火花塞</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/AT735/index.html" target="_self">
+                            AT735 "Sparkplug"
+                        </a></p>
+                    </div>
+                    
+                    <!-- ST1102 -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> ST1102 "Break Em' Down"</h4>
+                        <p>ST1102 破碎匕首</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ST1102/index.html" target="_self">
+                            ST1102 "Break Em' Down"
+                        </a></p>
+                    </div>
+                    
+                    <!-- 其他阵营标题 -->
+                    <div class="character-content-text">
+                        <div class="character-title">
+                            <img src="DBD61FDA5C2CC37849AB09FF5C3369BB.png" alt="其他" style="width: 53px; height: 40px; object-fit: cover;">
+                            <h3 style="background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #00ff00, #00ffff, #0000ff, #9900ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                                <i class="fas fa-random"></i> Known阵营
+                            </h3>
+                        </div>
+                        <p class="character-description">未归类或其他组织的角色</p>
+                    </div>
+                    
+                    <!-- UIU -->
+                    <div class="character-info-box">
+                        <h4><i class="fas fa-user-secret"></i> UIU</h4>
+                        <p>UIU 美国入</p>
+                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/UIU/index.html" target="_self">
+                            UIU
+                        </a></p>
+                    </div>
+                </div>
+            </section>
+
+            <section class="content-section" id="links-section">
+                <h2 class="section-title">链接投稿区</h2>
+                <div class="section-content">
+                    <div class="character-content-text">
+                        <div class="character-title">
+                            <h3><i class="fas fa-link"></i> 用于展示由玩家自制内容的分区</h3>
+                        </div>
+                    </div>  
+
+                    
+                </div>
+            </section>
             
             <section class="content-section" id="music-entrance">
                 <h2 class="section-title">服务器入场音乐</h2>
                 <div class="section-content">
                     <div class="music-section">
-                        <div class="music-placeholder">
-                            <i class="fas fa-headphones"></i>
-                            <h3>入场音乐</h3>
-                            <p>正在开发中...敬请期待！</p>
-                            <p>这里将展示服务器的入场音乐和背景音乐。</p>
+                        <div class="music-info-box">
+                            <h4><i class="fas fa-info-circle"></i> 入场音乐说明</h4>
+                            <p>注：部分曲目无法在QQ音乐内查询</p>
+                            <p>音乐名字后写有ADM的为ADMMUSIC</p>
+                            <p>要播放请前往Admmusic官网搜寻</p>
+                        </div>
+                        
+                        <div class="music-category">
+                            <h4><i class="fas fa-headphones"></i> 入场音乐列表</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Apha-9 - "最后的希望"
+                                </div>
+                                <div class="music-item-details">Love Falls</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Beta-7 - "疯帽商"
+                                </div>
+                                <div class="music-item-details">INTERWORLD - METAMORPHOSIS (DIN1C REMIX)</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Epsilon-11 - "九尾狐"
+                                </div>
+                                <div class="music-item-details">Heavy Resistance</div>
+                                <div class="music-item-details">曲作者: Scott Tobin</div>
+                                <div class="music-item-note">老版本音乐：Mobile task force theme</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Mu-0 - "麦克斯韦恶魔"
+                                </div>
+                                <div class="music-item-details">Lunar Fever</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Nu-7 - "落锤"
+                                </div>
+                                <div class="music-item-details">Asgore (Epic Version)</div>
+                            </div>
                         </div>
                     </div>
                 </div>
             </section>
-            
-            <section class="content-section" id="music-sound">
-                <h2 class="section-title">服务器游戏音效</h2>
+
+            <section class="content-section" id="music-other">
+                <h2 class="section-title">服务器其他音乐</h2>
                 <div class="section-content">
                     <div class="music-section">
-                        <div class="music-placeholder">
-                            <i class="fas fa-volume-up"></i>
-                            <h3>游戏音效</h3>
-                            <p>正在开发中...敬请期待！</p>
-                            <p>这里将展示服务器的各种音效和特殊声音。</p>
+                        <div class="adm-warning">
+                            <i class="fas fa-exclamation-triangle"></i>
+                            注意：音乐名字后写有(ADM)的为ADMMUSIC，要播放请前往Admmusic官网搜寻
+                        </div>
+                        
+                        <!-- Nu-7 相关音乐 -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-drum"></i> Nu-7 落锤系列</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Nu-7 "落锤" - 肃杀B连
+                                </div>
+                                <div class="music-item-details">Birds of Prey</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Nu-7 "落锤" - 枪骑兵
+                                </div>
+                                <div class="music-item-details">PHONK ROYALTY FREE</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Nu-22 - "火箭侠"
+                                </div>
+                                <div class="music-item-details">终日</div>
+                            </div>
+                        </div>
+                        
+                        <!-- Tau-5 -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-recycle"></i> Tau-5</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Tau-5 - "轮回"
+                                </div>
+                                <div class="music-item-details">call.bat</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 混沌分裂者 -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-skull-crossbones"></i> 混沌分裂者</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    混沌分裂者主题
+                                </div>
+                                <div class="music-item-details">Chaos insurgency theme</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    混沌分裂者-空降部队
+                                </div>
+                                <div class="music-item-details">Jumpstyle</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    混沌分裂者-猎鹰谷突袭&侦查
+                                </div>
+                                <div class="music-item-details">Chaos Insurgency Raid</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    混沌分裂者-猎鹰谷Sigma
+                                </div>
+                                <div class="music-item-details">INSOMNIA999 (slowed)</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    混沌分裂者-暗影突击队
+                                </div>
+                                <div class="music-item-details">Vex</div>
+                            </div>
+                        </div>
+                        
+                        <!-- GRU系列 -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-user-secret"></i> GRU系列</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    GRU-P情报组织
+                                </div>
+                                <div class="music-item-details">Fuel to the Fire</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    GRU-CI突袭部队
+                                </div>
+                                <div class="music-item-details">草原啊草原</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 蛇之手 -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-hand-spock"></i> 蛇之手</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    蛇之手
+                                </div>
+                                <div class="music-item-details">The Serpents Hand Spawn</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    蛇之手-暗杀者小队
+                                </div>
+                                <div class="music-item-details">[蛇之手] 仇恨 OST (片段版)</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 猩红系列 -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-fire"></i> 猩红系列</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    猩红之子
+                                </div>
+                                <div class="music-item-details">Criminal Procedure Drone</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    猩红主教团
+                                </div>
+                                <div class="music-item-details">Brooding Dark (a)（ADM）</div>
+                                <div class="adm-warning">此为ADMMUSIC音乐</div>
+                            </div>
+                        </div>
+                        
+                        <!-- GTI和M&CD -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-shield-alt"></i> 其他组织</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    GTI
+                                </div>
+                                <div class="music-item-details">Better things ahead（ADM）</div>
+                                <div class="adm-warning">此为ADMMUSIC音乐</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    M&CD护送组
+                                </div>
+                                <div class="music-item-details">REMORSE</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 全球超自然联盟 -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-globe-americas"></i> 全球超自然联盟</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    全球超自然联盟主题
+                                </div>
+                                <div class="music-item-details">Global Occult Coalition Theme</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    全球超自然联盟-攻击小组
+                                </div>
+                                <div class="music-item-details">Drifting Thought (Main Track|Full Length)</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    全球超自然联盟-评估小组
+                                </div>
+                                <div class="music-item-details">Glide</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    全球超自然联盟-急袭小组
+                                </div>
+                                <div class="music-item-details">REMIX RUMBLE (Steve Aoki Remix)</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    全球超自然联盟-攻击小组9999 Full damage
+                                </div>
+                                <div class="music-item-details">Seek & Destroy</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    全球超自然联盟-评估小组735-火花塞
+                                </div>
+                                <div class="music-item-details">Marche Militaire</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    全球超自然联盟-渗透小组
+                                </div>
+                                <div class="music-item-details">can you?</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 奇术进行曲 -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-hat-wizard"></i> 奇术进行曲</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    奇术进行曲
+                                </div>
+                                <div class="music-item-details">New Horizons</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 101师 -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-helicopter"></i> 101师</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    101空中突击师
+                                </div>
+                                <div class="music-item-details">Hopeful Chillstep</div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    101美军战机进行曲&半人马座三星系统
+                                </div>
+                                <div class="music-item-details">CENSORED!</div>
+                            </div>
+                        </div>
+                        
+                        <!-- 中场休息曲 -->
+                        <div class="music-category">
+                            <h4><i class="fas fa-coffee"></i> 中场休息曲</h4>
+                        </div>
+                        
+                        <div class="music-list">
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Bad Apple!! (坏苹果)
+                                </div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Stronger Than You
+                                </div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Holiday
+                                </div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Hope
+                                </div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    No More
+                                </div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Sunburst
+                                </div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Infectious
+                                </div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Candyland
+                                </div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Life
+                                </div>
+                            </div>
+                            
+                            <div class="music-item">
+                                <div class="music-item-title">
+                                    <i class="fas fa-play"></i>
+                                    Swing it
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="music-info-box">
+                            <h4><i class="fas fa-user-edit"></i> 编辑信息</h4>
+                            <p>文本由KAWAYI_SHIROKO编辑</p>
+                            <p>最后更新: 2026年1月</p>
                         </div>
                     </div>
                 </div>
@@ -3318,298 +2882,6 @@
                 </div>
             </section>
 
-            <section class="content-section" id="submissions">
-                <h2 class="section-title">玩家投稿区</h2>
-                <div class="section-content">
-                    <div class="info-box">
-                        <h3><i class="fas fa-info-circle"></i> 投稿说明</h3>
-                        <p>欢迎投稿！您可以分享游戏截图、原创故事、插件建议等内容。投稿需要审核通过后才会显示。</p>
-                        <p><strong>投稿要求：</strong></p>
-                        <ul>
-                            <li>最多上传5个图片或视频文件</li>
-                            <li>每个文件大小不超过10MB</li>
-                            <li>支持格式：JPG, PNG, GIF, WebP, MP4, WebM</li>
-                            <li>请勿上传违规内容</li>
-                            <li>投稿后需要管理审核</li>
-                        </ul>
-                    </div>
-                    
-                    <div class="submission-form">
-                        <div class="submission-form-row">
-                            <input type="text" id="submission-passcode" class="submission-input" placeholder="输入您的通行证（必填）" maxlength="100" required>
-                        </div>
-                        
-                        <div class="submission-form-row">
-                            <input type="text" id="submission-title" class="submission-input" placeholder="投稿标题（必填）" maxlength="200" required>
-                        </div>
-                        
-                        <div class="submission-form-row">
-                            <select id="submission-category" class="submission-select" required>
-                                <option value="">选择分类（必选）</option>
-                                <option value="screenshot">游戏截图</option>
-                                <option value="story">原创故事</option>
-                                <option value="suggestion">建议反馈</option>
-                                <option value="artwork">美术作品</option>
-                                <option value="bug_report">BUG报告</option>
-                                <option value="plugin_suggestion">插件建议</option>
-                                <option value="map_feedback">地图反馈</option>
-                                <option value="other">其他</option>
-                            </select>
-                        </div>
-                        
-                        <div class="submission-form-row">
-                            <textarea id="submission-content" class="submission-textarea" placeholder="请在此输入您的投稿内容...（必填）" rows="6" required maxlength="2000"></textarea>
-                            <div class="submission-char-count"><span id="submission-char-count">0</span> / 2000</div>
-                        </div>
-
-                        <div class="submission-form-row">
-                            <div class="submission-media-upload" id="media-upload-area">
-                                <i class="fas fa-cloud-upload-alt"></i>
-                                <p>点击或拖拽上传图片/视频</p>
-                                <p style="font-size: 0.9em; color: #8a9bba; margin-top: 5px;">
-                                    支持 JPG, PNG, GIF, WebP, MP4, WebM 格式<br>
-                                    单个文件不超过10MB，最多5个文件
-                                </p>
-                                <input type="file" id="media-upload-input" multiple accept="image/*,video/*" style="display: none;">
-                                <button type="button" onclick="document.getElementById('media-upload-input').click()" 
-                                        style="margin-top: 15px; padding: 8px 20px; background: #3a506b; color: white; border: none; border-radius: 5px; cursor: pointer;">
-                                    选择文件
-                                </button>
-                            </div>
-                            
-                            <!-- 预览区域 -->
-                            <div class="submission-media-preview" id="media-preview">
-                                <!-- 上传的文件会在这里预览 -->
-                            </div>
-                        </div>
-                        
-                        <button id="submission-submit-btn" class="submission-button" onclick="console.log('按钮被点击');
-                            submitSubmission();return false;">
-                            <i class="fas fa-paper-plane"></i> 提交投稿
-                        </button>
-                        
-                        <p class="submission-form-note">
-                            <i class="fas fa-info-circle"></i> 投稿需要管理审核，通过后才会公开显示。请文明投稿，遵守服务器规则。
-                        </p>
-                    </div>
-
-                    <!-- 在提交按钮后面添加这个 -->
-<div style="
-    background: #1a1a1a;
-    border: 2px solid #ff6b6b;
-    border-radius: 10px;
-    padding: 20px;
-    margin-top: 30px;
-    color: white;
-">
-    <h3 style="color:#ff6b6b; margin-top:0;">
-        <i class="fas fa-bug"></i> 提交调试信息
-    </h3>
-    
-    <div style="margin-bottom:15px;">
-        <button onclick="runDebugTest()" style="
-            background: #4a9eff;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-            margin-right:10px;
-        ">
-            <i class="fas fa-play"></i> 运行调试测试
-        </button>
-        
-        <button onclick="clearDebugOutput()" style="
-            background: #6c757d;
-            color: white;
-            border: none;
-            padding: 10px 20px;
-            border-radius: 5px;
-            cursor: pointer;
-        ">
-            <i class="fas fa-trash"></i> 清空输出
-        </button>
-    </div>
-    
-    <div id="debug-output" style="
-        background: #2a2a2a;
-        padding: 15px;
-        border-radius: 5px;
-        font-family: monospace;
-        font-size: 14px;
-        min-height: 100px;
-        max-height: 400px;
-        overflow-y: auto;
-        white-space: pre-wrap;
-        word-wrap: break-word;
-    ">
-        调试信息将显示在这里...
-    </div>
-</div>
-
-<!-- 在调试区域添加这个 -->
-<button onclick="testSubmitFunction()" style="
-    background: #20c997;
-    color: white;
-    border: none;
-    padding: 10px 20px;
-    border-radius: 5px;
-    cursor: pointer;
-    margin-top: 10px;
-">
-    <i class="fas fa-code"></i> 测试submitSubmission函数
-</button>
-
-<script>
-function testSubmitFunction() {
-    const debugOutput = document.getElementById('debug-output');
-    if (debugOutput) debugOutput.innerHTML = '';
-    
-    debugLog('🔍 测试submitSubmission函数...', 'info');
-    
-    // 检查函数是否存在
-    if (typeof submitSubmission === 'function') {
-        debugLog('✅ submitSubmission函数存在', 'success');
-        debugLog('函数内容前100字符: ' + submitSubmission.toString().substring(0, 100), 'info');
-    } else {
-        debugLog('❌ submitSubmission函数未定义！', 'error');
-    }
-    
-    // 检查是否有语法错误
-    try {
-        submitSubmission;
-        debugLog('✅ 函数引用正常', 'success');
-    } catch (e) {
-        debugLog(`❌ 函数引用错误: ${e.message}`, 'error');
-    }
-}
-</script>
-                    
-<script>
-// 调试工具函数
-function debugLog(message, type = 'info') {
-    const output = document.getElementById('debug-output');
-    if (!output) return;
-    
-    const timestamp = new Date().toLocaleTimeString();
-    const color = type === 'error' ? '#ff6b6b' : 
-                  type === 'success' ? '#20c997' : '#4a9eff';
-    
-    const line = document.createElement('div');
-    line.style.cssText = `
-        padding: 5px 0;
-        border-bottom: 1px solid #3a3a3a;
-        color: ${color};
-    `;
-    line.innerHTML = `<span style="color:#888;">[${timestamp}]</span> ${message}`;
-    
-    output.appendChild(line);
-    output.scrollTop = output.scrollHeight;
-}
-
-function clearDebugOutput() {
-    const output = document.getElementById('debug-output');
-    if (output) output.innerHTML = '调试信息已清空...';
-}
-
-// 调试测试函数
-async function runDebugTest() {
-    clearDebugOutput();
-    debugLog('🔍 开始调试测试...', 'info');
-    
-    // 测试1：检查基本变量
-    debugLog(`1. Supabase URL: ${SUPABASE_URL ? '✓ 存在' : '✗ 不存在'}`, 'info');
-    debugLog(`2. Supabase KEY: ${SUPABASE_KEY ? '✓ 存在' : '✗ 不存在'}`, 'info');
-    
-    // 测试2：检查表单元素
-    const formElements = {
-        'passcode输入框': document.getElementById('submission-passcode'),
-        '标题输入框': document.getElementById('submission-title'),
-        '内容输入框': document.getElementById('submission-content'),
-        '分类选择框': document.getElementById('submission-category'),
-        '提交按钮': document.getElementById('submission-submit-btn')
-    };
-    
-    Object.entries(formElements).forEach(([name, element]) => {
-        debugLog(`3. ${name}: ${element ? '✓ 找到' : '✗ 未找到'}`, 
-                element ? 'success' : 'error');
-    });
-    
-    // 测试3：测试API连接
-    debugLog('4. 测试API连接...', 'info');
-    
-    try {
-        const testResponse = await fetch(`${SUPABASE_URL}/rest/v1/submissions?limit=1`, {
-            headers: {
-                'apikey': SUPABASE_KEY,
-                'Authorization': `Bearer ${SUPABASE_KEY}`
-            }
-        });
-        
-        debugLog(`   状态: ${testResponse.status} ${testResponse.statusText}`, 
-                testResponse.ok ? 'success' : 'error');
-        
-        if (!testResponse.ok) {
-            const errorText = await testResponse.text();
-            debugLog(`   错误详情: ${errorText.substring(0, 100)}`, 'error');
-        } else {
-            const data = await testResponse.json();
-            debugLog(`   连接成功! 表中有 ${data.length} 条数据`, 'success');
-        }
-    } catch (error) {
-        debugLog(`   网络错误: ${error.message}`, 'error');
-    }
-    
-    // 测试4：测试RPC函数
-    debugLog('5. 测试投稿函数...', 'info');
-    
-    try {
-        const testData = {
-            p_passcode: 'debug_test_' + Date.now(),
-            p_title: '调试测试标题',
-            p_content: '这是一个调试测试内容，用于验证API是否正常工作。',
-            p_category: 'other',
-            p_status: 'pending',
-            p_media_urls_json: null
-        };
-        
-        debugLog(`   发送测试数据: ${JSON.stringify(testData, null, 2)}`, 'info');
-        
-        const response = await fetch(`${SUPABASE_URL}/rest/v1/rpc/submit_submission_final`, {
-            method: 'POST',
-            headers: { 
-                'apikey': SUPABASE_KEY, 
-                'Authorization': `Bearer ${SUPABASE_KEY}`, 
-                'Content-Type': 'application/json'
-            },
-            body: JSON.stringify(testData)
-        });
-        
-        debugLog(`   响应状态: ${response.status} ${response.statusText}`, 
-                response.ok ? 'success' : 'error');
-        
-        if (response.ok) {
-            const result = await response.json();
-            debugLog(`   函数调用成功: ${JSON.stringify(result)}`, 'success');
-        } else {
-            const errorText = await response.text();
-            debugLog(`   函数调用失败: ${errorText}`, 'error');
-        }
-        
-    } catch (error) {
-        debugLog(`   函数测试失败: ${error.message}`, 'error');
-    }
-    
-    debugLog('✅ 调试测试完成!', 'success');
-}
-</script>
-                    
-                    <div class="submission-list" id="submission-list">
-                        <!-- 投稿内容将在这里显示 -->
-                    </div>
-                </div>
-            </section>
-            
             <section class="content-section" id="links">
                 <h2 class="section-title">外部链接</h2>
                 <div class="section-content">
@@ -3668,17 +2940,5 @@ async function runDebugTest() {
     </footer>
     
     <div id="gb-toast" class="gb-toast"></div>
-    
-   <!-- Supabase客户端库 -->
-<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
-<script>
-    // 确保Supabase库加载完成后再初始化
-    if (typeof window.supabase !== 'undefined') {
-        window.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
-        console.log('Supabase客户端初始化成功');
-    } else {
-        console.error('Supabase库未加载');
-    }
-</script>
 </body>
 </html>
