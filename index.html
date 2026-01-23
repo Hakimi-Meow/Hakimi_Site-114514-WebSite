@@ -263,78 +263,51 @@
     }
     
     function initPage() {
-    showSection('overview');
-    
-    // 初始化字符计数
-    const gbMessage = document.getElementById('gb-message');
-    const gbCharCount = document.getElementById('gb-char-count');
-    if (gbMessage && gbCharCount) {
-        gbMessage.addEventListener('input', function() {
-            gbCharCount.textContent = this.value.length;
-        });
-    }
-    
-    // 移动端菜单切换
-    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-    if (mobileMenuToggle) {
-        mobileMenuToggle.addEventListener('click', function() {
-            const nav = document.getElementById('main-nav');
-            if (nav) nav.classList.toggle('active');
-        });
-    }
-    
-    // 返回顶部按钮显示/隐藏
-    window.onscroll = function() {
-        const backToTop = document.getElementById('back-to-top');
-        if (backToTop) {
-            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                backToTop.style.display = 'flex';
-            } else {
-                backToTop.style.display = 'none';
-            }
+        showSection('overview');
+        
+        // 初始化字符计数
+        const gbMessage = document.getElementById('gb-message');
+        const gbCharCount = document.getElementById('gb-char-count');
+        if (gbMessage && gbCharCount) {
+            gbMessage.addEventListener('input', function() {
+                gbCharCount.textContent = this.value.length;
+            });
         }
-    };
-    
-    // 移动端快速导航点击事件
-    document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const section = this.getAttribute('data-section');
-            if (section) {
-               
-                document.querySelectorAll('.mobile-quick-nav a').forEach(item => {
-                    item.classList.remove('active');
-                });
-             
-                this.classList.add('active');
-                // 显示对应分区
-                showSection(section);
-            }
-        });
-    });
-    
-    // 桌面导航点击事件
-    document.querySelectorAll('.nav-links a, .wiki-nav a').forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
-            const section = this.getAttribute('onclick')?.match(/showSection\('([^']+)'\)/)?.[1];
-            if (section) {
-                // 更新移动导航状态
-                document.querySelectorAll('.mobile-quick-nav a').forEach(item => {
-                    item.classList.remove('active');
-                });
-                const mobileLink = document.querySelector(`.mobile-quick-nav a[data-section="${section}"]`);
-                if (mobileLink) {
-                    mobileLink.classList.add('active');
+        
+        // 移动端菜单切换
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        if (mobileMenuToggle) {
+            mobileMenuToggle.addEventListener('click', function() {
+                const nav = document.getElementById('main-nav');
+                if (nav) nav.classList.toggle('active');
+            });
+        }
+        
+        // 返回顶部按钮显示/隐藏
+        window.onscroll = function() {
+            const backToTop = document.getElementById('back-to-top');
+            if (backToTop) {
+                if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                    backToTop.style.display = 'flex';
+                } else {
+                    backToTop.style.display = 'none';
                 }
-                
-                showSection(section);
             }
+        };
+        
+        // 移动端快速导航点击事件
+        document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
+            link.addEventListener('click', function(e) {
+                e.preventDefault();
+                const section = this.getAttribute('data-section');
+                if (section) {
+                    showSection(section);
+                }
+            });
         });
-    });
-    
-    console.log('页面初始化完成');
-}
+        
+        console.log('页面初始化完成');
+    }
     
     document.addEventListener('DOMContentLoaded', initPage);
     </script>
@@ -1083,6 +1056,174 @@
         font-style: italic;
     }
     
+    .music-section {
+        background-color: #2a2a2a;
+        padding: 20px;
+        border-radius: 10px;
+        margin: 20px 0;
+        text-align: center;
+    }
+    
+    .music-placeholder {
+        padding: 60px 20px;
+        background: linear-gradient(135deg, #1a1a1a 0%, #222 100%);
+        border-radius: 15px;
+        border: 2px dashed #4a9eff;
+    }
+    
+    .music-placeholder i {
+        font-size: 4rem;
+        color: #4a9eff;
+        margin-bottom: 20px;
+        opacity: 0.7;
+    }
+    
+    .music-placeholder h3 {
+        font-size: 2rem;
+        color: #fff;
+        margin-bottom: 15px;
+    }
+    
+    .music-placeholder p {
+        color: #8a9bba;
+        max-width: 500px;
+        margin: 0 auto;
+        line-height: 1.8;
+    }
+    
+    .mobile-quick-nav {
+        display: none;
+        position: fixed;
+        bottom: 0;
+        left: 0;
+        width: 100%;
+        background-color: #0d0d0d;
+        border-top: 1px solid #333;
+        padding: 10px 0;
+        z-index: 999;
+    }
+    
+    .mobile-quick-nav ul {
+        display: flex;
+        justify-content: space-around;
+        list-style: none;
+    }
+    
+    .mobile-quick-nav li {
+        text-align: center;
+    }
+    
+    .mobile-quick-nav a {
+        color: #ccc;
+        text-decoration: none;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        gap: 5px;
+        font-size: 0.8rem;
+        padding: 5px;
+        border-radius: 5px;
+        transition: all 0.2s;
+    }
+    
+    .mobile-quick-nav a:hover,
+    .mobile-quick-nav a.active {
+        color: #4a9eff;
+        background-color: #2a2a2a;
+    }
+    
+    .mobile-quick-nav i {
+        font-size: 1.2rem;
+    }
+    
+    .external-links-grid {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        margin-top: 20px;
+    }
+    
+    .external-link-block {
+        background-color: #2a2a2a;
+        border: 1px solid #444;
+        border-radius: 5px;
+        padding: 15px;
+        transition: all 0.3s;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+    
+    .external-link-block:hover {
+        background-color: #333;
+        border-color: #4a9eff;
+        transform: translateY(-2px);
+    }
+    
+    .external-link-block h3 {
+        color: #4a9eff;
+        margin-bottom: 10px;
+        font-size: 1.2rem;
+        display: flex;
+        align-items: center;
+        gap: 10px;
+    }
+    
+    .external-link-block p {
+        color: #ccc;
+        margin-bottom: 10px;
+    }
+    
+    .external-link-block a {
+        color: #4a9eff;
+        text-decoration: none;
+        display: inline-flex;
+        align-items: center;
+        gap: 5px;
+    }
+    
+    .external-link-block a:hover {
+        text-decoration: underline;
+    }
+    
+    .wiki-footer {
+        background-color: #0d0d0d;
+        border-top: 1px solid #333;
+        padding: 30px 0;
+        margin-top: 50px;
+    }
+    
+    .footer-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .disclaimer {
+        background-color: #2a2a2a;
+        border: 1px solid #666;
+        padding: 20px;
+        border-radius: 3px;
+        margin-bottom: 20px;
+        word-wrap: break-word;
+        overflow-wrap: break-word;
+        word-break: break-word;
+    }
+    
+    .disclaimer h3 {
+        color: #ff6b6b;
+        margin-bottom: 10px;
+    }
+    
+    .copyright {
+        text-align: center;
+        padding-top: 20px;
+        color: #777;
+        font-size: 0.9rem;
+        border-top: 1px solid #333;
+        margin-top: 20px;
+    }
+    
     .gb-empty-state {
         text-align: center;
         padding: 3rem;
@@ -1095,55 +1236,7 @@
         margin-bottom: 1rem;
         opacity: 0.7;
     }
-
-.mobile-quick-nav {
-    display: none; 
-    position: fixed;
-    bottom: 0;
-    left: 0;
-    width: 100%;
-    background-color: #0d0d0d;
-    border-top: 1px solid #333;
-    padding: 10px 0;
-    z-index: 999;
-}
-
-.mobile-quick-nav ul {
-    display: flex;
-    justify-content: space-around;
-    list-style: none;
-    margin: 0;
-    padding: 0;
-}
-
-.mobile-quick-nav li {
-    flex: 1;
-    text-align: center;
-}
-
-.mobile-quick-nav a {
-    color: #ccc;
-    text-decoration: none;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    gap: 5px;
-    font-size: 0.8rem;
-    padding: 8px 5px;
-    border-radius: 5px;
-    transition: all 0.2s;
-}
-
-.mobile-quick-nav a:hover,
-.mobile-quick-nav a.active {
-    color: #4a9eff;
-    background-color: #2a2a2a;
-}
-
-.mobile-quick-nav i {
-    font-size: 1.2rem;
-}
-        
+    
     .gb-toast {
         position: fixed;
         top: 30px;
@@ -1173,180 +1266,71 @@
         border-left: 5px solid #c92a2a;
     }
     
-    /* 音乐分区样式 */
-.music-section {
+    /* 角色Iframe样式 */
+.character-iframe-container {
     background-color: #2a2a2a;
-    padding: 20px;
-    border-radius: 10px;
-    margin: 20px 0;
-    word-wrap: break-word;
-}
-
-.music-section h3 {
-    color: #4a9eff;
+    border-radius: 8px;
+    overflow: hidden;
     margin-bottom: 20px;
-    border-bottom: 2px solid #4a9eff;
-    padding-bottom: 10px;
-}
-
-.music-list {
-    display: flex;
-    flex-direction: column;
-    gap: 15px;
-}
-
-.music-item {
-    background-color: #333;
-    border-radius: 8px;
-    padding: 15px;
-    border-left: 4px solid #4a9eff;
-    transition: all 0.3s ease;
-    word-wrap: break-word;
-}
-
-.music-item:hover {
-    background-color: #3a3a3a;
-    transform: translateY(-2px);
-}
-
-.music-item-title {
-    color: #fff;
-    font-weight: bold;
-    font-size: 1.1em;
-    margin-bottom: 8px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.music-item-title i {
-    color: #4a9eff;
-}
-
-.music-item-details {
-    color: #ccc;
-    font-size: 0.95em;
-    margin-bottom: 5px;
-}
-
-.music-item-note {
-    color: #ffcc00;
-    font-size: 0.85em;
-    margin-top: 5px;
-    font-style: italic;
-}
-
-.music-category {
-    background: linear-gradient(135deg, #2a4a6a, #1a3a5a);
-    padding: 12px 20px;
-    border-radius: 8px;
-    margin: 25px 0 15px 0;
-    border-left: 5px solid #ffcc00;
-}
-
-.music-category h4 {
-    color: #ffcc00;
-    margin: 0;
-    font-size: 1.2em;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.music-info-box {
-    background-color: #2a2a2a;
-    border: 2px solid #4a9eff;
-    border-radius: 10px;
-    padding: 20px;
-    margin: 20px 0;
-    word-wrap: break-word;
-}
-
-.music-info-box h4 {
-    color: #4a9eff;
-    margin-bottom: 10px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.adm-warning {
-    background-color: rgba(255, 165, 0, 0.1);
-    border: 1px solid #ffa500;
-    border-radius: 5px;
-    padding: 10px;
-    margin-top: 10px;
-    color: #ffa500;
-    font-size: 0.9em;
-}
-
-.adm-warning i {
-    margin-right: 5px;
-}
-
-    /* 角色简介样式增强 */
-.character-content-text {
-    background: none;
-    border-left: none;
-    padding: 0;
-    margin-bottom: 10px;
-}
-
-.character-title {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-}
-
-.character-title h3 {
-    color: #4a9eff;
-    margin: 0;
-    font-size: 1.3em;
-}
-
-.character-description {
-    color: #8a9bba;
-    margin-top: 5px;
-    font-size: 0.9em;
-}
-
-.character-info-box {
-    background-color: rgba(255, 255, 255, 0.05);
     border: 1px solid #3a506b;
-    border-radius: 10px;
-    padding: 15px;
-    margin-bottom: 15px;
-    transition: all 0.3s ease;
+    position: relative;
+    min-height: 700px;
 }
 
-.character-info-box:hover {
-    background-color: rgba(255, 255, 255, 0.08);
-    border-color: #4a9eff;
-    transform: translateY(-2px);
+.iframe-loading {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    text-align: center;
+    color: #8a9bba;
+    z-index: 10;
+    background-color: rgba(42, 42, 42, 0.9);
+    padding: 40px;
+    border-radius: 8px;
 }
 
-.character-info-box h4 {
-    color: #fff;
-    margin-bottom: 8px;
-    font-size: 1.1em;
+.iframe-loading i {
+    font-size: 3rem;
+    margin-bottom: 1rem;
+    opacity: 0.7;
+    display: block;
 }
 
-.character-info-box p {
-    color: #ccc;
-    margin: 5px 0;
-    font-size: 0.95em;
+#esc-iframe {
+    width: 100%;
+    height: 700px;
+    border: none;
+    border-radius: 8px;
+    display: none;
 }
 
-.character-info-box a {
-    color: #4a9eff;
-    text-decoration: none;
-    font-weight: bold;
-    display: inline-block;
-    margin-top: 5px;
+#esc-iframe.loaded {
+    display: block;
 }
 
-.character-info-box a:hover {
-    text-decoration: underline;
+@media (max-width: 768px) {
+    .character-iframe-container {
+        min-height: 500px;
+    }
+    
+    #esc-iframe {
+        height: 500px;
+    }
+    
+    .iframe-loading {
+        padding: 20px;
+    }
+}
+
+@media (max-width: 480px) {
+    .character-iframe-container {
+        min-height: 400px;
+    }
+    
+    #esc-iframe {
+        height: 400px;
+    }
 }
 
     @media (max-width: 992px) {
@@ -1462,6 +1446,10 @@
         .admin-list {
             grid-template-columns: 1fr;
         }
+        
+        .music-placeholder h3 {
+            font-size: 1.5rem;
+        }
     }
     
     @media (max-width: 480px) {
@@ -1494,6 +1482,18 @@
         
         .mobile-quick-nav i {
             font-size: 1rem;
+        }
+        
+        .music-placeholder {
+            padding: 40px 15px;
+        }
+        
+        .music-placeholder h3 {
+            font-size: 1.3rem;
+        }
+        
+        .music-placeholder i {
+            font-size: 3rem;
         }
     }
     </style>
@@ -1534,8 +1534,8 @@
                     <li><a href="#" onclick="showSection('admin'); return false;">管理组</a></li>
                     <li><a href="#" onclick="showSection('character-intro'); return false;">角色简介</a></li>
                     <li><a href="#" onclick="showSection('creator'); return false;">制作人介绍</a></li>
-                    <li><a href="#" onclick="showSection('music-entrance'); return false;">音乐欣赏</a></li>
                     <li><a href="#" onclick="showSection('guestbook'); return false;">留言板</a></li>
+                    <li><a href="#" onclick="showSection('submissions'); return false;">链接投稿区</a></li>
                 </ul>
                 
                 <div class="search-box">
@@ -1576,18 +1576,18 @@
             <div class="nav-section">
                 <h3>服务器音乐</h3>
                 <ul class="nav-links">
-                    <li><a href="#" onclick="showSection('music-entrance'); return false;"><i class="fas fa-music"></i> 入场音乐</a></li>
-                    <li><a href="#" onclick="showSection('music-other'); return false;"><i class="fas fa-volume-up"></i> 其他音乐</a></li>
+                    <li><a href="#" onclick="showSection('music-entrance'); return false;"><i class="fas fa-music"></i> 入场音乐与其他音乐</a></li>
+                    <li><a href="#" onclick="showSection('music-sound'); return false;"><i class="fas fa-volume-up"></i> 游戏音效</a></li>
                 </ul>
             </div>
             
             <div class="nav-section">
-    <h3>玩家互动区</h3>
-    <ul class="nav-links">
-        <li><a href="#" onclick="showSection('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 访客留言板</a></li>
-        <li><a href="#" onclick="showSection('player-development'); return false;"><i class="fas fa-link"></i> 链接投稿区</a></li>
-    </ul>
-</div>
+                <h3>玩家互动区</h3>
+                <ul class="nav-links">
+                    <li><a href="#" onclick="showSection('guestbook'); return false;"><i class="fas fa-comment-dots"></i> 访客留言板</a></li>
+                    <li><a href="#" onclick="showSection('submissions'); return false;"><i class="fas fa-paper-plane"></i> 链接投稿区</a></li>
+                </ul>
+            </div>
             
             <div class="nav-section">
                 <h3>外部链接</h3>
@@ -2292,636 +2292,397 @@
             </section>
 
             <section class="content-section" id="character-intro">
-                <h2 class="section-title">角色简介</h2>
-                <div class="section-content">
-                    
-                    <!-- 基金会阵营标题 -->
-                    <div class="character-content-text">
-                        <div class="character-title">
-                            <img src="Foundation" alt="基金会" style="width: 40px; height: 40px; object-fit: contain;">
-                            <h3><i class="fas fa-shield-alt"></i> Foundation阵营</h3>
-                        </div>
-                        <p class="character-description">SCP基金会下属的特殊部队和收容小组</p>
-                    </div>
+    <h2 class="section-title">角色简介</h2>
+    <div class="section-content">
+        
+        <!-- 基金会阵营标题 -->
+        <div class="content-text" style="background: none; border-left: none; padding: 0; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="Foundation" alt="基金会" style="width: 40px; height: 40px; object-fit: contain;">
+                <h3 style="color: #4a9eff; margin: 0;"><i class="fas fa-shield-alt"></i> Foundation阵营</h3>
+            </div>
+            <p style="color: #8a9bba; margin-top: 5px; font-size: 0.9em;">SCP基金会下属的特殊部队和收容小组</p>
+        </div>
 
-                    <!-- ALPHA-1 -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> ALPHA-1 "Red Right Hand"</h4>
-                        <p>ALPHA-1 红右手</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ALPHA1/index.html" target="_self">
-                            ALPHA-1 "Red Right Hand"
-                        </a></p>
-                    </div>
+        <!-- ALPHA-1 -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> ALPHA-1 "Red Right Hand"</h4>
+            <p>ALPHA-1 红右手</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ALPHA1/index.html" target="_self" 
+               style="color: #ff0000; font-weight: bold; text-decoration: none;">
+                ALPHA-1 "Red Right Hand"
+            </a></p>
+        </div>
 
-                    <!-- ALPHA-9 -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> ALPHA-9 "Last Hope"</h4>
-                        <p>ALPHA-9 最后的希望</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ALPHA9/index.html" target="_self">
-                            ALPHA-9 "Last Hope"
-                        </a></p>
-                    </div>
-                    
-                    <!-- BETA-7 -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> BETA-7 "Maz Hatters"</h4>
-                        <p>BETA-7 疯帽商</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/BETA7/index.html" target="_self">
-                            BETA-7 "Maz Hatters"
-                        </a></p>
-                    </div>
+        <!-- ALPHA-9 -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> ALPHA-9 "Last Hope"</h4>
+            <p>ALPHA-9 最后的希望</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ALPHA9/index.html" target="_self" 
+               style="color: #8e44ad; font-weight: bold; text-decoration: none;">
+                ALPHA-9 "Last Hope"
+            </a></p>
+        </div>
+        
+        <!-- BETA-7 -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> BETA-7 "Maz Hatters"</h4>
+            <p>BETA-7 疯帽商</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/BETA7/index.html" target="_self" 
+               style="color: #ffd700; font-weight: bold; text-decoration: none;">
+                BETA-7 "Maz Hatters"
+            </a></p>
+        </div>
 
-                    <!-- ETA-10 -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> ETA-10 "No See Evil"</h4>
-                        <p>ETA-10 非礼勿视</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ETA10/index.html" target="_self">
-                            ETA-10
-                        </a></p>
-                    </div>
+        <!-- ETA-10 -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> ETA-10 "No See Evil"</h4>
+            <p>ETA-10 非礼勿视</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ETA10/index.html" target="_self" 
+               style="color: #95a5a6; font-weight: bold; text-decoration: none;">
+                ETA-10
+            </a></p>
+        </div>
 
-                    <!-- MU-0 -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> MU-0 "Maxwell's Demons"</h4>
-                        <p>MU-0 麦克斯韦恶魔</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/MU0/index.html" target="_self">
-                            MU-0
-                        </a></p>
-                    </div>
+        <!-- MU-0 -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> MU-0 "Maxwell's Demons"</h4>
+            <p>MU-0 麦克斯韦恶魔</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/MU0/index.html" target="_self" 
+               style="color: #9F00C1; font-weight: bold; text-decoration: none;">
+                MU-0
+            </a></p>
+        </div>
 
-                    <!-- NU-7 -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> NU-7 "Hammer Down"</h4>
-                        <p>NU-7 落锤</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/NU7/index.html" target="_self">
-                            NU-7 "Hammer Down"
-                        </a></p>
-                    </div>
+        <!-- NU-7 -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> NU-7 "Hammer Down"</h4>
+            <p>NU-7 落锤</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/NU7/index.html" target="_self" 
+               style="color: #8b0000; font-weight: bold; text-decoration: none;">
+                NU-7 "Hammer Down"
+            </a></p>
+        </div>
 
-                    <!-- OMEGA-0 -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> OMEGA-0 "Heaven"</h4>
-                        <p>OMEGA-0 天堂</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/OMEGA0/index.html" target="_self">
-                            OMEGA-0
-                        </a></p>
-                    </div>
-                    
-                    <!-- ESCU -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> ESCU-Experimental Secure Containment Unit</h4>
-                        <p>九尾狐实验性收容小组 (ESCU-Nine-Tailed Fox)</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ESCU/index.html" target="_self">
-                            ESCU-Nine-Tailed Fox
-                        </a></p>
-                    </div>
-                    
-                    <!-- 混沌阵营标题 -->
-                    <div class="character-content-text">
-                        <div class="character-title">
-                            <img src="Chaos" alt="混沌" style="width: 40px; height: 40px; object-fit: cover;">
-                            <h3><i class="fas fa-skull-crossbones"></i> CI阵营</h3>
-                        </div>
-                        <p class="character-description">混沌分裂者下属的部队和特工</p>
-                    </div>
+        <!-- OMEGA-0 -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> OMEGA-0 "Heaven"</h4>
+            <p>OMEGA-0 天堂</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/OMEGA0/index.html" target="_self" 
+               style="color: #2C97D8; font-weight: bold; text-decoration: none;">
+                OMEGA-0
+            </a></p>
+        </div>
+        
+        <!-- ESCU -->
+        <div class="info-box" style="margin-bottom: 30px;">
+            <h4><i class=""></i> ESCU-Experimental Secure Containment Unit</h4>
+            <p>九尾狐实验性收容小组 (ESCU-Nine-Tailed Fox)</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ESCU/index.html" target="_self" 
+               style="color: #ffd700; background-color: #000000; font-weight: bold; text-decoration: none; padding: 2px 6px; border-radius: 2px;">
+                ESCU-Nine-Tailed Fox
+            </a></p>
+        </div>
+        
+        <!-- 混沌阵营标题 -->
+        <div class="content-text" style="background: none; border-left: none; padding: 0; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="Chaos" alt="混沌" style="width: 40px; height: 40px; object-fit: cover;">
+                <h3 style="color: #20c997; margin: 0;"><i class="fas fa-skull-crossbones"></i> CI阵营</h3>
+            </div>
+            <p style="color: #8a9bba; margin-top: 5px; font-size: 0.9em;">混沌分裂者下属的部队和特工</p>
+        </div>
 
-                    <!-- CIKJ -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> CIKJ</h4>
-                        <p>CIKJ-快速空降部队</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIKJ/index.html" target="_self">
-                            CIKJ
-                        </a></p>
-                    </div>
-                    
-                    <!-- CIST -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> CIST</h4>
-                        <p>CIST-尖刀突袭小组</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIST/index.html" target="_self">
-                            CIST
-                        </a></p>
-                    </div>
+        <!-- CIKJ -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> CIKJ</h4>
+            <p>CIKJ-快速空降部队</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIKJ/index.html" target="_self" 
+               style="color: #27ae60; font-weight: bold; text-decoration: none;">
+                CIKJ
+            </a></p>
+        </div>
+        
+            <!-- CIST -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> CIST</h4>
+            <p>CIST-尖刀突袭小组</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIST/index.html" target="_self" 
+               style="color: #c0392b; font-weight: bold; text-decoration: none;">
+                CIST
+            </a></p>
+        </div>
 
-                    <!-- CIT -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> CIT</h4>
-                        <p>CIT-隐蔽渗透小组</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIT/index.html" target="_self">
-                            CIT
-                        </a></p>
-                    </div>
+            <!-- CIT -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> CIT</h4>
+            <p>CIT-隐蔽渗透小组</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/CIT/index.html" target="_self" 
+               style="color: #27ae60; font-weight: bold; text-decoration: none;">
+                CIT
+            </a></p>
+        </div>
 
-                    <!-- DELTA -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> DELTA</h4>
-                        <p>德尔塔强袭小组</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/DELTA/index.html" target="_self">
-                            DELTA
-                        </a></p>
-                    </div>
-                    
-                    <!-- GOC阵营标题 -->
-                    <div class="character-content-text">
-                        <div class="character-title">
-                            <img src="IMG_1512.png" alt="GOC" style="width: 40px; height: 40px; object-fit: contain;">
-                            <h3><i class="fas fa-globe-americas"></i> GOC阵营</h3>
-                        </div>
-                        <p class="character-description">全球超自然联盟下属的部队和特工</p>
-                    </div>
-                    <!-- AT735 -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> AT735 "Sparkplug"</h4>
-                        <p>AT735 火花塞</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/AT735/index.html" target="_self">
-                            AT735 "Sparkplug"
-                        </a></p>
-                    </div>
-                    
-                    <!-- ST1102 -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> ST1102 "Break Em' Down"</h4>
-                        <p>ST1102 破碎匕首</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ST1102/index.html" target="_self">
-                            ST1102 "Break Em' Down"
-                        </a></p>
-                    </div>
-                    
-                    <!-- 其他阵营标题 -->
-                    <div class="character-content-text">
-                        <div class="character-title">
-                            <img src="DBD61FDA5C2CC37849AB09FF5C3369BB.png" alt="其他" style="width: 53px; height: 40px; object-fit: cover;">
-                            <h3 style="background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #00ff00, #00ffff, #0000ff, #9900ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
-                                <i class="fas fa-random"></i> Known阵营
-                            </h3>
-                        </div>
-                        <p class="character-description">未归类或其他组织的角色</p>
-                    </div>
-                    
-                    <!-- UIU -->
-                    <div class="character-info-box">
-                        <h4><i class="fas fa-user-secret"></i> UIU</h4>
-                        <p>UIU 美国入</p>
-                        <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/UIU/index.html" target="_self">
-                            UIU
-                        </a></p>
-                    </div>
-                </div>
-            </section>
-
-            <section class="content-section" id="links-section">
-                <h2 class="section-title">链接投稿区</h2>
-                <div class="section-content">
-                    <div class="character-content-text">
-                        <div class="character-title">
-                            <h3><i class="fas fa-link"></i> 用于展示由玩家自制内容的分区</h3>
-                        </div>
-                    </div>  
-
-                    
-                </div>
-            </section>
+            <!-- DELTA -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> DELTA</h4>
+            <p>德尔塔强袭小组</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/DELTA/index.html" target="_self" 
+               style="color: #27ae60; font-weight: bold; text-decoration: none;">
+                DELTA
+            </a></p>
+        </div>
+        
+        <!-- GOC阵营标题 -->
+        <div class="content-text" style="background: none; border-left: none; padding: 0; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="IMG_1512.png" alt="GOC" style="width: 40px; height: 40px; object-fit: contain;">
+                <h3 style="color: #4a9eff; margin: 0;"><i class="fas fa-globe-americas"></i> GOC阵营</h3>
+            </div>
+            <p style="color: #8a9bba; margin-top: 5px; font-size: 0.9em;">全球超自然联盟下属的部队和特工</p>
+        </div>
+        
+        <!-- AT735 火花塞 -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> AT735 "Sparkplug"</h4>
+            <p>红色AT735 火花塞</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/AT735/index.html" target="_self" 
+               style="color: #ff0000; font-weight: bold; text-decoration: none;">
+                AT735 "Sparkplug"
+            </a></p>
+        </div>
+        
+        <!-- ST1102 破碎匕首 -->
+        <div class="info-box" style="margin-bottom: 30px;">
+            <h4><i class=""></i> ST1102 "Break Em' Down"</h4>
+            <p>蓝色ST1102 破碎匕首</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/ST1102/index.html" target="_self" 
+               style="color: #4a9eff; font-weight: bold; text-decoration: none;">
+                ST1102 "Break Em' Down"
+            </a></p>
+        </div>
+        
+        <!-- 其他阵营标题 -->
+        <div class="content-text" style="background: none; border-left: none; padding: 0; margin-bottom: 10px;">
+            <div style="display: flex; align-items: center; gap: 10px;">
+                <img src="DBD61FDA5C2CC37849AB09FF5C3369BB.png" alt="其他" style="width: 53px; height: 40px; object-fit: cover;">
+                <h3 style="margin: 0; background: linear-gradient(90deg, #ff0000, #ff9900, #ffff00, #00ff00, #00ffff, #0000ff, #9900ff); -webkit-background-clip: text; -webkit-text-fill-color: transparent; background-clip: text;">
+                    <i class="fas fa-random"></i> Known阵营
+                </h3>
+            </div>
+            <p style="color: #8a9bba; margin-top: 5px; font-size: 0.9em;">未归类或其他组织的角色</p>
+        </div>
+        
+        <!-- UIU -->
+        <div class="info-box" style="margin-bottom: 15px;">
+            <h4><i class=""></i> UIU</h4>
+            <p>UIU 美国入</p>
+            <p>介绍: <a href="https://hakimi-meow.github.io/Site-114514-WebSite-HELP/UIU/index.html" target="_self" 
+               style="color: #ffd700; font-weight: bold; text-decoration: none;">
+                UIU
+            </a></p>
+        </div>
+        
+    
+</section>
             
             <section class="content-section" id="music-entrance">
-                <h2 class="section-title">服务器入场音乐</h2>
+                <h2 class="section-title">入场音乐与其他音乐</h2>
                 <div class="section-content">
                     <div class="music-section">
-                        <div class="music-info-box">
-                            <h4><i class="fas fa-info-circle"></i> 入场音乐说明</h4>
+                        <div class="content-text" style="background: none; border-left: none; padding: 0; margin-bottom: 20px;">
+                            <h3><i class="fas fa-info-circle"></i> 音乐说明</h3>
                             <p>注：部分曲目无法在QQ音乐内查询</p>
                             <p>音乐名字后写有ADM的为ADMMUSIC</p>
                             <p>要播放请前往Admmusic官网搜寻</p>
                         </div>
                         
-                        <div class="music-category">
-                            <h4><i class="fas fa-headphones"></i> 入场音乐列表</h4>
+                        <div class="info-box">
+                            <h4><i class="fas fa-shield-alt"></i> 基金会阵营</h4>
+                            <div class="misc-item">
+                                <strong>Alpha-9 - "最后的希望"</strong><br>
+                                Love Falls
+                            </div>
+                            <div class="misc-item">
+                                <strong>Beta-7 - "疯帽商"</strong><br>
+                                INTERWORLD - METAMORPHOSIS (DIN1C REMIX)
+                            </div>
+                            <div class="misc-item">
+                                <strong>Epsilon-11 - "九尾狐"</strong><br>
+                                Heavy Resistance <br>
+                                <small>曲作者: Scott Tobin</small><br>
+                                <small>老版本音乐：Mobile task force theme</small>
+                            </div>
+                            <div class="misc-item">
+                                <strong>Mu-0 - "麦克斯韦恶魔"</strong><br>
+                                Lunar Fever
+                            </div>
+                            <div class="misc-item">
+                                <strong>Nu-7 - "落锤"</strong><br>
+                                Asgore (Epic Version)
+                            </div>
+                            <div class="misc-item">
+                                <strong>Nu-7 - "落锤" - 肃杀B连</strong><br>
+                                Birds of Prey
+                            </div>
+                            <div class="misc-item">
+                                <strong>Nu-7 "落锤" - 枪骑兵</strong><br>
+                                PHONK ROYALTY FREE
+                            </div>
+                            <div class="misc-item">
+                                <strong>Nu-22 - "火箭侠"</strong><br>
+                                终日
+                            </div>
+                            <div class="misc-item">
+                                <strong>Tau-5 - "轮回"</strong><br>
+                                call.bat
+                            </div>
                         </div>
                         
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Apha-9 - "最后的希望"
-                                </div>
-                                <div class="music-item-details">Love Falls</div>
+                        <div class="info-box">
+                            <h4><i class="fas fa-skull-crossbones"></i> 混沌分裂者</h4>
+                            <div class="misc-item">
+                                <strong>混沌分裂者主题音乐</strong><br>
+                                Chaos insurgency theme
                             </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Beta-7 - "疯帽商"
-                                </div>
-                                <div class="music-item-details">INTERWORLD - METAMORPHOSIS (DIN1C REMIX)</div>
+                            <div class="misc-item">
+                                <strong>混沌分裂者-空降部队</strong><br>
+                                Jumpstyle
                             </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Epsilon-11 - "九尾狐"
-                                </div>
-                                <div class="music-item-details">Heavy Resistance</div>
-                                <div class="music-item-details">曲作者: Scott Tobin</div>
-                                <div class="music-item-note">老版本音乐：Mobile task force theme</div>
+                            <div class="misc-item">
+                                <strong>混沌分裂者-猎鹰谷突袭&侦查</strong><br>
+                                Chaos Insurgency Raid
                             </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Mu-0 - "麦克斯韦恶魔"
-                                </div>
-                                <div class="music-item-details">Lunar Fever</div>
+                            <div class="misc-item">
+                                <strong>混沌分裂者-猎鹰谷Sigma</strong><br>
+                                INSOMNIA999 (slowed)
                             </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Nu-7 - "落锤"
-                                </div>
-                                <div class="music-item-details">Asgore (Epic Version)</div>
+                            <div class="misc-item">
+                                <strong>混沌分裂者-暗影突击队</strong><br>
+                                Vex
+                            </div>
+                        </div>
+                        
+                        <div class="info-box">
+                            <h4><i class="fas fa-user-secret"></i> 其他组织</h4>
+                            <div class="misc-item">
+                                <strong>GRU-P情报组织</strong><br>
+                                Fuel to the Fire
+                            </div>
+                            <div class="misc-item">
+                                <strong>GRU-CI突袭部队</strong><br>
+                                草原啊草原
+                            </div>
+                            <div class="misc-item">
+                                <strong>蛇之手</strong><br>
+                                The Serpents Hand Spawn
+                            </div>
+                            <div class="misc-item">
+                                <strong>蛇之手-暗杀者小队</strong><br>
+                                [蛇之手] 仇恨 OST (片段版)
+                            </div>
+                            <div class="misc-item">
+                                <strong>猩红之子</strong><br>
+                                Criminal Procedure Drone
+                            </div>
+                            <div class="misc-item">
+                                <strong>猩红主教团</strong><br>
+                                Brooding Dark (a) <small>(ADM)</small>
+                            </div>
+                            <div class="misc-item">
+                                <strong>GTI</strong><br>
+                                Better things ahead <small>(ADM)</small>
+                            </div>
+                            <div class="misc-item">
+                                <strong>M&CD护送组</strong><br>
+                                REMORSE
+                            </div>
+                        </div>
+                        
+                        <div class="info-box">
+                            <h4><i class="fas fa-globe-americas"></i> 全球超自然联盟</h4>
+                            <div class="misc-item">
+                                <strong>全球超自然联盟主题音乐</strong><br>
+                                Global Occult Coalition Theme
+                            </div>
+                            <div class="misc-item">
+                                <strong>全球超自然联盟-攻击小组</strong><br>
+                                Drifting Thought (Main Track|Full Length)
+                            </div>
+                            <div class="misc-item">
+                                <strong>全球超自然联盟-评估小组</strong><br>
+                                Glide
+                            </div>
+                            <div class="misc-item">
+                                <strong>全球超自然联盟-急袭小组</strong><br>
+                                REMIX RUMBLE (Steve Aoki Remix)
+                            </div>
+                            <div class="misc-item">
+                                <strong>全球超自然联盟-攻击小组9999 Full damage</strong><br>
+                                Seek & Destroy
+                            </div>
+                            <div class="misc-item">
+                                <strong>全球超自然联盟-评估小组735-火花塞</strong><br>
+                                Marche Militaire
+                            </div>
+                            <div class="misc-item">
+                                <strong>全球超自然联盟-渗透小组</strong><br>
+                                can you?
+                            </div>
+                        </div>
+                        
+                        <div class="info-box">
+                            <h4><i class="fas fa-magic"></i> 特殊音乐</h4>
+                            <div class="misc-item">
+                                <strong>奇术进行曲</strong><br>
+                                New Horizons
+                            </div>
+                            <div class="misc-item">
+                                <strong>101空中突击师</strong><br>
+                                Hopeful Chillstep
+                            </div>
+                            <div class="misc-item">
+                                <strong>101美军战机进行曲&半人马座三星系统</strong><br>
+                                CENSORED!
+                            </div>
+                        </div>
+                        
+                        <div class="info-box">
+                            <h4><i class="fas fa-headphones"></i> 中场休息曲</h4>
+                            <div class="misc-item">
+                                <strong>Bad Apple!! (坏苹果)</strong><br>
+                                Stronger Than You
+                            </div>
+                            <div class="misc-item">
+                                <strong>Holiday</strong><br>
+                                Hope
+                            </div>
+                            <div class="misc-item">
+                                <strong>No More</strong><br>
+                                Sunburst
+                            </div>
+                            <div class="misc-item">
+                                <strong>Infectious</strong><br>
+                                Candyland
+                            </div>
+                            <div class="misc-item">
+                                <strong>Life</strong><br>
+                                Swing it
                             </div>
                         </div>
                     </div>
                 </div>
             </section>
-
-            <section class="content-section" id="music-other">
-                <h2 class="section-title">服务器其他音乐</h2>
+            
+            <section class="content-section" id="music-sound">
+                <h2 class="section-title">游戏音效</h2>
                 <div class="section-content">
                     <div class="music-section">
-                        <div class="adm-warning">
-                            <i class="fas fa-exclamation-triangle"></i>
-                            注意：音乐名字后写有(ADM)的为ADMMUSIC，要播放请前往Admmusic官网搜寻
-                        </div>
-                        
-                        <!-- Nu-7 相关音乐 -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-drum"></i> Nu-7 落锤系列</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Nu-7 "落锤" - 肃杀B连
-                                </div>
-                                <div class="music-item-details">Birds of Prey</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Nu-7 "落锤" - 枪骑兵
-                                </div>
-                                <div class="music-item-details">PHONK ROYALTY FREE</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Nu-22 - "火箭侠"
-                                </div>
-                                <div class="music-item-details">终日</div>
-                            </div>
-                        </div>
-                        
-                        <!-- Tau-5 -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-recycle"></i> Tau-5</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Tau-5 - "轮回"
-                                </div>
-                                <div class="music-item-details">call.bat</div>
-                            </div>
-                        </div>
-                        
-                        <!-- 混沌分裂者 -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-skull-crossbones"></i> 混沌分裂者</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    混沌分裂者主题
-                                </div>
-                                <div class="music-item-details">Chaos insurgency theme</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    混沌分裂者-空降部队
-                                </div>
-                                <div class="music-item-details">Jumpstyle</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    混沌分裂者-猎鹰谷突袭&侦查
-                                </div>
-                                <div class="music-item-details">Chaos Insurgency Raid</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    混沌分裂者-猎鹰谷Sigma
-                                </div>
-                                <div class="music-item-details">INSOMNIA999 (slowed)</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    混沌分裂者-暗影突击队
-                                </div>
-                                <div class="music-item-details">Vex</div>
-                            </div>
-                        </div>
-                        
-                        <!-- GRU系列 -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-user-secret"></i> GRU系列</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    GRU-P情报组织
-                                </div>
-                                <div class="music-item-details">Fuel to the Fire</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    GRU-CI突袭部队
-                                </div>
-                                <div class="music-item-details">草原啊草原</div>
-                            </div>
-                        </div>
-                        
-                        <!-- 蛇之手 -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-hand-spock"></i> 蛇之手</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    蛇之手
-                                </div>
-                                <div class="music-item-details">The Serpents Hand Spawn</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    蛇之手-暗杀者小队
-                                </div>
-                                <div class="music-item-details">[蛇之手] 仇恨 OST (片段版)</div>
-                            </div>
-                        </div>
-                        
-                        <!-- 猩红系列 -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-fire"></i> 猩红系列</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    猩红之子
-                                </div>
-                                <div class="music-item-details">Criminal Procedure Drone</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    猩红主教团
-                                </div>
-                                <div class="music-item-details">Brooding Dark (a)（ADM）</div>
-                                <div class="adm-warning">此为ADMMUSIC音乐</div>
-                            </div>
-                        </div>
-                        
-                        <!-- GTI和M&CD -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-shield-alt"></i> 其他组织</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    GTI
-                                </div>
-                                <div class="music-item-details">Better things ahead（ADM）</div>
-                                <div class="adm-warning">此为ADMMUSIC音乐</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    M&CD护送组
-                                </div>
-                                <div class="music-item-details">REMORSE</div>
-                            </div>
-                        </div>
-                        
-                        <!-- 全球超自然联盟 -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-globe-americas"></i> 全球超自然联盟</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    全球超自然联盟主题
-                                </div>
-                                <div class="music-item-details">Global Occult Coalition Theme</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    全球超自然联盟-攻击小组
-                                </div>
-                                <div class="music-item-details">Drifting Thought (Main Track|Full Length)</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    全球超自然联盟-评估小组
-                                </div>
-                                <div class="music-item-details">Glide</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    全球超自然联盟-急袭小组
-                                </div>
-                                <div class="music-item-details">REMIX RUMBLE (Steve Aoki Remix)</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    全球超自然联盟-攻击小组9999 Full damage
-                                </div>
-                                <div class="music-item-details">Seek & Destroy</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    全球超自然联盟-评估小组735-火花塞
-                                </div>
-                                <div class="music-item-details">Marche Militaire</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    全球超自然联盟-渗透小组
-                                </div>
-                                <div class="music-item-details">can you?</div>
-                            </div>
-                        </div>
-                        
-                        <!-- 奇术进行曲 -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-hat-wizard"></i> 奇术进行曲</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    奇术进行曲
-                                </div>
-                                <div class="music-item-details">New Horizons</div>
-                            </div>
-                        </div>
-                        
-                        <!-- 101师 -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-helicopter"></i> 101师</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    101空中突击师
-                                </div>
-                                <div class="music-item-details">Hopeful Chillstep</div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    101美军战机进行曲&半人马座三星系统
-                                </div>
-                                <div class="music-item-details">CENSORED!</div>
-                            </div>
-                        </div>
-                        
-                        <!-- 中场休息曲 -->
-                        <div class="music-category">
-                            <h4><i class="fas fa-coffee"></i> 中场休息曲</h4>
-                        </div>
-                        
-                        <div class="music-list">
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Bad Apple!! (坏苹果)
-                                </div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Stronger Than You
-                                </div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Holiday
-                                </div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Hope
-                                </div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    No More
-                                </div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Sunburst
-                                </div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Infectious
-                                </div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Candyland
-                                </div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Life
-                                </div>
-                            </div>
-                            
-                            <div class="music-item">
-                                <div class="music-item-title">
-                                    <i class="fas fa-play"></i>
-                                    Swing it
-                                </div>
-                            </div>
-                        </div>
-                        
-                        <div class="music-info-box">
-                            <h4><i class="fas fa-user-edit"></i> 编辑信息</h4>
-                            <p>文本由KAWAYI_SHIROKO编辑</p>
-                            <p>最后更新: 2026年1月</p>
+                        <div class="music-placeholder">
+                            <i class="fas fa-volume-up"></i>
+                            <h3>游戏音效</h3>
+                            <p>正在开发中...敬请期待！</p>
+                            <p>这里将展示服务器的各种音效和特殊声音。</p>
                         </div>
                     </div>
                 </div>
@@ -2957,6 +2718,17 @@
                 </div>
             </section>
 
+            <section class="content-section" id="submissions">
+                <h2 class="section-title">链接投稿区</h2>
+                <div class="section-content">
+                    <div class="info-box">
+                        <h3><i class="fas fa-info-circle"></i> 链接投稿说明</h3>
+                        <p>此区域用于存放相关链接投稿。</p>
+                        <p>内容正在整理中，敬请期待...</p>
+                    </div>
+                </div>
+            </section>
+            
             <section class="content-section" id="links">
                 <h2 class="section-title">外部链接</h2>
                 <div class="section-content">
@@ -3015,5 +2787,17 @@
     </footer>
     
     <div id="gb-toast" class="gb-toast"></div>
+    
+   <!-- Supabase客户端库 -->
+<script src="https://unpkg.com/@supabase/supabase-js@2"></script>
+<script>
+    // 确保Supabase库加载完成后再初始化
+    if (typeof window.supabase !== 'undefined') {
+        window.supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_KEY);
+        console.log('Supabase客户端初始化成功');
+    } else {
+        console.error('Supabase库未加载');
+    }
+</script>
 </body>
 </html>
