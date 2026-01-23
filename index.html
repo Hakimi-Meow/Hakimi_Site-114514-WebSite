@@ -263,51 +263,78 @@
     }
     
     function initPage() {
-        showSection('overview');
-        
-        // 初始化字符计数
-        const gbMessage = document.getElementById('gb-message');
-        const gbCharCount = document.getElementById('gb-char-count');
-        if (gbMessage && gbCharCount) {
-            gbMessage.addEventListener('input', function() {
-                gbCharCount.textContent = this.value.length;
-            });
-        }
-        
-        // 移动端菜单切换
-        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
-        if (mobileMenuToggle) {
-            mobileMenuToggle.addEventListener('click', function() {
-                const nav = document.getElementById('main-nav');
-                if (nav) nav.classList.toggle('active');
-            });
-        }
-        
-        // 返回顶部按钮显示/隐藏
-        window.onscroll = function() {
-            const backToTop = document.getElementById('back-to-top');
-            if (backToTop) {
-                if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-                    backToTop.style.display = 'flex';
-                } else {
-                    backToTop.style.display = 'none';
-                }
-            }
-        };
-        
-        // 移动端快速导航点击事件
-        document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
-            link.addEventListener('click', function(e) {
-                e.preventDefault();
-                const section = this.getAttribute('data-section');
-                if (section) {
-                    showSection(section);
-                }
-            });
+    showSection('overview');
+    
+    // 初始化字符计数
+    const gbMessage = document.getElementById('gb-message');
+    const gbCharCount = document.getElementById('gb-char-count');
+    if (gbMessage && gbCharCount) {
+        gbMessage.addEventListener('input', function() {
+            gbCharCount.textContent = this.value.length;
         });
-        
-        console.log('页面初始化完成');
     }
+    
+    // 移动端菜单切换
+    const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+    if (mobileMenuToggle) {
+        mobileMenuToggle.addEventListener('click', function() {
+            const nav = document.getElementById('main-nav');
+            if (nav) nav.classList.toggle('active');
+        });
+    }
+    
+    // 返回顶部按钮显示/隐藏
+    window.onscroll = function() {
+        const backToTop = document.getElementById('back-to-top');
+        if (backToTop) {
+            if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
+                backToTop.style.display = 'flex';
+            } else {
+                backToTop.style.display = 'none';
+            }
+        }
+    };
+    
+    // 移动端快速导航点击事件
+    document.querySelectorAll('.mobile-quick-nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const section = this.getAttribute('data-section');
+            if (section) {
+               
+                document.querySelectorAll('.mobile-quick-nav a').forEach(item => {
+                    item.classList.remove('active');
+                });
+             
+                this.classList.add('active');
+                // 显示对应分区
+                showSection(section);
+            }
+        });
+    });
+    
+    // 桌面导航点击事件
+    document.querySelectorAll('.nav-links a, .wiki-nav a').forEach(link => {
+        link.addEventListener('click', function(e) {
+            e.preventDefault();
+            const section = this.getAttribute('onclick')?.match(/showSection\('([^']+)'\)/)?.[1];
+            if (section) {
+                // 更新移动导航状态
+                document.querySelectorAll('.mobile-quick-nav a').forEach(item => {
+                    item.classList.remove('active');
+                });
+                const mobileLink = document.querySelector(`.mobile-quick-nav a[data-section="${section}"]`);
+                if (mobileLink) {
+                    mobileLink.classList.add('active');
+                }
+                
+                showSection(section);
+            }
+        });
+    });
+    
+    console.log('页面初始化完成');
+}
     
     document.addEventListener('DOMContentLoaded', initPage);
     </script>
@@ -1068,7 +1095,55 @@
         margin-bottom: 1rem;
         opacity: 0.7;
     }
-    
+
+.mobile-quick-nav {
+    display: none; 
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #0d0d0d;
+    border-top: 1px solid #333;
+    padding: 10px 0;
+    z-index: 999;
+}
+
+.mobile-quick-nav ul {
+    display: flex;
+    justify-content: space-around;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+}
+
+.mobile-quick-nav li {
+    flex: 1;
+    text-align: center;
+}
+
+.mobile-quick-nav a {
+    color: #ccc;
+    text-decoration: none;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 5px;
+    font-size: 0.8rem;
+    padding: 8px 5px;
+    border-radius: 5px;
+    transition: all 0.2s;
+}
+
+.mobile-quick-nav a:hover,
+.mobile-quick-nav a.active {
+    color: #4a9eff;
+    background-color: #2a2a2a;
+}
+
+.mobile-quick-nav i {
+    font-size: 1.2rem;
+}
+        
     .gb-toast {
         position: fixed;
         top: 30px;
